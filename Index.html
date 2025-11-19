@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartGastro QR – DEMO-Version</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1153a5;
+            --bg: #fdfdfd;
+            --accent-green: #009246;
+            --accent-blue: #1976d2;
+            --accent-red: #ce2b37;
+            --radius-lg: 18px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: #222;
+        }
+
+        .app-shell {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(
+                160deg,
+                rgba(0,146,70,0.05),
+                rgba(255,255,255,0.95),
+                rgba(206,43,55,0.05)
+            );
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: #ffffff;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 8px 12px 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+
+        .header-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-wrap {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-wrap img {
+            height: 46px;
+            width: auto;
+            display: block;
+        }
+
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header-text h1 {
+            font-size: 18px;
+            margin: 0;
+            color: #111;
+        }
+
+        .header-text p {
+            margin: 0;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 8px 8px 90px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.98);
+            border-radius: var(--radius-lg);
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            border-left: 4px solid rgba(26,115,232,0.5);
+        }
+
+        .demo-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 600;
+            background: #ffe082;
+            color: #7b4f00;
+            margin-bottom: 6px;
+        }
+
+        .table-info {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .table-info input {
+            flex: 1 1 130px;
+            padding: 10px;
+            border-radius: 999px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .info-note {
+            font-size: 12px;
+            color: #333;
+            margin-top: 6px;
+        }
+
+        .info-note strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .category-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            margin: 4px -4px 0;
+        }
+
+        .category-strip::-webkit-scrollbar {
+            height: 4px;
+        }
+        .category-strip::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.18);
+            border-radius: 999px;
+        }
+
+        .cat-btn {
+            flex: 0 0 auto;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+        }
+
+        .cat-btn.active {
+            background: #fff;
+            color: var(--primary-dark);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .cat-btn span.icon {
+            font-size: 16px;
+        }
+
+        .category {
+            display: none;
+            margin-top: 6px;
+        }
+
+        .category.active {
+            display: block;
+        }
+
+        .category h2 {
+            font-size: 18px;
+            margin: 0 0 6px;
+        }
+
+        .category p {
+            font-size: 12px;
+            margin: 0 0 6px;
+        }
+
+        .items-grid {
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .items-grid::-webkit-scrollbar {
+            width: 4px;
+        }
+        .items-grid::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.16);
+            border-radius: 999px;
+        }
+
+        .item-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            align-items: baseline;
+        }
+
+        .item-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .item-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2e7d32;
+            white-space: nowrap;
+        }
+
+        .item-options {
+            font-size: 11px;
+            color: #555;
+            margin-top: 4px;
+        }
+
+        .item-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            margin-top: 6px;
+        }
+
+        .item-row label {
+            font-size: 11px;
+        }
+
+        .item-row input[type="number"],
+        .item-row select {
+            font-size: 12px;
+            padding: 5px 7px;
+            border-radius: 999px;
+            border: 1px solid #ddd;
+            min-width: 70px;
+        }
+
+        .item-row .flavour-select {
+            border-radius: 10px;
+            min-width: 150px;
+            font-size: 11px;
+        }
+
+        .item-row .add-btn {
+            border: none;
+            padding: 7px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+            background: var(--primary);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            flex: 1 1 120px;
+            text-align: center;
+        }
+
+        .order-panel-trigger {
+            position: fixed;
+            bottom: 68px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 18;
+            pointer-events: none;
+        }
+
+        .order-panel-trigger button {
+            pointer-events: auto;
+            border: none;
+            background: #2e7d32;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        }
+
+        .order-summary {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 19;
+            background: #ffffff;
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 -3px 12px rgba(0,0,0,0.25);
+            max-height: 65vh;
+            transform: translateY(100%);
+            transition: transform 0.25s ease-out;
+        }
+
+        .order-summary.open {
+            transform: translateY(0%);
+        }
+
+        .order-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 8px 12px 10px;
+        }
+
+        .order-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .order-header-bar h2 {
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .order-toggle {
+            font-size: 11px;
+            color: #555;
+        }
+
+        .drag-handle {
+            width: 40px;
+            height: 4px;
+            border-radius: 999px;
+            background: #ddd;
+            margin: 4px auto 6px;
+        }
+
+        .order-list {
+            max-height: 32vh;
+            overflow-y: auto;
+            font-size: 12px;
+            padding-right: 4px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            border-bottom: 1px solid #eee;
+            padding: 4px 0;
+        }
+
+        .order-item strong {
+            font-size: 12px;
+        }
+
+        .order-total {
+            font-weight: 700;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .small-note {
+            font-size: 10px;
+            color: #555;
+            margin-top: 2px;
+        }
+
+        .order-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .order-actions button {
+            flex: 1 1 100px;
+            border: none;
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btn-clear { background: var(--accent-red); }
+        .btn-print { background: var(--accent-blue); }
+        .btn-whatsapp { background: #25D366; }
+
+        .powered-by {
+            font-size: 10px;
+            text-align: center;
+            color: #777;
+            margin-top: 6px;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .order-summary,
+            .order-summary * {
+                visibility: visible;
+            }
+            .order-summary {
+                position: static;
+                transform: none !important;
+                box-shadow: none;
+                border-radius: 0;
+                max-height: none;
+            }
+            .order-inner {
+                margin: 0;
+                padding: 10px;
+            }
+            .order-actions,
+            .order-panel-trigger,
+            header {
+                display: none !important;
+            }
+        }
+
+        @media (min-width: 600px) {
+            header { padding-inline: 18px; }
+            .content { padding-inline: 18px; }
+        }
+
+        @media (min-width: 900px) {
+            .page { max-width: 820px; }
+            .order-inner { max-width: 820px; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-shell">
+    <header>
+        <div class="header-inner">
+            <div class="logo-wrap">
+                <img src="smartgastro-logo.png" alt="SmartGastro QR Logo">
+            </div>
+            <div class="header-text">
+                <h1>SmartGastro QR</h1>
+                <p>Digitale Bestellungen. Smarter Service. (DEMO-Version)</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="page">
+
+            <div class="card">
+                <span class="demo-badge">DEMO-Version – funktioniert überall</span>
+                <div class="table-info">
+                    <input type="text" id="tableNumber" placeholder="Tischnummer *">
+                </div>
+                <p class="info-note">
+                    <strong>Bitte zuerst die Tischnummer eingeben.</strong>
+                    Danach Produkte auswählen und die Bestellung abschicken.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="category-strip">
+                    <button class="cat-btn active" data-target="cat-eis">
+                        <span class="icon">🍨</span> Eis &amp; Becher
+                    </button>
+                    <button class="cat-btn" data-target="cat-kinder">
+                        <span class="icon">👶</span> Kinder
+                    </button>
+                    <button class="cat-btn" data-target="cat-essen">
+                        <span class="icon">🍽️</span> Snacks &amp; Desserts
+                    </button>
+                    <button class="cat-btn" data-target="cat-getraenke">
+                        <span class="icon">☕</span> Getränke
+                    </button>
+                </div>
+            </div>
+
+            <div class="card category active" id="cat-eis">
+                <h2>🍨 Eis &amp; Becher</h2>
+                <p>
+                    <strong>Eissorten (Auswahl):</strong><br>
+                    Vanille, Stracciatella, Schokolade, Amarena Kirsch, Joghurt,
+                    Cookies, Erdbeer, Himbeere, Banane, Schlumpfeis, Zitrone,
+                    Mango, Limette, Maracuja, Walnuss, Malaga, Pistazie,
+                    Dunkle Schokolade, After Eight.
+                </p>
+
+                <h3 style="font-size:14px;margin:6px 0 4px;">Portionen (23–26)</h3>
+                <div class="items-grid" id="grid-portions"></div>
+
+                <h3 style="font-size:14px;margin:10px 0 4px;">Eisbecher &amp; Spezial</h3>
+                <div class="items-grid" id="grid-eis"></div>
+            </div>
+
+            <div class="card category" id="cat-kinder">
+                <h2>👶 Kinderbecher</h2>
+                <p>Mit oder ohne Sahne, Sorten frei wählbar.</p>
+                <div class="items-grid" id="grid-kinder"></div>
+            </div>
+
+            <div class="card category" id="cat-essen">
+                <h2>🍽️ Snacks, Waffeln &amp; Desserts</h2>
+                <div class="items-grid" id="grid-essen"></div>
+            </div>
+
+            <div class="card category" id="cat-getraenke">
+                <h2>☕ Kaffee &amp; Getränke</h2>
+                <div class="items-grid" id="grid-getraenke"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="order-panel-trigger">
+        <button type="button" id="toggleOrderPanelBtn">🧾 Aktuelle Bestellung anzeigen</button>
+    </div>
+
+    <div class="order-summary" id="orderPanel">
+        <div class="drag-handle"></div>
+        <div class="order-inner">
+            <div class="order-header-bar">
+                <h2>🧾 Aktuelle Bestellung</h2>
+                <div class="order-toggle" id="orderPanelStatus">Nach unten wischen oder tippen, um zu schließen</div>
+            </div>
+            <div class="order-list" id="orderList">Noch keine Positionen.</div>
+            <div class="order-total" id="orderTotal">Gesamt: 0,00 €</div>
+            <div class="small-note">
+                Diese Seite speichert keine Daten auf dem Server – sie dient nur als Übersicht für den Tisch.
+            </div>
+            <div class="order-actions">
+                <button class="btn-clear" id="clearOrderBtn">Tisch leeren / neue Gäste</button>
+                <button class="btn-print" id="printBtn">Bestellung drucken</button>
+                <button class="btn-whatsapp" id="whatsAppBtn">Bestellung per WhatsApp senden</button>
+            </div>
+            <div class="powered-by">
+                Powered by <strong>SmartGastro QR</strong> – DEMO-Version
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ---------- DATEN ---------- */
+
+const flavours = [
+    "Vanille","Stracciatella","Schokolade","Amarena Kirsch","Joghurt",
+    "Cookies","Erdbeer","Himbeere","Banane","Schlumpfeis","Zitrone",
+    "Mango","Limette","Maracuja","Walnuss","Malaga","Pistazie",
+    "Dunkle Schokolade","After Eight"
+];
+
+const portionItems = [
+    {"id": "23","name": "Kinder Portion","price": 3.5},
+    {"id": "24","name": "Kleine Portion","price": 5.0},
+    {"id": "25","name": "Normale Portion","price": 6.5},
+    {"id": "26","name": "Große Portion","price": 9.5}
+];
+
+const kidsItems = [
+    {"id": "1601","name": "Pinocchio","price": 5.10},
+    {"id": "1602","name": "Spaghetti Bambini","price": 5.60},
+    {"id": "1603","name": "Kinder Spaghetti Schoko","price": 5.70},
+    {"id": "1604","name": "Kinder Spaghetti Gummibärchen","price": 5.70},
+    {"id": "1605","name": "Kinder Spaghetti","price": 5.40},
+    {"id": "1606","name": "Kinder Spaghetti Erdbeere","price": 6.00}
+];
+
+const becherItems = [
+    {"id": "30","name": "Amarena Becher","price": 8.5},
+    {"id": "31","name": "Erdbeer Becher","price": 8.5},
+    {"id": "32","name": "Banana Cup","price": 9.0},
+    {"id": "33","name": "Liebes Traum","price": 13.5},
+    {"id": "34","name": "Kiwi Becher","price": 8.5},
+    {"id": "35","name": "Frucht Becher","price": 8.5},
+    {"id": "36","name": "Großer Frucht Becher","price": 11.9},
+    {"id": "37","name": "Großer Amarena Becher","price": 12.5},
+    {"id": "38","name": "Großer Erdbeer Becher","price": 12.5},
+    {"id": "39","name": "Erdbeer-Banane Becher","price": 10.9},
+    {"id": "40","name": "Exotischer Becher","price": 12.0},
+    {"id": "41","name": "Waldbecher","price": 10.5},
+    {"id": "42","name": "Bella Italia","price": 11.0},
+    {"id": "43","name": "Mango Becher","price": 9.0},
+    {"id": "44","name": "Banana Split","price": 10.0},
+    {"id": "45","name": "Sommer Becher","price": 13.0},
+    {"id": "46","name": "Coppa Melone","price": 9.5},
+    {"id": "47","name": "Heidelbeer Becher","price": 9.5},
+    {"id": "48","name": "Himbeer Becher","price": 9.5},
+    {"id": "50","name": "Spaghetti Eis","price": 6.5},
+    {"id": "51","name": "Spaghetti Eis groß","price": 9.5},
+    {"id": "52","name": "Spaghetti Vanille","price": 7.4},
+    {"id": "53","name": "Spaghetti Erdbeere","price": 8.9},
+    {"id": "54","name": "Spaghetti Kiwi","price": 8.5},
+    {"id": "55","name": "Spaghetti Vanille-Schoko","price": 7.5},
+    {"id": "56","name": "Spaghetti Carbonara","price": 9.5},
+    {"id": "57","name": "Spaghetti Nussknacker","price": 9.5},
+    {"id": "58","name": "Spaghetti Amarena","price": 8.9},
+    {"id": "59","name": "Spaghetti Waldfrüchte","price": 8.9},
+    {"id": "60","name": "Spaghetti Melone","price": 8.9},
+    {"id": "61","name": "Spaghetti Tutti Frutti","price": 8.9},
+    {"id": "62","name": "Lasagne Eis","price": 8.9},
+    {"id": "63","name": "Pizza Margherita Eis","price": 9.0},
+    {"id": "64","name": "Pizza Grandiosa Eis","price": 12.0},
+    {"id": "70","name": "Mixgetränk Spezial","price": 6.5},
+    {"id": "71","name": "Joghurrette","price": 9.5},
+    {"id": "72","name": "Joghurt Cocktail","price": 9.5},
+    {"id": "73","name": "Joghurt Kiwi","price": 9.0},
+    {"id": "74","name": "Joghurt Erdbeere","price": 9.0},
+    {"id": "75","name": "Joghurt Ananas","price": 9.0},
+    {"id": "76","name": "Müsli Joghurt","price": 9.0},
+    {"id": "77","name": "Joghurt Heidelbeere","price": 9.0},
+    {"id": "78","name": "Joghurt Banane","price": 9.0},
+    {"id": "79","name": "Joghurt Amarena","price": 9.0},
+    {"id": "80","name": "Joghurt Himbeere","price": 9.0},
+    {"id": "81","name": "Heiße Kirschen mit Eis","price": 8.5},
+    {"id": "82","name": "Heiße Himbeeren mit Eis","price": 9.0},
+    {"id": "83","name": "Zimt Becher","price": 8.5},
+    {"id": "84","name": "Cup Dänemark","price": 8.5},
+    {"id": "85","name": "Wiener Mokka Eisbecher","price": 8.5},
+    {"id": "90","name": "Amaretto Becher","price": 8.5},
+    {"id": "91","name": "Schwarzwald Becher","price": 9.0},
+    {"id": "92","name": "Baileys Becher","price": 8.5},
+    {"id": "93","name": "Malaga Becher","price": 9.0},
+    {"id": "94","name": "San Remo Becher","price": 12.0},
+    {"id": "95","name": "Kaffee Becher","price": 8.5},
+    {"id": "96","name": "Eierlikör Becher","price": 8.5},
+    {"id": "98","name": "Nuss Becher","price": 9.5},
+    {"id": "99","name": "Rocher Becher","price": 9.5},
+    {"id": "100","name": "Giotto Becher","price": 9.0},
+    {"id": "101","name": "Berg Becher","price": 10.5},
+    {"id": "102","name": "Walnuss Becher","price": 9.5},
+    {"id": "103","name": "Coppa Delizia","price": 10.9},
+    {"id": "110","name": "After Eight Becher","price": 8.9},
+    {"id": "111","name": "Stracciatella Becher","price": 7.9},
+    {"id": "112","name": "Tartufo Nero","price": 9.5},
+    {"id": "113","name": "Tartufo Bianco","price": 9.5},
+    {"id": "114","name": "Hausbecher (groß)","price": 20.0},
+    {"id": "116","name": "Krokant Becher","price": 8.5},
+    {"id": "117","name": "Schoko Becher","price": 8.5},
+    {"id": "118","name": "Schoko Becher groß","price": 12.0},
+    {"id": "122","name": "Pistazien Becher","price": 11.5},
+    {"id": "130","name": "Flipper","price": 5.0},
+    {"id": "131","name": "Bellini Eisdrink","price": 6.0},
+    {"id": "132","name": "Mimosa Eisdrink","price": 6.0},
+    {"id": "133","name": "Formula 1","price": 6.0},
+    {"id": "134","name": "Formula 2","price": 6.0},
+    {"id": "140","name": "Eiskaffee","price": 5.5},
+    {"id": "141","name": "Eisschokolade","price": 5.5},
+    {"id": "142","name": "Eis-Cappuccino","price": 5.5},
+    {"id": "150","name": "Milch-Mix","price": 4.0},
+    {"id": "151","name": "Milkshake","price": 4.6},
+    {"id": "152","name": "Riesen Mix","price": 5.0},
+    {"id": "153","name": "Riesen Shake","price": 5.5},
+    {"id": "154","name": "Vulcano","price": 3.7}
+];
+
+const essenItems = [
+    {"id": "160","name": "Erdbeer Donut","price": 6.9},
+    {"id": "161","name": "Schoko Donut","price": 6.9},
+    {"id": "162","name": "Caramel Donut","price": 6.9},
+    {"id": "163","name": "Pistazien Donut","price": 7.2},
+    {"id": "164","name": "Kinder Donut","price": 6.5},
+    {"id": "500","name": "Flammkuchen Elsässer","price": 8.9},
+    {"id": "501","name": "Flammkuchen Lachs","price": 8.9},
+    {"id": "502","name": "Flammkuchen Griechisch","price": 8.9},
+    {"id": "510","name": "Toast Käse","price": 3.7},
+    {"id": "511","name": "Toast Schinken","price": 4.3},
+    {"id": "512","name": "Toast Salami","price": 4.3},
+    {"id": "513","name": "Toast Hawaii","price": 5.6},
+    {"id": "520","name": "Baguette XXL","price": 6.9},
+    {"id": "600","name": "Apfelstrudel","price": 3.7},
+    {"id": "601","name": "Apfelstrudel mit Vanillesoße","price": 4.0},
+    {"id": "602","name": "Apfelstrudel mit Sahne","price": 4.7},
+    {"id": "603","name": "Apfelstrudel mit Eis","price": 6.1},
+    {"id": "610","name": "Tiramisu","price": 4.2},
+    {"id": "620","name": "Waffel","price": 4.0},
+    {"id": "621","name": "Waffel mit Sahne","price": 5.0},
+    {"id": "622","name": "Waffel mit Eis","price": 5.3},
+    {"id": "623","name": "Waffel mit Eis & Sahne","price": 6.3},
+    {"id": "624","name": "Waffel mit Nutella","price": 5.0},
+    {"id": "6301","name": "Zimt & Banane","price": 6.8},
+    {"id": "6302","name": "Obstsalat","price": 7.9},
+    {"id": "6303","name": "Erdbeeren","price": 7.5},
+    {"id": "6304","name": "Waldbeeren","price": 7.2},
+    {"id": "6305","name": "Schoko-Banane","price": 7.9},
+    {"id": "6306","name": "Heiße Kirschen Dessert","price": 7.0},
+    {"id": "6307","name": "Dessert Schoko","price": 6.8},
+    {"id": "6308","name": "Tutti Frutti Dessert","price": 7.5}
+];
+
+const getraenkeItems = [
+    {"id": "155","name": "Orangensaft","price": 4.5},
+    {"id": "156","name": "Kalte Zitrone","price": 3.5},
+    {"id": "200","name": "Espresso","price": 2.0},
+    {"id": "201","name": "Espresso Macchiato","price": 2.3},
+    {"id": "202","name": "Espresso Corretto","price": 3.4},
+    {"id": "203","name": "Doppelter Espresso","price": 3.6},
+    {"id": "204","name": "Doppelter Espresso Macchiato","price": 3.8},
+    {"id": "210","name": "Kaffee","price": 2.2},
+    {"id": "212","name": "Kännchen Kaffee","price": 4.4},
+    {"id": "220","name": "Milchkaffee","price": 3.0},
+    {"id": "221","name": "Milchkaffee mit Baileys","price": 4.0},
+    {"id": "230","name": "Latte Macchiato","price": 3.6},
+    {"id": "231","name": "Latte Macchiato mit Sirup","price": 3.2},
+    {"id": "240","name": "Cappuccino","price": 2.6},
+    {"id": "241","name": "Cappuccino groß","price": 3.0},
+    {"id": "244","name": "Cappuccino Amaretto","price": 4.0},
+    {"id": "245","name": "Cappuccino Eierlikör","price": 4.0},
+    {"id": "246","name": "Cappuccino Baileys","price": 4.0},
+    {"id": "300","name": "Coca-Cola","price": 2.7},
+    {"id": "301","name": "Coca-Cola Light","price": 2.7},
+    {"id": "302","name": "Coca-Cola Zero","price": 2.7},
+    {"id": "303","name": "Fanta","price": 2.7},
+    {"id": "304","name": "Mezzo Mix","price": 2.7},
+    {"id": "305","name": "Sprite","price": 2.7},
+    {"id": "306","name": "Bitter Lemon","price": 2.7},
+    {"id": "307","name": "Apfelschorle","price": 1.9},
+    {"id": "308","name": "Eistee","price": 1.9},
+    {"id": "309","name": "Wild Berry","price": 2.2},
+    {"id": "310","name": "Tonic Water","price": 2.2},
+    {"id": "311","name": "S.Pellegrino 0,25 l","price": 2.4},
+    {"id": "312","name": "S.Pellegrino 0,75 l","price": 5.9},
+    {"id": "350","name": "Krombacher Pils","price": 2.8},
+    {"id": "351","name": "Krombacher Radler","price": 2.8},
+    {"id": "352","name": "Erdinger Weißbier","price": 4.5},
+    {"id": "353","name": "Erdinger Alkoholfrei 0,33 l","price": 2.8},
+    {"id": "354","name": "Erdinger Alkoholfrei 0,50 l","price": 4.5},
+    {"id": "400","name": "Rotwein","price": 4.9},
+    {"id": "401","name": "Weißwein","price": 4.9},
+    {"id": "402","name": "Glas Sekt","price": 3.9},
+    {"id": "403","name": "Campari Sekt","price": 3.9},
+    {"id": "410","name": "Aperitif des Hauses","price": 5.9},
+    {"id": "430","name": "Grappa","price": 4.7},
+    {"id": "431","name": "Asbach","price": 3.2},
+    {"id": "432","name": "Ramazzotti","price": 3.2},
+    {"id": "433","name": "Aperol Spritz","price": 6.1},
+    {"id": "434","name": "Hugo","price": 6.1}
+];
+
+/* ---------- UI ---------- */
+
+document.querySelectorAll('.cat-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.getAttribute('data-target');
+        document.getElementById(target).classList.add('active');
+    });
+});
+
+function formatDisplayPrice(value) {
+    return value.toFixed(2).replace('.', ',') + ' €';
+}
+
+function buildCards() {
+    const portionsGrid = document.getElementById('grid-portions');
+    const kidsGrid = document.getElementById('grid-kinder');
+    const eisGrid = document.getElementById('grid-eis');
+    const essenGrid = document.getElementById('grid-essen');
+    const getraenkeGrid = document.getElementById('grid-getraenke');
+
+    const flavourOptions = flavours.map(f => `<option value="${f}">${f}</option>`).join('');
+
+    portionItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.setAttribute('data-name', item.name);
+        card.setAttribute('data-price', item.price);
+        card.setAttribute('data-portion', 'true');
+
+        card.innerHTML = `
+            <div class="item-header">
+                <span class="item-name">${item.id}. ${item.name}</span>
+                <span class="item-price">${formatDisplayPrice(item.price)}</span>
+            </div>
+            <div class="item-options">
+                <strong>Sahne:</strong> mit oder ohne (mit Sahne +1,20 €).<br>
+                <strong>Eissorten auswählen:</strong>
+            </div>
+            <div class="item-row">
+                <label>Menge:
+                    <input type="number" min="1" value="1" class="qty-input">
+                </label>
+                <label>Sahne:
+                    <select class="cream-select">
+                        <option value="mit Sahne">mit Sahne (+1,20 €)</option>
+                        <option value="ohne Sahne">ohne Sahne</option>
+                    </select>
+                </label>
+                <select class="flavour-select" multiple size="3">
+                    ${flavourOptions}
+                </select>
+                <button class="add-btn">Zur Bestellung hinzufügen</button>
+            </div>
+        `;
+        portionsGrid.appendChild(card);
+    });
+
+    kidsItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.setAttribute('data-name', item.name);
+        card.setAttribute('data-price', item.price);
+
+        card.innerHTML = `
+            <div class="item-header">
+                <span class="item-name">${item.id}. ${item.name}</span>
+                <span class="item-price">${formatDisplayPrice(item.price)}</span>
+            </div>
+            <div class="item-options">
+                <strong>Sahne:</strong> mit oder ohne (optional).<br>
+                <strong>Eissorten auswählen:</strong>
+            </div>
+            <div class="item-row">
+                <label>Menge:
+                    <input type="number" min="1" value="1" class="qty-input">
+                </label>
+                <label>Sahne:
+                    <select class="cream-select">
+                        <option value="mit Sahne">mit Sahne</option>
+                        <option value="ohne Sahne">ohne Sahne</option>
+                    </select>
+                </label>
+                <select class="flavour-select" multiple size="3">
+                    ${flavourOptions}
+                </select>
+                <button class="add-btn">Zur Bestellung hinzufügen</button>
+            </div>
+        `;
+        kidsGrid.appendChild(card);
+    });
+
+    becherItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.setAttribute('data-name', item.name);
+        card.setAttribute('data-price', item.price);
+
+        card.innerHTML = `
+            <div class="item-header">
+                <span class="item-name">${item.id}. ${item.name}</span>
+                <span class="item-price">${formatDisplayPrice(item.price)}</span>
+            </div>
+            <div class="item-options">
+                <strong>Sahne:</strong> mit oder ohne (optional).<br>
+                <strong>Eissorten auswählen:</strong>
+            </div>
+            <div class="item-row">
+                <label>Menge:
+                    <input type="number" min="1" value="1" class="qty-input">
+                </label>
+                <label>Sahne:
+                    <select class="cream-select">
+                        <option value="mit Sahne">mit Sahne</option>
+                        <option value="ohne Sahne">ohne Sahne</option>
+                    </select>
+                </label>
+                <select class="flavour-select" multiple size="3">
+                    ${flavourOptions}
+                </select>
+                <button class="add-btn">Zur Bestellung hinzufügen</button>
+            </div>
+        `;
+        eisGrid.appendChild(card);
+    });
+
+    essenItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.setAttribute('data-name', item.name);
+        card.setAttribute('data-price', item.price);
+
+        card.innerHTML = `
+            <div class="item-header">
+                <span class="item-name">${item.id}. ${item.name}</span>
+                <span class="item-price">${formatDisplayPrice(item.price)}</span>
+            </div>
+            <div class="item-row">
+                <label>Menge:
+                    <input type="number" min="1" value="1" class="qty-input">
+                </label>
+                <button class="add-btn">Zur Bestellung hinzufügen</button>
+            </div>
+        `;
+        essenGrid.appendChild(card);
+    });
+
+    getraenkeItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.setAttribute('data-name', item.name);
+        card.setAttribute('data-price', item.price);
+
+        card.innerHTML = `
+            <div class="item-header">
+                <span class="item-name">${item.id}. ${item.name}</span>
+                <span class="item-price">${formatDisplayPrice(item.price)}</span>
+            </div>
+            <div class="item-row">
+                <label>Menge:
+                    <input type="number" min="1" value="1" class="qty-input">
+                </label>
+                <button class="add-btn">Zur Bestellung hinzufügen</button>
+            </div>
+        `;
+        getraenkeGrid.appendChild(card);
+    });
+}
+
+const order = [];
+
+function updateOrderDisplay() {
+    const list = document.getElementById('orderList');
+    const totalEl = document.getElementById('orderTotal');
+
+    if (order.length === 0) {
+        list.textContent = 'Noch keine Positionen.';
+        totalEl.textContent = 'Gesamt: 0,00 €';
+        return;
+    }
+
+    list.innerHTML = '';
+    let total = 0;
+
+    order.forEach(function(item) {
+        total += item.total;
+
+        const row = document.createElement('div');
+        row.className = 'order-item';
+
+        const left = document.createElement('div');
+        left.innerHTML = '<strong>' + item.qty + '× ' + item.name + '</strong>' +
+            (item.details ? '<br><span>' + item.details + '</span>' : '');
+
+        const right = document.createElement('div');
+        right.textContent = formatDisplayPrice(item.total);
+
+        row.appendChild(left);
+        row.appendChild(right);
+        list.appendChild(row);
+    });
+
+    totalEl.textContent = 'Gesamt: ' + formatDisplayPrice(total);
+}
+
+function attachAddHandlers() {
+    document.querySelectorAll('.item-card .add-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const tableInput = document.getElementById('tableNumber');
+            const tableNumber = tableInput.value.trim();
+
+            if (!tableNumber) {
+                alert('Bitte geben Sie die Tischnummer ein.');
+                tableInput.focus();
+                return;
+            }
+
+            const card = button.closest('.item-card');
+            const name = card.getAttribute('data-name');
+            const basePrice = parseFloat(card.getAttribute('data-price'));
+            let unitPrice = basePrice;
+
+            const qtyInput = card.querySelector('.qty-input');
+            const qty = qtyInput ? parseInt(qtyInput.value || '1', 10) : 1;
+
+            let detailsArr = [];
+
+            const creamSelect = card.querySelector('.cream-select');
+            if (creamSelect) {
+                const creamValue = creamSelect.value;
+                detailsArr.push(creamValue);
+
+                const isPortion = card.getAttribute('data-portion') === 'true';
+                if (isPortion && creamValue === 'mit Sahne') {
+                    unitPrice = basePrice + 1.20;
+                }
+            }
+
+            const flavourSelect = card.querySelector('.flavour-select');
+            if (flavourSelect) {
+                const selected = Array.from(flavourSelect.selectedOptions).map(o => o.value);
+                if (selected.length > 0) {
+                    detailsArr.push('Sorten: ' + selected.join(', '));
+                }
+            }
+
+            if (tableNumber) {
+                detailsArr.push('Tisch: ' + tableNumber);
+            }
+
+            const details = detailsArr.join(' | ');
+            const total = unitPrice * qty;
+
+            order.push({
+                name: name,
+                qty: qty,
+                total: total,
+                details: details
+            });
+
+            updateOrderDisplay();
+            openOrderPanel();
+        });
+    });
+}
+
+document.getElementById('clearOrderBtn').addEventListener('click', function() {
+    order.length = 0;
+    document.getElementById('tableNumber').value = '';
+    updateOrderDisplay();
+    alert('Tisch wurde geleert. Neue Gäste können bestellen.');
+});
+
+document.getElementById('printBtn').addEventListener('click', function() {
+    window.print();
+});
+
+document.getElementById('whatsAppBtn').addEventListener('click', function() {
+    if (order.length === 0) {
+        alert('Keine Bestellung vorhanden.');
+        return;
+    }
+
+    const tableNumber = document.getElementById('tableNumber').value.trim();
+
+    let text = 'DEMO – SmartGastro QR%0A';
+
+    if (tableNumber) text += 'Tisch: ' + tableNumber + '%0A';
+    text += '%0A';
+
+    let total = 0;
+    order.forEach(item => {
+        total += item.total;
+        const line = item.qty + 'x ' + item.name +
+            ' - ' + formatDisplayPrice(item.total) +
+            (item.details ? ' (' + item.details + ')' : '');
+        text += line + '%0A';
+    });
+
+    text += '%0A Gesamt: ' + formatDisplayPrice(total);
+    text += '%0A (DEMO-Version – Testbestellung)';
+
+    const whatsAppNumber = "4917672809926";
+    const url = 'https://wa.me/' + whatsAppNumber + '?text=' + text;
+
+    window.open(url, '_blank');
+});
+
+/* ---------- PAINEL DE PEDIDO ---------- */
+
+const orderPanel = document.getElementById('orderPanel');
+const toggleOrderBtn = document.getElementById('toggleOrderPanelBtn');
+const orderPanelStatus = document.getElementById('orderPanelStatus');
+
+function openOrderPanel() {
+    orderPanel.classList.add('open');
+    orderPanelStatus.textContent = 'Nach unten wischen oder tippen, um zu schließen';
+}
+
+function closeOrderPanel() {
+    orderPanel.classList.remove('open');
+    orderPanelStatus.textContent = 'Tippen, um zu öffnen';
+}
+
+toggleOrderBtn.addEventListener('click', function() {
+    if (orderPanel.classList.contains('open')) {
+        closeOrderPanel();
+    } else {
+        openOrderPanel();
+    }
+});
+
+orderPanel.addEventListener('click', function(e) {
+    const inner = e.target.closest('.order-inner');
+    if (!inner) {
+        closeOrderPanel();
+    }
+});
+
+/* ---------- INICIALIZAÇÃO ---------- */
+
+buildCards();
+attachAddHandlers();
+updateOrderDisplay();
+</script>
+</body>
+</html>
