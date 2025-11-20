@@ -45,7 +45,7 @@
       border-radius: 0 0 var(--radius-lg) var(--radius-lg);
       box-shadow: 0 3px 18px rgba(0,0,0,0.12);
       padding: 14px 12px 16px;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       position: sticky;
       top: 0;
       z-index: 20;
@@ -88,7 +88,6 @@
       margin: 0;
     }
 
-    /* Italian ribbon */
     .flag-strip {
       height: 4px;
       border-radius: 0 0 var(--radius-lg) var(--radius-lg);
@@ -96,7 +95,6 @@
       margin-top: 8px;
     }
 
-    /* LANGUAGE BAR */
     .lang-bar {
       display: flex;
       flex-wrap: wrap;
@@ -125,7 +123,7 @@
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-soft);
       padding: 16px;
-      margin-top: 14px;
+      margin-top: 20px;   /* desce um pouco o conteúdo */
     }
 
     h2 {
@@ -429,12 +427,11 @@
   <header>
     <div class="header-inner">
       <div class="logo-wrap">
-        <!-- logótipo que carregaste no GitHub -->
         <img src="IMG-20251119-WA0011.jpg" alt="SmartGastro QR Logo">
       </div>
       <div class="header-text">
         <h1 class="header-title">SmartGastro QR</h1>
-        <p class="header-subtitle">
+        <p class="header-subtitle" id="header-subtitle">
           Digitale Bestellungen für Gastronomie – einfach per QR-Code am Tisch.
         </p>
 
@@ -455,14 +452,14 @@
   <div class="card">
     <div class="two-col">
       <div>
-        <h2>Was ist SmartGastro QR?</h2>
+        <h2 id="about-title">Was ist SmartGastro QR?</h2>
         <p id="about-text">
           SmartGastro QR ist ein flexibles, modernes Bestellsystem für Gastronomie-Betriebe.
           Gäste scannen den QR-Code am Tisch, wählen Produkte aus der digitalen Speisekarte
           und schicken ihre Bestellung direkt an Ihr Service-Team – ohne App, ohne Registrierung.
         </p>
 
-        <ul class="checklist">
+        <ul class="checklist" id="about-points">
           <li>Funktioniert auf Handy, Tablet und PC</li>
           <li>Kein Login, keine App-Installation notwendig</li>
           <li>Ideal für Eiscafés, Restaurants, Bars und Cafés</li>
@@ -471,8 +468,8 @@
           <li>Optional: Weiterleitung an WhatsApp oder Küchendrucker</li>
         </ul>
 
-        <p><strong>Wie funktioniert das System?</strong></p>
-        <ol class="steps">
+        <p id="steps-title"><strong>Wie funktioniert das System?</strong></p>
+        <ol class="steps" id="steps-list">
           <li>Gast scannt den QR-Code am Tisch mit der Handy-Kamera.</li>
           <li>Die digitale Speisekarte öffnet sich im Browser.</li>
           <li>Tischnummer wird eingetragen (Pflichtfeld).</li>
@@ -503,8 +500,9 @@
       <span class="badge-demo">Nur Demo – keine echte Bestellung</span>
     </div>
     <p style="font-size:0.85rem;color:var(--text-muted);margin-top:4px;">
-      Demo mit einigen Artikeln aus einem Eiscafé: Kinder Portion, Pinocchio und verschiedene Spaghetti-Eis Varianten.
-      In der Vollversion werden natürlich alle Becher und Produkte hinterlegt.
+      Demo mit mehreren Artikeln aus einem Eiscafé: Kinderportion, Kinderbecher, Pinocchio,
+      verschiedene Spaghetti-Eis-Becher und Kaffee-Spezialitäten. In der Vollversion
+      werden natürlich alle Produkte hinterlegt.
     </p>
 
     <div class="demo-header-row">
@@ -526,6 +524,9 @@
       <button class="btn btn-wa btn-small" id="btnDemoWhatsApp">
         Per WhatsApp senden (Demo)
       </button>
+      <button class="btn btn-outline btn-small" id="btnDemoPrint">
+        Küchendrucker (Demo)
+      </button>
       <button class="btn btn-clear btn-small" id="btnDemoClear">
         Alles löschen
       </button>
@@ -533,7 +534,8 @@
 
     <p class="demo-note">
       Demo-Version: Die Bestellung wird nur als Text aufgebaut. In der echten Version
-      wird sie an Ihr Eiscafé / Restaurant gesendet oder mit Ihrem Kassensystem verbunden.
+      wird sie an Ihr Eiscafé / Restaurant gesendet oder mit Ihrem Kassensystem verbunden
+      und kann auf einem Küchendrucker gedruckt werden.
     </p>
   </div>
 
@@ -694,7 +696,7 @@
         <div class="legal-text" data-group="privacy" data-lang="it" hidden>
           <p>In questa demo non vengono memorizzati in modo permanente dati personali.
             Le informazioni inserite servono solo per simulare un ordine o una richiesta.</p>
-          <p>In un’installazione reale tutti gli obblighi in materia di protezione dei dati
+          <p>In un’installazione reale tutti gli obblighi in materia de protezione dei dati
             (ad es. GDPR, informative e contratti di trattamento) vengono adattati alla
             vostra attività.</p>
         </div>
@@ -724,6 +726,110 @@
 </div>
 
 <script>
+  /* ==== TEXTOS MULTILINGUES (TOP) ==== */
+  const langTexts = {
+    de: {
+      subtitle: "Digitale Bestellungen für Gastronomie – einfach per QR-Code am Tisch.",
+      aboutTitle: "Was ist SmartGastro QR?",
+      aboutText:
+        "SmartGastro QR ist ein flexibles, modernes Bestellsystem für Gastronomie-Betriebe. Gäste scannen den QR-Code am Tisch, wählen Produkte aus der digitalen Speisekarte und schicken ihre Bestellung direkt an Ihr Service-Team – ohne App, ohne Registrierung.",
+      stepsTitle: "Wie funktioniert das System?",
+      stepsHTML: `
+        <li>Gast scannt den QR-Code am Tisch mit der Handy-Kamera.</li>
+        <li>Die digitale Speisekarte öffnet sich im Browser.</li>
+        <li>Tischnummer wird eingetragen (Pflichtfeld).</li>
+        <li>Produkte und Optionen werden ausgewählt.</li>
+        <li>Bestellung wird z. B. per WhatsApp an Ihr Team gesendet.</li>`
+    },
+    en: {
+      subtitle: "Digital ordering for restaurants – simply via QR code on the table.",
+      aboutTitle: "What is SmartGastro QR?",
+      aboutText:
+        "SmartGastro QR is a flexible, modern ordering system for restaurants and cafés. Guests scan the QR code on the table, choose products from the digital menu and send their order directly to your team – no app, no registration.",
+      stepsTitle: "How does the system work?",
+      stepsHTML: `
+        <li>The guest scans the QR code on the table.</li>
+        <li>The digital menu opens in the browser.</li>
+        <li>The table number is entered (required).</li>
+        <li>Products and options are selected.</li>
+        <li>The order is sent, e.g. via WhatsApp, to your team.</li>`
+    },
+    pt: {
+      subtitle: "Pedidos digitais para restaurantes – apenas com um QR Code na mesa.",
+      aboutTitle: "O que é o SmartGastro QR?",
+      aboutText:
+        "SmartGastro QR é um sistema moderno e flexível de pedidos para gelatarias, cafés e restaurantes. O cliente lê o QR Code na mesa, escolhe os produtos no menu digital e envia o pedido diretamente para a equipa – sem app e sem registo.",
+      stepsTitle: "Como funciona o sistema?",
+      stepsHTML: `
+        <li>O cliente lê o QR Code na mesa com o telemóvel.</li>
+        <li>O menu digital abre-se no navegador.</li>
+        <li>O número da mesa é introduzido (campo obrigatório).</li>
+        <li>Os produtos e opções são escolhidos.</li>
+        <li>O pedido é enviado, por exemplo por WhatsApp, para a sua equipa.</li>`
+    },
+    it: {
+      subtitle: "Ordini digitali per la ristorazione – semplicemente con QR Code al tavolo.",
+      aboutTitle: "Che cos’è SmartGastro QR?",
+      aboutText:
+        "SmartGastro QR è un sistema di ordinazione moderno e flessibile per gelaterie, bar e ristoranti. L’ospite scansiona il QR Code sul tavolo, sceglie i prodotti dal menù digitale e invia l’ordine direttamente al vostro team – senza app e senza registrazione.",
+      stepsTitle: "Come funziona il sistema?",
+      stepsHTML: `
+        <li>L’ospite scansiona il QR Code sul tavolo.</li>
+        <li>Il menù digitale si apre nel browser.</li>
+        <li>Viene inserito il numero del tavolo (obbligatorio).</li>
+        <li>Si scelgono prodotti e opzioni.</li>
+        <li>L’ordine viene inviato, ad esempio tramite WhatsApp, al vostro team.</li>`
+    },
+    es: {
+      subtitle: "Pedidos digitales para hostelería – solo con un código QR en la mesa.",
+      aboutTitle: "¿Qué es SmartGastro QR?",
+      aboutText:
+        "SmartGastro QR es un sistema de pedidos moderno y flexible para heladerías, bares y restaurantes. El cliente escanea el código QR de la mesa, elige los productos en el menú digital y envía el pedido directamente al equipo – sin app y sin registro.",
+      stepsTitle: "¿Cómo funciona el sistema?",
+      stepsHTML: `
+        <li>El cliente escanea el código QR de la mesa.</li>
+        <li>El menú digital se abre en el navegador.</li>
+        <li>Se introduce el número de mesa (obligatorio).</li>
+        <li>Se seleccionan productos y opciones.</li>
+        <li>El pedido se envía, por ejemplo por WhatsApp, a su equipo.</li>`
+    },
+    fr: {
+      subtitle: "Commandes digitales pour la restauration – simplement avec un QR code sur la table.",
+      aboutTitle: "Qu’est-ce que SmartGastro QR ?",
+      aboutText:
+        "SmartGastro QR est un système de commande moderne et flexible pour glaciers, cafés et restaurants. Le client scanne le QR code sur la table, choisit ses produits dans le menu digital et envoie la commande directement à votre équipe – sans application et sans inscription.",
+      stepsTitle: "Comment fonctionne le système ?",
+      stepsHTML: `
+        <li>Le client scanne le QR code sur la table.</li>
+        <li>Le menu digital s’ouvre dans le navigateur.</li>
+        <li>Le numéro de table est saisi (champ obligatoire).</li>
+        <li>Les produits et options sont sélectionnés.</li>
+        <li>La commande est envoyée, par exemple via WhatsApp, à votre équipe.</li>`
+    }
+  };
+
+  const headerSubtitleEl = document.getElementById('header-subtitle');
+  const aboutTitleEl = document.getElementById('about-title');
+  const aboutTextEl = document.getElementById('about-text');
+  const stepsTitleEl = document.getElementById('steps-title');
+  const stepsListEl = document.getElementById('steps-list');
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.langGlobal;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const t = langTexts[lang];
+      if (!t) return;
+      headerSubtitleEl.textContent = t.subtitle;
+      aboutTitleEl.textContent   = t.aboutTitle;
+      aboutTextEl.textContent    = t.aboutText;
+      stepsTitleEl.innerHTML     = '<strong>' + t.stepsTitle + '</strong>';
+      stepsListEl.innerHTML      = t.stepsHTML;
+    });
+  });
+
   /* ==== DEMO ARTIKEL ==== */
   const flavours = [
     "Vanille","Stracciatella","Schokolade","Amarena Kirsch",
@@ -731,11 +837,16 @@
   ];
 
   const demoItems = [
-    { id: 23,  name: "Kinder Portion",       price: 3.50, portion: true },
-    { id: 1601,name: "Pinocchio",            price: 5.10, portion: false },
-    { id: 50,  name: "Spaghetti Eis",        price: 6.50, portion: false },
-    { id: 53,  name: "Spaghetti Erdbeere",   price: 8.90, portion: false },
-    { id: 44,  name: "Banana Split",         price: 10.00, portion: false }
+    { id: 23,   name: "Kinder Portion",        price: 3.50, portion: true },
+    { id: 24,   name: "Kinderbecher",          price: 4.20, portion: true },
+    { id: 1601, name: "Pinocchio",             price: 5.10, portion: false },
+    { id: 50,   name: "Spaghetti Eis",         price: 6.50, portion: false },
+    { id: 53,   name: "Spaghetti Erdbeere",    price: 8.90, portion: false },
+    { id: 54,   name: "Spaghetti Schoko",      price: 8.90, portion: false },
+    { id: 55,   name: "Spaghetti Amarena",     price: 8.90, portion: false },
+    { id: 3001, name: "Eiskaffee",             price: 5.90, portion: false },
+    { id: 3002, name: "Cappuccino",            price: 3.20, portion: false },
+    { id: 3003, name: "Latte Macchiato",       price: 3.90, portion: false }
   ];
 
   const order = [];
@@ -754,6 +865,9 @@
       card.dataset.name = item.name;
       card.dataset.price = item.price.toString();
       card.dataset.portion = item.portion ? 'true' : 'false';
+      card.dataset.id = item.id.toString();
+
+      const isCoffee = item.id >= 3000;
 
       card.innerHTML = `
         <div class="item-top">
@@ -766,18 +880,23 @@
             <input type="number" class="qty" min="1" value="1">
           </label>
           <label>
-            Sahne:
+            ${isCoffee ? "Extra:" : "Sahne:"}
             <select class="cream">
-              <option value="mit Sahne">mit Sahne${item.portion ? " (+1,20 €)" : ""}</option>
-              <option value="ohne Sahne">ohne Sahne</option>
+              ${isCoffee
+                ? `<option value="normal">ohne Extra</option>
+                   <option value="mit Sahne">mit Sahne</option>`
+                : `<option value="mit Sahne">mit Sahne${item.portion ? " (+1,20 €)" : ""}</option>
+                   <option value="ohne Sahne">ohne Sahne</option>`
+              }
             </select>
           </label>
+          ${isCoffee ? "" : `
           <label>
             Sorten:
             <select class="flavours" multiple size="2">
               ${flavourOptions}
             </select>
-          </label>
+          </label>`}
           <button class="btn btn-add btn-small add-demo">Hinzufügen</button>
         </div>
       `;
@@ -790,21 +909,25 @@
         const name = card.dataset.name;
         const basePrice = parseFloat(card.dataset.price);
         const isPortion = card.dataset.portion === 'true';
+        const isCoffee = parseInt(card.dataset.id, 10) >= 3000;
 
         const qty = parseInt(card.querySelector('.qty').value || '1', 10);
         const cream = card.querySelector('.cream').value;
-        const selectedFlavours =
-          Array.from(card.querySelector('.flavours').selectedOptions).map(o => o.value);
+        const flavourSelect = card.querySelector('.flavours');
+
+        const selectedFlavours = flavourSelect
+          ? Array.from(flavourSelect.selectedOptions).map(o => o.value)
+          : [];
 
         let unitPrice = basePrice;
         if (isPortion && cream === 'mit Sahne') {
           unitPrice += 1.20; // Aufpreis für Sahne nur bei Portionen
         }
 
-        const details = [
-          cream,
-          selectedFlavours.length ? 'Sorten: ' + selectedFlavours.join(', ') : ''
-        ].filter(Boolean).join(' | ');
+        const detailsArr = [];
+        if (cream && cream !== 'normal') detailsArr.push(cream);
+        if (selectedFlavours.length) detailsArr.push('Sorten: ' + selectedFlavours.join(', '));
+        const details = detailsArr.join(' | ');
 
         order.push({
           name,
@@ -871,9 +994,24 @@
     });
     text += '%0A Gesamt (Demo): ' + formatPrice(total);
 
-    // Demo: nur anzeigen, nicht zwingend senden
     const url = 'https://wa.me/4917672809926?text=' + text;
     window.open(url, '_blank');
+  });
+
+  document.getElementById('btnDemoPrint').addEventListener('click', () => {
+    if (!order.length) {
+      alert('Bitte zuerst einige Demo-Artikel hinzufügen.');
+      return;
+    }
+    let text = '*** Küchendrucker-Demo ***\n';
+    order.forEach(item => {
+      text += `${item.qty}x ${item.name}`;
+      if (item.details) text += ` (${item.details})`;
+      text += '\n';
+    });
+    alert('In der Vollversion würde jetzt ein Bon an den Küchendrucker gesendet werden.\n\n' +
+          'Demo-Ausgabe:\n\n' + text);
+    console.log(text);
   });
 
   buildDemoCards();
@@ -911,9 +1049,7 @@
     });
   });
 
-  // Standard: Deutsch aktiv
-  document.querySelectorAll('.legal-text[data-lang="de"]').forEach(div => div.hidden = false);
-
+  // Standard: Deutsch aktiv (já está nos dados por omissão)
 </script>
 </body>
 </html>
