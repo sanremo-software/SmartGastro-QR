@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -380,6 +379,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            text-decoration: none;
         }
 
         .btn-whatsapp {
@@ -494,73 +494,108 @@
                 <span data-i18n-key="demoBadge">
                     Diese Seite ist eine Demo – ideal zur Präsentation bei Interessenten.
                 </span>
-            </div><!-- ================= LICENÇA SANREMO SOFTWARE ================= -->
-<div id="smartgastro-license-box" style="
-    max-width: 720px;
-    margin: 40px auto 30px;
-    padding: 18px 20px;
-    border-radius: 12px;
-    border: 1px solid #d1d5db;
-    background: #f9fafb;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-">
-    <h2 style="margin: 0 0 8px; font-size: 1.4rem; color:#111827;">
-        Lizenz / Licença Sanremo Software – 2 Apps incluídas
-    </h2>
-    <p style="margin: 0 0 10px; font-size: 0.9rem; color:#4b5563;">
-        Inclui:
-        <br>• Bestellsystem <strong>SmartGastro QR</strong> (digitale Speisekarte mit QR-Code auf jedem Tisch)
-        <br>• <strong>Mitarbeiter-Portal / Stempeluhr</strong> (Ein-/Aus-Stempel, Dienstpläne, Monatsübersicht)
-        <br>Lizenz für 1 Betrieb / empresa. Pagamento seguro via PayPal.
-    </p>
+            </div>
 
-    <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px;">
-        <span style="font-size:2rem;font-weight:700;color:#111827;">99&nbsp;€</span>
-        <span style="font-size:0.9rem;color:#6b7280;">/ ano · jährlich</span>
-    </div>
-    <p style="margin:0 0 12px;font-size:0.8rem;color:#6b7280;">
-        Subscrição anual (PayPal Subscription). Podes cancelar em qualquer momento na tua conta PayPal.
-    </p>
+            <!-- ================= LICENÇA SANREMO SOFTWARE ================= -->
+            <div id="smartgastro-license-box" style="
+                max-width: 720px;
+                margin: 26px auto 20px;
+                padding: 18px 20px;
+                border-radius: 12px;
+                border: 1px solid #d1d5db;
+                background: #f9fafb;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            ">
+                <h2 style="margin: 0 0 8px; font-size: 1.4rem; color:#111827;"
+                    data-i18n-key="licenseTitle">
+                    Lizenz / Licença Sanremo Software – 2 Apps incluídas
+                </h2>
 
-    <!-- AQUI APARECE O BOTÃO PAYPAL -->
-    <div id="paypal-button-container-P-5WA45756CL7747454NEXAVJA"></div>
+                <p style="margin: 0 0 6px; font-size: 0.9rem; color:#4b5563;"
+                   data-i18n-key="licenseIntro">
+                    Inclui / Enthält:
+                </p>
+                <ul style="margin:0 0 10px 18px; padding:0; font-size:0.9rem; color:#4b5563;">
+                    <li data-i18n-key="licenseItem1">
+                        Bestellsystem SmartGastro QR (digitale Speisekarte mit QR-Code auf jedem Tisch)
+                    </li>
+                    <li data-i18n-key="licenseItem2">
+                        Mitarbeiter-Portal / Stempeluhr (Ein-/Aus-Stempel, Dienstpläne, Monatsübersicht)
+                    </li>
+                    <li data-i18n-key="licenseItem3">
+                        Lizenz für 1 Betrieb / empresa. Sicheres Bezahlen über PayPal.
+                    </li>
+                </ul>
 
-    <!-- Mensagem de sucesso -->
-    <div id="success-box" style="
-        display:none;
-        margin-top:10px;
-        padding:8px 10px;
-        border-radius:8px;
-        font-size:0.8rem;
-        background:#dcfce7;
-        border:1px solid #16a34a;
-        color:#065f46;
-    ">
-        👍 Pagamento concluído! A tua subscrição foi criada com sucesso.
-        ID da subscrição: <strong id="sub-id"></strong><br>
-        Envia o comprovativo e este ID para <a href="mailto:paulo.sanremo@web.de">paulo.sanremo@web.de</a>
-        para receberes o acesso ao software.
-    </div>
+                <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px;">
+                    <span style="font-size:2rem;font-weight:700;color:#111827;">99&nbsp;€</span>
+                    <span style="font-size:0.9rem;color:#6b7280;" data-i18n-key="licensePerYear">
+                        / ano · jährlich
+                    </span>
+                </div>
 
-    <!-- Mensagem de erro -->
-    <div id="error-box" style="
-        display:none;
-        margin-top:10px;
-        padding:8px 10px;
-        border-radius:8px;
-        font-size:0.8rem;
-        background:#fee2e2;
-        border:1px solid #ef4444;
-        color:#991b1b;
-    ">
-        ⚠ Ocorreu um erro ao criar a subscrição PayPal. Tenta novamente ou contacta-me por e-mail / WhatsApp.
-    </div>
+                <p style="margin:0 0 8px;font-size:0.8rem;color:#6b7280;"
+                   data-i18n-key="licenseSubNote">
+                    Subscrição anual via PayPal. Podes cancelar em qualquer momento diretamente na tua conta PayPal.
+                </p>
 
-    <p style="margin-top:12px;font-size:0.8rem;color:#6b7280;">
-        Suporte / Support: <strong>paulo.sanremo@web.de</strong> · WhatsApp: <strong>0176 72809926</strong>
-    </p>
-</div>
-<!-- ================= FIM LICENÇA ================= -->
+                <!-- Botão PayPal -->
+                <div id="paypal-button-container-P-5WA45756CL7747454NEXAVJA"></div>
+
+                <!-- Links para as duas demos -->
+                <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;">
+                    <a class="btn btn-outline"
+                       href="https://paulo35150.github.io/Eis-Menu/"
+                       target="_blank"
+                       data-i18n-key="licenseDemoMenu">
+                        Eis- &amp; Gastro-Bestellsystem – Demo öffnen
+                    </a>
+                    <a class="btn btn-outline"
+                       href="https://paulo35150.github.io/Sanremo-mitarbeiter/"
+                       target="_blank"
+                       data-i18n-key="licenseDemoStaff">
+                        Mitarbeiter-Portal / Stempeluhr – Demo öffnen
+                    </a>
+                </div>
+
+                <!-- Mensagem de sucesso -->
+                <div id="success-box" style="
+                    display:none;
+                    margin-top:10px;
+                    padding:8px 10px;
+                    border-radius:8px;
+                    font-size:0.8rem;
+                    background:#dcfce7;
+                    border:1px solid #16a34a;
+                    color:#065f46;
+                ">
+                    👍 Pagamento concluído! A tua subscrição foi criada com sucesso.
+                    ID da subscrição: <strong id="sub-id"></strong><br>
+                    Envia o comprovativo e este ID para
+                    <a href="mailto:paulo.sanremo@web.de">paulo.sanremo@web.de</a>
+                    para receberes o acesso ao software.
+                </div>
+
+                <!-- Mensagem de erro -->
+                <div id="error-box" style="
+                    display:none;
+                    margin-top:10px;
+                    padding:8px 10px;
+                    border-radius:8px;
+                    font-size:0.8rem;
+                    background:#fee2e2;
+                    border:1px solid #ef4444;
+                    color:#991b1b;
+                ">
+                    ⚠ Ocorreu um erro ao criar a subscrição PayPal. Tenta novamente ou contacta-me por e-mail / WhatsApp.
+                </div>
+
+                <p style="margin-top:12px;font-size:0.8rem;color:#6b7280;"
+                   data-i18n-key="licenseSupport">
+                    Suporte / Support: paulo.sanremo@web.de · WhatsApp: 0176 72809926
+                </p>
+            </div>
+            <!-- ================= FIM LICENÇA ================= -->
 
             <h3 class="section-title" data-i18n-key="benefitsTitle">
                 Vorteile auf einen Blick:
@@ -751,6 +786,16 @@
             whatTitle: "Was ist SmartGastro QR?",
             whatIntro: "SmartGastro QR ist ein flexibles, modernes Bestellsystem für Gastronomie-Betriebe. Gäste scannen den QR-Code am Tisch, öffnen die digitale Speisekarte und schicken ihre Bestellung direkt an das Service-Team – ohne App, ohne Registrierung.",
             demoBadge: "Diese Seite ist eine Demo – ideal zur Präsentation bei Interessenten.",
+            licenseTitle: "Lizenz / Licença Sanremo Software – 2 Apps inklusive",
+            licenseIntro: "Enthält:",
+            licenseItem1: "Bestellsystem SmartGastro QR (digitale Speisekarte mit QR-Code auf jedem Tisch).",
+            licenseItem2: "Mitarbeiter-Portal / Stempeluhr (Ein-/Aus-Stempel, Dienstpläne, Monatsübersicht).",
+            licenseItem3: "Lizenz für 1 Betrieb. Sicheres Bezahlen über PayPal.",
+            licensePerYear: "/ Jahr · jährlich",
+            licenseSubNote: "Jährliches Abo über PayPal. Das Abo kann jederzeit direkt im eigenen PayPal-Konto gekündigt werden.",
+            licenseDemoMenu: "Bestellsystem-Demo öffnen",
+            licenseDemoStaff: "Mitarbeiter-Portal-Demo öffnen",
+            licenseSupport: "Support: paulo.sanremo@web.de · WhatsApp: 0176 72809926",
             benefitsTitle: "Vorteile auf einen Blick:",
             benefit1: "Funktioniert auf Handy, Tablet und PC.",
             benefit2: "Kein Login, keine App-Installation notwendig.",
@@ -787,7 +832,6 @@
             footerLegal: "Rechtliche Hinweise",
             footerPrivacy: "Datenschutz",
             footerContact: "Kontakt",
-            // placeholders
             cfName: "Name",
             cfBusiness: "Betrieb / Restaurant",
             cfMessage: "Ihre Nachricht…"
@@ -797,6 +841,16 @@
             whatTitle: "What is SmartGastro QR?",
             whatIntro: "SmartGastro QR is a modern ordering system for cafés and restaurants. Guests scan the QR code on the table, open the digital menu and send their order directly to your team – no app, no registration.",
             demoBadge: "This page is a demo – perfect for presentations to clients.",
+            licenseTitle: "Sanremo Software licence – 2 apps included",
+            licenseIntro: "Includes:",
+            licenseItem1: "Ordering system SmartGastro QR (digital menu with QR code on every table).",
+            licenseItem2: "Staff portal / time clock (clock-in/out, duty rosters, monthly overview).",
+            licenseItem3: "Licence for one business. Secure payment via PayPal.",
+            licensePerYear: "/ year · yearly",
+            licenseSubNote: "Yearly subscription via PayPal. You can cancel anytime in your PayPal account.",
+            licenseDemoMenu: "Open ordering system demo",
+            licenseDemoStaff: "Open staff portal demo",
+            licenseSupport: "Support: paulo.sanremo@web.de · WhatsApp: 0176 72809926",
             benefitsTitle: "Main advantages:",
             benefit1: "Works on smartphone, tablet and PC.",
             benefit2: "No login, no app installation required.",
@@ -842,6 +896,16 @@
             whatTitle: "O que é o SmartGastro QR?",
             whatIntro: "O SmartGastro QR é um sistema moderno e flexível de pedidos para cafés e restaurantes. O cliente lê o código QR na mesa, abre o menu digital e envia o pedido diretamente para a equipa – sem app e sem registo.",
             demoBadge: "Esta página é apenas uma demo – ideal para apresentar o conceito a clientes.",
+            licenseTitle: "Licença Sanremo Software – 2 apps incluídas",
+            licenseIntro: "Inclui:",
+            licenseItem1: "Sistema de pedidos SmartGastro QR (menu digital com QR-Code em cada mesa).",
+            licenseItem2: "Portal de funcionários / relógio de ponto (entradas/saídas, turnos, resumo mensal).",
+            licenseItem3: "Licença para 1 empresa. Pagamento seguro através de PayPal.",
+            licensePerYear: "/ ano · anual",
+            licenseSubNote: "Subscrição anual via PayPal. Podes cancelar em qualquer momento diretamente na tua conta PayPal.",
+            licenseDemoMenu: "Abrir demo do sistema de pedidos",
+            licenseDemoStaff: "Abrir demo do portal de funcionários",
+            licenseSupport: "Suporte: paulo.sanremo@web.de · WhatsApp: 0176 72809926",
             benefitsTitle: "Vantagens principais:",
             benefit1: "Funciona em telemóvel, tablet e PC.",
             benefit2: "Sem login, sem instalação de app.",
@@ -887,6 +951,16 @@
             whatTitle: "Che cos’è SmartGastro QR?",
             whatIntro: "SmartGastro QR è un sistema moderno di ordinazione per bar e ristoranti. Il cliente scansiona il QR-Code sul tavolo, apre il menù digitale e invia l’ordine direttamente allo staff – senza app e senza registrazione.",
             demoBadge: "Questa pagina è una demo – perfetta per presentare il sistema ai clienti.",
+            licenseTitle: "Licenza Sanremo Software – 2 app incluse",
+            licenseIntro: "Include:",
+            licenseItem1: "Sistema di ordinazione SmartGastro QR (menù digitale con QR-Code su ogni tavolo).",
+            licenseItem2: "Portale dipendenti / timbratura (entrata/uscita, turni, riepilogo mensile).",
+            licenseItem3: "Licenza per 1 locale. Pagamento sicuro con PayPal.",
+            licensePerYear: "/ anno · annuale",
+            licenseSubNote: "Abbonamento annuale tramite PayPal. Puoi annullare in qualsiasi momento dal tuo conto PayPal.",
+            licenseDemoMenu: "Apri demo sistema ordini",
+            licenseDemoStaff: "Apri demo portale dipendenti",
+            licenseSupport: "Supporto: paulo.sanremo@web.de · WhatsApp: 0176 72809926",
             benefitsTitle: "Vantaggi principali:",
             benefit1: "Funziona su smartphone, tablet e PC.",
             benefit2: "Nessun login, nessuna app da installare.",
@@ -932,6 +1006,16 @@
             whatTitle: "¿Qué es SmartGastro QR?",
             whatIntro: "SmartGastro QR es un sistema moderno de pedidos para bares y restaurantes. El cliente escanea el código QR en la mesa, abre el menú digital y envía el pedido directamente al equipo – sin app y sin registro.",
             demoBadge: "Esta página es solo una demo – perfecta para presentar el concepto a clientes.",
+            licenseTitle: "Licencia Sanremo Software – 2 apps incluidas",
+            licenseIntro: "Incluye:",
+            licenseItem1: "Sistema de pedidos SmartGastro QR (menú digital con código QR en cada mesa).",
+            licenseItem2: "Portal de empleados / reloj de fichar (entradas/salidas, turnos, resumen mensual).",
+            licenseItem3: "Licencia para 1 negocio. Pago seguro a través de PayPal.",
+            licensePerYear: "/ año · anual",
+            licenseSubNote: "Suscripción anual a través de PayPal. Se puede cancelar en cualquier momento desde su cuenta de PayPal.",
+            licenseDemoMenu: "Abrir demo del sistema de pedidos",
+            licenseDemoStaff: "Abrir demo del portal de empleados",
+            licenseSupport: "Soporte: paulo.sanremo@web.de · WhatsApp: 0176 72809926",
             benefitsTitle: "Ventajas principales:",
             benefit1: "Funciona en móvil, tablet y PC.",
             benefit2: "Sin inicio de sesión, sin instalar app.",
@@ -977,6 +1061,16 @@
             whatTitle: "Qu’est-ce que SmartGastro QR ?",
             whatIntro: "SmartGastro QR est un système moderne de commande pour cafés et restaurants. Le client scanne le QR-Code sur la table, ouvre le menu numérique et envoie sa commande directement à l’équipe – sans application ni inscription.",
             demoBadge: "Cette page est une démo – parfaite pour présenter le concept aux clients.",
+            licenseTitle: "Licence Sanremo Software – 2 applications incluses",
+            licenseIntro: "Comprend :",
+            licenseItem1: "Système de commande SmartGastro QR (menu numérique avec QR-Code sur chaque table).",
+            licenseItem2: "Portail employés / pointeuse (entrées/sorties, plannings, récapitulatif mensuel).",
+            licenseItem3: "Licence pour un établissement. Paiement sécurisé via PayPal.",
+            licensePerYear: "/ an · annuel",
+            licenseSubNote: "Abonnement annuel via PayPal. Vous pouvez l’annuler à tout moment depuis votre compte PayPal.",
+            licenseDemoMenu: "Ouvrir la démo du système de commande",
+            licenseDemoStaff: "Ouvrir la démo du portail employés",
+            licenseSupport: "Support : paulo.sanremo@web.de · WhatsApp : 0176 72809926",
             benefitsTitle: "Avantages principaux :",
             benefit1: "Fonctionne sur smartphone, tablette et PC.",
             benefit2: "Aucun login, aucune application à installer.",
@@ -1082,6 +1176,43 @@
             window.location.href = mailto;
         });
     }
+</script>
+
+<!-- SDK PayPal + botão de subscrição -->
+<script src="https://www.paypal.com/sdk/js?client-id=AXNSOvcYdaokv8QFi8lhyhfgsMwzgx5u5NG1yjLW4t7jNQHuyJ0I9ZlM6M_qQ9ptxRzgaw56LgMd47UR&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+<script>
+  paypal.Buttons({
+      style: {
+          shape: 'rect',
+          color: 'gold',
+          layout: 'vertical',
+          label: 'subscribe'
+      },
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          plan_id: 'P-5WA45756CL7747454NEXAVJA'
+        });
+      },
+      onApprove: function(data, actions) {
+        // mostra a mensagem de sucesso e o ID da subscrição
+        var success = document.getElementById('success-box');
+        var subIdSpan = document.getElementById('sub-id');
+        if (success && subIdSpan) {
+            subIdSpan.textContent = data.subscriptionID || '';
+            success.style.display = 'block';
+        } else {
+            alert("Subscrição criada: " + data.subscriptionID);
+        }
+      },
+      onError: function(err) {
+        var errorBox = document.getElementById('error-box');
+        if (errorBox) {
+            errorBox.style.display = 'block';
+        } else {
+            console.error(err);
+        }
+      }
+  }).render('#paypal-button-container-P-5WA45756CL7747454NEXAVJA');
 </script>
 
 </body>
