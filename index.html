@@ -2,1129 +2,1395 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>SmartGastro QR – Demo-Version</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Sanremo Digital Systems - QR Bestellsystem für Restaurants</title>
+    <meta name="description" content="Professionelles QR-Bestellsystem für Restaurants, Cafés und Eisdielen. Erhöhen Sie Ihren Umsatz mit unserem digitalen System.">
+    
     <style>
-        * { box-sizing: border-box; }
-
+        /* ===== RESET E VARIÁVEIS ===== */
         :root {
-            --primary: #1a73e8;
-            --primary-dark: #1153a5;
-            --accent-green: #00a676;
-            --accent-gold: #f5b400;
-            --bg: #f7f7fb;
-            --card-bg: #ffffff;
-            --text-main: #222222;
-            --muted: #666666;
-            --radius-lg: 18px;
-            --shadow-soft: 0 12px 28px rgba(0,0,0,0.12);
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --radius: 15px;
+            --transition: all 0.3s ease;
         }
-
-        body {
+        
+        * {
             margin: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-            background: radial-gradient(circle at top left, #e3f2fd 0, #f7f7fb 40%, #fdf5e6 100%);
-            color: var(--text-main);
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        .page {
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 14px 10px 40px;
+            padding: 0 20px;
         }
-
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--primary);
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background: #c0392b;
+        }
+        
+        .btn-large {
+            padding: 18px 45px;
+            font-size: 1.2rem;
+        }
+        
+        /* ===== HEADER ===== */
         header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a252f 100%);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 16px;
-            padding: 14px 18px;
-            margin-bottom: 14px;
-            border-radius: 20px;
-            background: linear-gradient(120deg, #0b62d6, #1a73e8, #24a19c);
-            color: #ffffff;
-            box-shadow: var(--shadow-soft);
+            align-items: center;
         }
-
-        .brand {
+        
+        .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
         }
-
-        .brand-logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: #ffffff;
+        
+        .logo i {
+            font-size: 2.2rem;
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            padding: 5px 0;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--secondary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: var(--transition);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 180px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+        }
+        
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        /* ===== LEGAL WARNING BANNER ===== */
+        .legal-banner {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .legal-banner h4 {
+            color: #721c24;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legal-banner p {
+            color: #721c24;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+        
+        .legal-banner strong {
+            color: #dc3545;
+        }
+        
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            background: #f8f9fa;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 2rem;
         }
-
-        .brand-logo img {
-            max-width: 38px;
-            max-height: 38px;
-            display: block;
+        
+        /* ===== DEMO SECTION ===== */
+        .demo {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            text-align: center;
         }
-
-        .brand-text h1 {
-            font-size: 1.45rem;
-            margin: 0;
-            font-weight: 700;
-            letter-spacing: .02em;
-        }
-
-        .brand-text p {
-            margin: 2px 0 0;
-            font-size: 0.87rem;
-            opacity: 0.93;
-        }
-
-        .lang-switch {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            justify-content: flex-end;
-        }
-
-        .lang-btn {
-            border: none;
-            border-radius: 999px;
-            padding: 6px 10px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            background: rgba(255,255,255,0.18);
-            color: #ffffff;
-            backdrop-filter: blur(8px);
-        }
-
-        .lang-btn.active {
-            background: #ffffff;
-            color: var(--primary-dark);
-            font-weight: 600;
-        }
-
-        .hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
-            gap: 18px;
-            margin-bottom: 26px;
-        }
-
-        .hero-left,
-        .hero-right {
-            background: rgba(255,255,255,0.92);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-soft);
-            padding: 20px 20px 22px;
-        }
-
-        .hero-left h2 {
-            margin-top: 0;
-            font-size: 1.5rem;
-            color: var(--primary-dark);
-        }
-
-        .hero-left p {
-            margin: 4px 0 10px;
-            line-height: 1.5;
-        }
-
-        .badge-demo {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 10px;
-            border-radius: 999px;
-            background: #fff8e1;
-            color: #8a6a00;
-            font-size: 0.8rem;
-            margin: 4px 0 10px;
-        }
-
-        .badge-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--accent-gold);
-        }
-
-        .benefits {
-            list-style: none;
-            padding-left: 0;
-            margin: 8px 0 12px;
-        }
-
-        .benefits li {
-            margin: 4px 0;
-            padding-left: 24px;
-            position: relative;
-            font-size: 0.95rem;
-        }
-
-        .benefits li::before {
-            content: "✔";
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-size: 0.9rem;
-            color: var(--accent-green);
-        }
-
-        .section-title {
-            margin: 14px 0 6px;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .steps {
-            list-style: decimal;
-            padding-left: 20px;
-            margin: 4px 0 0;
-            font-size: 0.95rem;
-        }
-
-        .steps li {
-            margin-bottom: 4px;
-        }
-
-        /* Poster horizontal */
-        .promo-figure {
-            margin-top: 20px;
-            border-radius: 16px;
+        
+        .demo-video {
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.16);
-            background: #f0e4d4;
-            height: 220px;
-            max-width: 100%;
+            box-shadow: var(--shadow);
         }
-
-        .promo-figure img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            display: block;
+        
+        .demo-placeholder {
+            background: var(--primary);
+            color: white;
+            padding: 100px 20px;
+            border-radius: var(--radius);
         }
-
-        /* Right side – video */
-        .hero-right-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 10px;
+        
+        .demo-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        /* ===== PRICING SECTION ===== */
+        .pricing {
+            background: #f8f9fa;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .pricing-card.popular {
+            border: 3px solid var(--secondary);
+            transform: scale(1.05);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--accent);
+            color: white;
+            padding: 8px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .pricing-header {
+            background: var(--primary);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .pricing-header h3 {
+            color: white;
             margin-bottom: 10px;
         }
-
-        .hero-right-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary-dark);
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 20px 0;
         }
-
-        .hero-right-tag {
-            font-size: 0.82rem;
-            color: var(--muted);
+        
+        .price span {
+            font-size: 1rem;
+            opacity: 0.8;
         }
-
-        .phone-frame {
-            width: 100%;
-            max-width: 340px;
-            margin: 0 auto;
-            padding: 10px 10px 16px;
-            border-radius: 30px;
-            background: radial-gradient(circle at top, #ffffff, #e0ecff);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.28);
+        
+        .pricing-body {
+            padding: 40px;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+        
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pricing-features li i {
+            color: var(--success);
+        }
+        
+        /* PayPal Button Styling */
+        .paypal-button-container {
+            margin-top: 30px;
+        }
+        
+        /* ===== HOW IT WORKS ===== */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .step {
+            text-align: center;
             position: relative;
         }
-
-        .phone-notch {
-            width: 60%;
-            height: 8px;
-            border-radius: 0 0 14px 14px;
-            background: #d0d4dc;
-            margin: 0 auto 8px;
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
         }
-
-        .phone-video {
-            border-radius: 22px;
-            overflow: hidden;
-            background: #000;
+        
+        /* ===== LEGAL DISCLAIMER SECTION ===== */
+        .legal-disclaimer {
+            background: #f8f9fa;
+            border-top: 3px solid #dc3545;
         }
-
-        .phone-video video {
-            width: 100%;
-            display: block;
+        
+        .legal-content {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
-
-        .phone-caption {
-            margin-top: 8px;
-            font-size: 0.8rem;
-            color: var(--muted);
-            text-align: center;
+        
+        .legal-content h3 {
+            color: #dc3545;
+            border-bottom: 2px solid #f8d7da;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
-
-        /* Bottom sections */
-        .bottom-sections {
-            margin-top: 26px;
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-            gap: 18px;
+        
+        .legal-points {
+            list-style: none;
+            margin-bottom: 30px;
         }
-
-        .card {
-            background: rgba(255,255,255,0.95);
-            border-radius: var(--radius-lg);
-            padding: 18px 18px 20px;
-            box-shadow: var(--shadow-soft);
+        
+        .legal-points li {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
         }
-
-        .card h3 {
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 1.05rem;
-            color: var(--primary-dark);
+        
+        .legal-points li i {
+            color: #dc3545;
+            margin-top: 3px;
         }
-
-        .card p {
-            margin: 4px 0 10px;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-
-        .card ul {
-            margin: 4px 0 0;
-            padding-left: 18px;
-            font-size: 0.9rem;
-        }
-
-        .card ul li {
-            margin-bottom: 4px;
-        }
-
-        .important-note {
-            display: inline-block;
-            padding: 4px 9px;
-            border-radius: 999px;
+        
+        .legal-warning-box {
             background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-left: 6px solid #ffc107;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .legal-warning-box h4 {
             color: #856404;
-            font-size: 0.8rem;
-            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
         }
-
-        .contact-grid {
+        
+        .legal-warning-box p {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        /* ===== TESTIMONIALS ===== */
+        .testimonials {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .testimonials h2 {
+            color: white;
+        }
+        
+        .testimonials h2::after {
+            background: white;
+        }
+        
+        .testimonials-grid {
             display: grid;
-            grid-template-columns: 1.1fr 1.1fr;
-            gap: 10px 14px;
-            margin-top: 6px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
         }
-
-        .contact-item-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-main);
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
-        .contact-item-value {
-            font-size: 0.9rem;
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
         }
-
-        .contact-item-value a {
-            color: var(--primary-dark);
-            text-decoration: none;
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-
-        .contact-item-value a:hover {
-            text-decoration: underline;
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            font-weight: bold;
         }
-
-        .contact-form-title {
-            margin-top: 10px;
-            font-size: 0.95rem;
-            font-weight: 600;
+        
+        /* ===== FAQ SECTION ===== */
+        .faq-grid {
+            max-width: 800px;
+            margin: 50px auto 0;
         }
-
-        .contact-form {
-            margin-top: 6px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 8px;
+        
+        .faq-item {
+            margin-bottom: 15px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-
-        .contact-form input,
-        .contact-form textarea {
-            width: 100%;
-            border-radius: 10px;
-            border: 1px solid #d0d3e2;
-            padding: 7px 9px;
-            font-size: 0.9rem;
-            font-family: inherit;
-        }
-
-        .contact-form textarea {
-            min-height: 70px;
-            resize: vertical;
-        }
-
-        .btn {
-            border: none;
-            border-radius: 999px;
-            padding: 7px 14px;
-            font-size: 0.9rem;
+        
+        .faq-question {
+            background: white;
+            padding: 20px;
             font-weight: 600;
             cursor: pointer;
-            display: inline-flex;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 6px;
+            transition: var(--transition);
         }
-
-        .btn-whatsapp {
-            background: #25D366;
-            color: #ffffff;
-            box-shadow: 0 6px 14px rgba(37,211,102,0.45);
+        
+        .faq-question:hover {
+            background: #f8f9fa;
         }
-
-        .btn-whatsapp span {
-            font-size: 1.1rem;
+        
+        .faq-answer {
+            background: #f8f9fa;
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
         }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid #c0c4d6;
-            color: #444;
+        
+        .faq-answer.show {
+            padding: 20px;
+            max-height: 500px;
         }
-
-        footer {
-            margin-top: 24px;
+        
+        /* ===== CONTACT SECTION ===== */
+        .contact {
+            background: var(--primary);
+            color: white;
             text-align: center;
-            font-size: 0.78rem;
-            color: var(--muted);
-            padding-bottom: 6px;
         }
-
-        footer a {
-            color: var(--primary-dark);
+        
+        .contact h2 {
+            color: white;
+        }
+        
+        .contact h2::after {
+            background: white;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .contact-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .contact-item i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background: #1a252f;
+            color: white;
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
-            margin: 0 3px;
+            display: block;
+            margin-bottom: 10px;
+            transition: var(--transition);
         }
-
-        footer a:hover {
-            text-decoration: underline;
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 10px;
         }
-
-        .footer-links {
-            margin-top: 2px;
+        
+        .copyright {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
         }
-
-        /* Responsive */
-        @media (max-width: 960px) {
-            .hero {
-                grid-template-columns: 1fr;
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .hero { padding: 150px 0 80px; }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
             }
-
-            .hero-right {
-                order: -1;
-            }
-
-            .bottom-sections {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 640px) {
-            header {
+            
+            nav ul {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--primary);
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: center;
+                padding-top: 50px;
+                transition: var(--transition);
             }
-            .lang-switch {
-                justify-content: flex-start;
+            
+            nav ul.active {
+                left: 0;
             }
-            .hero-left, .hero-right {
-                padding: 16px 14px 18px;
+            
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
             }
-            .promo-figure {
-                height: 190px;
+            
+            .pricing-card.popular {
+                transform: none;
             }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .legal-content {
+                padding: 25px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.6rem; }
+            section { padding: 60px 0; }
+            .hero { padding: 130px 0 60px; }
+            .price { font-size: 2.5rem; }
         }
     </style>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AXNSOvcYdaokv8QFi8lhyhfgsMwzgx5u5NG1yjLW4t7jNQHuyJ0I9ZlM6M_qQ9ptxRzgaw56LgMd47UR&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
 </head>
 <body>
-<div class="page">
-
     <!-- HEADER -->
     <header>
-        <div class="brand">
-            <div class="brand-logo">
-                <img src="IMG-20251119-WA0011.jpg" alt="SmartGastro QR Logo">
-            </div>
-            <div class="brand-text">
-                <h1 data-i18n-key="brandTitle">SmartGastro QR</h1>
-                <p data-i18n-key="brandTagline">
-                    Digitale Bestellungen für Gastronomie – einfach per QR-Code am Tisch.
-                </p>
-            </div>
-        </div>
-
-        <div class="lang-switch">
-            <button class="lang-btn active" data-lang="de">Deutsch</button>
-            <button class="lang-btn" data-lang="en">English</button>
-            <button class="lang-btn" data-lang="pt">Português</button>
-            <button class="lang-btn" data-lang="it">Italiano</button>
-            <button class="lang-btn" data-lang="es">Español</button>
-            <button class="lang-btn" data-lang="fr">Français</button>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-store-alt"></i>
+                Sanremo Digital
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home">Start</a></li>
+                    <li><a href="#features">Funktionen</a></li>
+                    <li><a href="#demo">Demo</a></li>
+                    <li><a href="#pricing">Preise</a></li>
+                    <li><a href="#legal">Rechtliches</a></li>
+                    <li><a href="#contact">Kontakt</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <!-- HERO -->
-    <section class="hero">
-        <!-- LEFT -->
-        <div class="hero-left">
-            <h2 data-i18n-key="whatTitle">Was ist SmartGastro QR?</h2>
-            <p data-i18n-key="whatIntro">
-                SmartGastro QR ist ein flexibles, modernes Bestellsystem für Gastronomie-Betriebe. Gäste scannen den QR-Code am Tisch, öffnen die digitale Speisekarte und schicken ihre Bestellung direkt an das Service-Team – ohne App, ohne Registrierung.
-            </p>
-
-            <div class="badge-demo">
-                <span class="badge-dot"></span>
-                <span data-i18n-key="demoBadge">
-                    Diese Seite ist eine Demo – ideal zur Präsentation bei Interessenten.
-                </span>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1>Professionelles QR-Bestellsystem für Gastronomie</h1>
+            <p>Digitalisieren Sie Ihr Restaurant, Café oder Ihre Eisdiele mit unserem QR-Bestellsystem. Reduzieren Sie Kosten, steigern Sie die Effizienz und verbessern Sie das Kundenerlebnis.</p>
+            
+            <!-- AVISO LEGAL BANNER NO HERRO -->
+            <div class="legal-banner">
+                <h4><i class="fas fa-exclamation-triangle"></i> Wichtiger rechtlicher Hinweis</h4>
+                <p><strong>Dieses System ist ein internes Bestellverwaltungstool und ersetzt keine Registrierkasse oder TSE-konforme Kasse.</strong> Der Betreiber ist allein verantwortlich für die steuerlich korrekte Verbuchung aller Umsätze.</p>
             </div>
-
-            <!-- LICENÇA / PAYPAL -->
-            <div id="smartgastro-license-box" style="
-                max-width: 720px;
-                margin: 40px auto 30px;
-                padding: 18px 20px;
-                border-radius: 12px;
-                border: 1px solid #d1d5db;
-                background: #f9fafb;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            ">
-                <h2 style="margin: 0 0 8px; font-size: 1.4rem; color:#111827;">
-                    Lizenz / Licença Sanremo Software – 2 Apps inklusive
-                </h2>
-                <p style="margin: 0 0 10px; font-size: 0.9rem; color:#4b5563;">
-                    Enthält:
-                    <br>• Bestellsystem <strong>SmartGastro QR</strong> (digitale Speisekarte mit QR-Code auf jedem Tisch)
-                    <br>• <strong>Mitarbeiter-Portal / Stempeluhr</strong> (Ein-/Aus-Stempel, Dienstpläne, Monatsübersicht)
-                    <br>Gültige Lizenz für 1 Betrieb / empresa. Zahlung sicher über PayPal.
-                </p>
-
-                <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px;">
-                    <span style="font-size:2rem;font-weight:700;color:#111827;">99&nbsp;€</span>
-                    <span style="font-size:0.9rem;color:#6b7280;">/ Jahr · ano</span>
-                </div>
-
-                <!-- Linha do código da licença (preenchida pela URL ?lic=...) -->
-                <p id="license-line" style="margin:6px 0 4px;font-size:0.85rem;color:#4b5563;display:none;">
-                    <strong>Lizenz-Code:</strong> <span id="license-code"></span>
-                </p>
-
-                <p style="margin:0 0 12px;font-size:0.8rem;color:#6b7280;">
-                    Jährliches Abo über PayPal. Das Abo kann jederzeit im eigenen PayPal-Konto gekündigt werden.
-                </p>
-
-                <!-- BOTÃO PAYPAL -->
-                <div id="paypal-button-container-P-5WA45756CL7747454NEXAVJA"></div>
-
-                <!-- Mensagem de sucesso -->
-                <div id="success-box" style="
-                    display:none;
-                    margin-top:10px;
-                    padding:8px 10px;
-                    border-radius:8px;
-                    font-size:0.8rem;
-                    background:#dcfce7;
-                    border:1px solid #16a34a;
-                    color:#065f46;
-                ">
-                    👍 Pagamento concluído! A tua subscrição foi criada com sucesso.
-                    ID da subscrição: <strong id="sub-id"></strong><br>
-                    Envia o comprovativo e este ID para <a href="mailto:paulo.sanremo@web.de">paulo.sanremo@web.de</a>
-                    para receberes o acesso ao software.
-                </div>
-
-                <!-- Mensagem de erro -->
-                <div id="error-box" style="
-                    display:none;
-                    margin-top:10px;
-                    padding:8px 10px;
-                    border-radius:8px;
-                    font-size:0.8rem;
-                    background:#fee2e2;
-                    border:1px solid #ef4444;
-                    color:#991b1b;
-                ">
-                    ⚠ Ocorreu um erro ao criar a subscrição PayPal. Tenta novamente ou contacta-me por e-mail / WhatsApp.
-                </div>
-
-                <p style="margin-top:12px;font-size:0.8rem;color:#6b7280;">
-                    Support / Suporte: <strong>paulo.sanremo@web.de</strong> · WhatsApp: <strong>0176 72809926</strong>
-                </p>
+            
+            <div class="hero-btns">
+                <a href="#pricing" class="btn btn-large">
+                    <i class="fas fa-shopping-cart"></i> Jetzt Kaufen
+                </a>
+                <a href="#demo" class="btn btn-secondary btn-large">
+                    <i class="fas fa-play-circle"></i> Demo Ansehen
+                </a>
             </div>
-
-            <h3 class="section-title" data-i18n-key="benefitsTitle">
-                Vorteile auf einen Blick:
-            </h3>
-            <ul class="benefits">
-                <li data-i18n-key="benefit1">
-                    Funktioniert auf Handy, Tablet und PC.
-                </li>
-                <li data-i18n-key="benefit2">
-                    Kein Login, keine App-Installation notwendig.
-                </li>
-                <li data-i18n-key="benefit3">
-                    Ideal für Eiscafés, Restaurants, Bars und Cafés.
-                </li>
-                <li data-i18n-key="benefit4">
-                    Schnellere Abläufe – weniger Wartezeiten für Gäste.
-                </li>
-                <li data-i18n-key="benefit5">
-                    Sorten, Sahne, Extras und Portionen frei wählbar.
-                </li>
-                <li data-i18n-key="benefit6">
-                    Optional: Weiterleitung an WhatsApp oder Küchendrucker.
-                </li>
-            </ul>
-
-            <h3 class="section-title" data-i18n-key="howTitle">
-                Wie funktioniert das System?
-            </h3>
-            <ol class="steps">
-                <li data-i18n-key="step1">
-                    Gast scannt den QR-Code am Tisch mit der Handy-Kamera.
-                </li>
-                <li data-i18n-key="step2">
-                    Die digitale Speisekarte öffnet sich im Browser.
-                </li>
-                <li data-i18n-key="step3">
-                    Tischnummer wird eingetragen (Pflichtfeld).
-                </li>
-                <li data-i18n-key="step4">
-                    Produkte und Optionen werden ausgewählt.
-                </li>
-                <li data-i18n-key="step5">
-                    Bestellung wird z.&nbsp;B. per WhatsApp an Ihr Team gesendet.
-                </li>
-            </ol>
-
-            <figure class="promo-figure">
-                <img src="IMG-20251120-WA0003.jpg"
-                     alt="Ablauf mit QR-Code: Tisch scannen, Eisbecher wählen, Bon drucken und alles in der Kasse verbuchen.">
-            </figure>
         </div>
+    </section>
 
-        <!-- RIGHT -->
-        <div class="hero-right">
-            <div class="hero-right-header">
-                <div class="hero-right-title" data-i18n-key="videoTitle">
-                    Video-Demo – SmartGastro QR in Aktion
+    <!-- FEATURES SECTION -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Hauptfunktionen</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>QR-Code Bestellungen</h3>
+                    <p>Kunden scannen den QR-Code am Tisch und bestellen direkt vom Handy.</p>
                 </div>
-                <div class="hero-right-tag" data-i18n-key="videoTag">
-                    Original-Aufnahme aus einem Eiscafé-Menü
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cash-register"></i>
+                    </div>
+                    <h3>Bestellverwaltung</h3>
+                    <p>Volle Kontrolle über Bestellungen, Status, Verlauf und Verkaufsberichte.</p>
                 </div>
-            </div>
-
-            <div class="phone-frame">
-                <div class="phone-notch"></div>
-                <div class="phone-video">
-                    <video src="VID-20251120-WA0002.mp4"
-                           autoplay
-                           muted
-                           loop
-                           playsinline
-                           controls>
-                        Ihr Browser unterstützt kein HTML5-Video.
-                    </video>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Erweiterte Berichte</h3>
+                    <p>Umsatzanalysen, beliebteste Produkte und Leistung Ihres Betriebs.</p>
                 </div>
-                <div class="phone-caption" data-i18n-key="videoCaption">
-                    Dieses Video zeigt, wie Gäste Sorten, Sahne, Kinderbecher und Desserts direkt am Tisch auswählen.
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Vollständig Responsiv</h3>
+                    <p>Funktioniert perfekt auf Smartphones, Tablets und Computern.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Mehrsprachig</h3>
+                    <p>System verfügbar in Deutsch, Englisch, Portugiesisch, Italienisch und mehr.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Sicheres System</h3>
+                    <p>Schutz vor Kopie und unbefugter Nutzung. Lizenz pro Gerät.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- LEGAL + PRIVACY + CONTACT -->
-    <section class="bottom-sections">
-        <!-- LEGAL / PRIVACY -->
-        <div class="card" id="legal">
-            <h3 data-i18n-key="legalTitle">Rechtliche Hinweise & Haftungsausschluss</h3>
-            <p class="important-note" data-i18n-key="legalNote">
-                Wichtiger Hinweis: SmartGastro QR und das Mitarbeiter-Portal sind interne Organisations-Tools. Sie ersetzen keine Registrierkasse und keine steuerliche Buchführung.
-            </p>
-            <p data-i18n-key="legalText1">
-                Die gezeigte Software dient ausschließlich zur internen Erfassung von Bestellungen und Arbeitszeiten. Es besteht keine technische Anbindung an ein Kassensystem. Alle Umsätze müssen weiterhin vollständig und gesetzeskonform in Ihrer offiziellen Registrierkasse oder im Kassenbuch erfasst werden.
-            </p>
-            <ul>
-                <li data-i18n-key="legalPoint1">
-                    Alle Verkäufe, die mit SmartGastro QR erfasst werden, sind vom Betreiber manuell in der Kasse oder Buchhaltung zu verbuchen.
-                </li>
-                <li data-i18n-key="legalPoint2">
-                    WhatsApp-Nachrichten und Daten aus dem Mitarbeiter-Portal dienen nur als interne Information und gelten nicht als steuerlich relevante Aufzeichnung.
-                </li>
-                <li data-i18n-key="legalPoint3">
-                    Wir treten ausschließlich als Software-Entwickler auf. Für Steuern, Buchführung, Arbeitszeiten und rechtliche Pflichten ist allein der Betreiber verantwortlich.
-                </li>
-            </ul>
-
-            <h3 style="margin-top:16px;" id="privacy" data-i18n-key="privacyTitle">
-                Datenschutz / Privacy (Demo)
-            </h3>
-            <p data-i18n-key="privacyText1">
-                In dieser öffentlichen Demo werden keine personenbezogenen Daten dauerhaft gespeichert.
-                Alle Eingaben dienen ausschließlich zur Veranschaulichung des Systems.
-            </p>
-            <p data-i18n-key="privacyText2">
-                In einer echten Installation wird SmartGastro&nbsp;QR an Ihre Datenschutzerklärung angepasst
-                (u.&nbsp;a. Verantwortlicher, Zweck der Verarbeitung, Speicherdauer, Rechte der Gäste).
-            </p>
-        </div>
-
-        <!-- CONTACT -->
-        <div class="card" id="kontakt">
-            <h3 data-i18n-key="contactTitle">Interesse an SmartGastro&nbsp;QR?</h3>
-            <p data-i18n-key="contactLead">
-                Diese Demo wurde in einem realen Eiscafé getestet. Wenn Sie das System in Ihrem Betrieb ausprobieren möchten,
-                melden Sie sich einfach – unverbindlich.
-            </p>
-
-            <div class="contact-grid">
-                <div>
-                    <div class="contact-item-label" data-i18n-key="contactPhoneLabel">
-                        Telefon / WhatsApp:
-                    </div>
-                    <div class="contact-item-value">
-                        <a href="tel:+4917672809926">+49&nbsp;176&nbsp;7280&nbsp;9926</a>
-                    </div>
-                </div>
-                <div>
-                    <div class="contact-item-label" data-i18n-key="contactEmailLabel">
-                        E-Mail:
-                    </div>
-                    <div class="contact-item-value">
-                        <a href="mailto:paulo.sanremo@web.de">paulo.sanremo@web.de</a>
-                    </div>
+    <!-- DEMO SECTION -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <h2>System in Aktion sehen</h2>
+            <div class="demo-video">
+                <div class="demo-placeholder">
+                    <i class="fas fa-play-circle"></i>
+                    <h3>System-Demonstration</h3>
+                    <p>Sehen Sie, wie es in der Praxis funktioniert</p>
                 </div>
             </div>
-
-            <div class="contact-form-title" data-i18n-key="contactFormTitle">
-                Kurze Anfrage senden (Demo):
-            </div>
-            <form class="contact-form" onsubmit="return false;">
-                <input type="text" id="cfName" placeholder="Name" data-i18n-placeholder="cfName">
-                <input type="text" id="cfBusiness" placeholder="Betrieb / Restaurant" data-i18n-placeholder="cfBusiness">
-                <textarea id="cfMessage" placeholder="Ihre Nachricht…" data-i18n-placeholder="cfMessage"></textarea>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <button class="btn btn-whatsapp" id="cfWhatsAppBtn">
-                        <span>🟢</span>
-                        <span data-i18n-key="contactBtnWhatsApp">Per WhatsApp Anfrage senden</span>
-                    </button>
-                    <button class="btn btn-outline" id="cfMailBtn">
-                        ✉ <span data-i18n-key="contactBtnMail">Per E-Mail öffnen</span>
-                    </button>
-                </div>
-            </form>
         </div>
     </section>
 
+    <!-- PRICING SECTION -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2>Wählen Sie Ihren Plan</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 40px;">Alle Pläne beinhalten lebenslangen Zugang, kostenlose Updates und technischen Support. Einmalige Zahlung, keine monatlichen Gebühren!</p>
+            
+            <div class="pricing-grid">
+                <!-- Basis Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Basis Plan</h3>
+                        <p>Für kleine Betriebe</p>
+                        <div class="price">€199<span>/einmalig</span></div>
+                    </div>
+                    <div class="pricing-body">
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> 1 Betrieb</li>
+                            <li><i class="fas fa-check"></i> 1 Gerät</li>
+                            <li><i class="fas fa-check"></i> Vollständiges System</li>
+                            <li><i class="fas fa-check"></i> Support 6 Monate</li>
+                            <li><i class="fas fa-check"></i> Kostenlose Updates</li>
+                            <li><i class="fas fa-check"></i> Lebenslanger Zugang</li>
+                        </ul>
+                        
+                        <!-- PAYPAL BUTTON -->
+                        <div id="paypal-button-basic" class="paypal-button-container"></div>
+                    </div>
+                </div>
+                
+                <!-- Professional Plan (MOST POPULAR) -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">BELIEBTEST</div>
+                    <div class="pricing-header" style="background: var(--secondary);">
+                        <h3>Professional Plan</h3>
+                        <p>Für Restaurant-Ketten</p>
+                        <div class="price">€349<span>/einmalig</span></div>
+                    </div>
+                    <div class="pricing-body">
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> 3 Betriebe</li>
+                            <li><i class="fas fa-check"></i> 3 Geräte</li>
+                            <li><i class="fas fa-check"></i> Vollständiges System</li>
+                            <li><i class="fas fa-check"></i> Support 12 Monate</li>
+                            <li><i class="fas fa-check"></i> Personalisierung</li>
+                            <li><i class="fas fa-check"></i> Erweitertes Dashboard</li>
+                            <li><i class="fas fa-check"></i> Online-Schulung</li>
+                        </ul>
+                        
+                        <!-- PAYPAL BUTTON -->
+                        <div id="paypal-button-pro" class="paypal-button-container"></div>
+                    </div>
+                </div>
+                
+                <!-- Premium Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Premium Plan</h3>
+                        <p>Für große Unternehmen</p>
+                        <div class="price">€599<span>/einmalig</span></div>
+                    </div>
+                    <div class="pricing-body">
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> 10 Betriebe</li>
+                            <li><i class="fas fa-check"></i> Unbegrenzte Geräte</li>
+                            <li><i class="fas fa-check"></i> Vollständiges System</li>
+                            <li><i class="fas fa-check"></i> Lebenslanger Support</li>
+                            <li><i class="fas fa-check"></i> Vollständige Personalisierung</li>
+                            <li><i class="fas fa-check"></i> White-Label System</li>
+                            <li><i class="fas fa-check"></i> Prioritätssupport</li>
+                        </ul>
+                        
+                        <!-- PAYPAL BUTTON -->
+                        <div id="paypal-button-premium" class="paypal-button-container"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px; background: #e8f4fc; padding: 30px; border-radius: var(--radius);">
+                <h3><i class="fas fa-shield-alt"></i> 30-Tage Geld-zurück-Garantie</h3>
+                <p>Wenn Sie mit dem System nicht zufrieden sind, erstatten wir Ihnen 100% Ihres Geldes. Ohne Fragen, ohne Komplikationen.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>So funktioniert es</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Lizenz kaufen</h3>
+                    <p>Wählen Sie Ihren Plan und bezahlen Sie sicher über PayPal.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Zugang erhalten</h3>
+                    <p>Wir senden Ihnen Ihren einzigartigen Lizenzschlüssel per E-Mail.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>System einrichten</h3>
+                    <p>Greifen Sie auf das System zu und richten Sie es für Ihren Betrieb ein.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Starten Sie</h3>
+                    <p>Drucken Sie die QR-Codes aus und beginnen Sie mit dem Empfang von Bestellungen!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEGAL DISCLAIMER SECTION (OBRIGATÓRIO NA ALEMANHA) -->
+    <section class="legal-disclaimer" id="legal">
+        <div class="container">
+            <h2>Rechtlicher Hinweis & Haftungsausschluss</h2>
+            <div class="legal-content">
+                <h3><i class="fas fa-gavel"></i> Wichtige rechtliche Informationen</h3>
+                
+                <div class="legal-warning-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Bitte beachten Sie unbedingt:</h4>
+                    <p><strong>Dieses Bestellsystem ist ein internes, nicht fiskalisiertes Software-Tool.</strong></p>
+                    <p><strong>Es ersetzt keine Registrierkasse oder steuerrechtlich relevante Aufzeichnung.</strong></p>
+                </div>
+                
+                <ul class="legal-points">
+                    <li>
+                        <i class="fas fa-times-circle"></i>
+                        <div>
+                            <strong>Kein Kassensystem:</strong> Dieses System besitzt keine Verbindung zu einer elektronischen Kasse, erfüllt nicht die Anforderungen der Kassensicherungsverordnung (KassenSichV), der Technischen Sicherheitseinrichtung (TSE) oder der DSFinV-K und darf nicht als Kassensystem verwendet werden.
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <i class="fas fa-user-shield"></i>
+                        <div>
+                            <strong>Eigene Verantwortung:</strong> Der Betreiber/Anwender dieses Systems ist allein verantwortlich für die ordnungsgemäße Nutzung und Einhaltung aller gesetzlichen Vorschriften. Alle über dieses System erfassten Bestellungen müssen – sofern eine Registrierkasse oder TSE-konforme Kasse vorhanden ist – gesetzlich korrekt in dieser registriert werden.
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <i class="fas fa-balance-scale"></i>
+                        <div>
+                            <strong>Steuerliche Verbuchung:</strong> Die Verantwortung für die steuerlich korrekte Verbuchung aller Umsätze liegt vollständig beim Anwender dieses Systems. Der Verkäufer dieser Software übernimmt keine Haftung für steuerrechtliche Konsequenzen.
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <i class="fas fa-file-invoice"></i>
+                        <div>
+                            <strong>Rechnungsstellung:</strong> Dieses System generiert keine steuerlich gültigen Rechnungen. Die ordnungsgemäße Rechnungsstellung obliegt dem Betreiber gemäß den gesetzlichen Vorschriften.
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <i class="fas fa-handshake"></i>
+                        <div>
+                            <strong>Vertragliche Vereinbarung:</strong> Mit dem Kauf dieser Software erkennen Sie an, dass Sie für die Einhaltung aller gesetzlichen Bestimmungen verantwortlich sind und den Verkäufer von jeglicher Haftung in Bezug auf steuerliche oder rechtliche Konsequenzen freistellen.
+                        </div>
+                    </li>
+                </ul>
+                
+                <div style="background: #d4edda; border: 2px solid #c3e6cb; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                    <h4 style="color: #155724;"><i class="fas fa-info-circle"></i> Empfehlung:</h4>
+                    <p style="color: #155724;">Wir empfehlen dringend, vor der Nutzung dieses Systems einen Steuerberater zu konsultieren, um die korrekte Integration in Ihre bestehenden Buchhaltungs- und Kassensysteme sicherzustellen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>Was unsere Kunden sagen</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Das System hat unser Restaurant revolutioniert. Wir haben 40% weniger Bestellfehler und 25% mehr Umsatz!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">J</div>
+                        <div>
+                            <strong>Johann Schmidt</strong>
+                            <p>Restaurant Meeresblick</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Einfach einzurichten und die Kunden lieben es! Der technische Support war hervorragend bei der Implementierung."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">M</div>
+                        <div>
+                            <strong>Maria Weber</strong>
+                            <p>Café Süße Ecke</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Als Eisdielen-Besitzer ist das Mehrfach-Eissorten-System perfekt! Kunden können ihre Bestellungen personalisieren."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">T</div>
+                        <div>
+                            <strong>Thomas Müller</strong>
+                            <p>Eisdiele Eis Traum</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2>Häufig gestellte Fragen</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Ersetzt dieses System meine Registrierkasse?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>NEIN.</strong> Dies ist ein internes Bestellverwaltungssystem und ersetzt keine Registrierkasse oder TSE-konforme Kasse. Sie sind gesetzlich verpflichtet, alle Umsätze korrekt in Ihrer Registrierkasse zu erfassen.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Wer ist für die steuerliche Korrektheit verantwortlich?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Der Betreiber/Anwender.</strong> Sie als Systemnutzer tragen die alleinige Verantwortung für die steuerlich korrekte Verbuchung aller Umsätze gemäß deutschen Steuergesetzen.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Kann ich das System in mehreren Filialen nutzen?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Das hängt vom gewählten Plan ab. Der Basis-Plan erlaubt 1 Betrieb, der Professional-Plan 3 und der Premium-Plan 10 Betriebe.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Brauche ich Internet für das System?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ja, eine Internetverbindung ist für das System erforderlich, da Bestellungen in Echtzeit verarbeitet werden.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Was ist im technischen Support enthalten?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Wir bieten Support per E-Mail und WhatsApp. Der Basis-Plan beinhaltet 6 Monate, der Professional-Plan 12 Monate und der Premium-Plan lebenslangen Support.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        Gibt es eine Geld-zurück-Garantie?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ja! Wir bieten eine 30-Tage-Geld-zurück-Garantie. Wenn Sie nicht zufrieden sind, erstatten wir 100% Ihres Geldes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Kontaktieren Sie uns</h2>
+            <p style="color: rgba(255,255,255,0.9); max-width: 800px; margin: 0 auto 40px;">Haben Sie Fragen? Wir sind hier, um Ihnen bei der Digitalisierung Ihres Betriebs zu helfen!</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <h3>E-Mail</h3>
+                    <p>info@sanremodigital.com</p>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <h3>Telefon</h3>
+                    <p>+49 123 456 789</p>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-comments"></i>
+                    <h3>WhatsApp</h3>
+                    <p>+49 987 654 321</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer>
-        <div data-i18n-key="footerLine">
-            © 2025 SmartGastro&nbsp;QR – Demo-Seite nur zur Veranschaulichung des Systems.
-        </div>
-        <div class="footer-links">
-            <a href="#legal" data-i18n-key="footerLegal">Rechtliche Hinweise</a> ·
-            <a href="#privacy" data-i18n-key="footerPrivacy">Datenschutz</a> ·
-            <a href="#kontakt" data-i18n-key="footerContact">Kontakt</a>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <i class="fas fa-store-alt"></i>
+                        Sanremo Digital
+                    </div>
+                    <p>Professionelles QR-Bestellsystem für Restaurants, Cafés und Eisdielen.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Schnelllinks</h4>
+                    <a href="#home">Start</a>
+                    <a href="#features">Funktionen</a>
+                    <a href="#pricing">Preise</a>
+                    <a href="#legal">Rechtliches</a>
+                    <a href="#contact">Kontakt</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Rechtliches</h4>
+                    <a href="#legal">Haftungsausschluss</a>
+                    <a href="#legal">Datenschutz</a>
+                    <a href="#legal">AGB</a>
+                    <a href="#legal">Widerrufsrecht</a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 Sanremo Digital Systems. Alle Rechte vorbehalten.</p>
+                <p style="font-size: 0.8rem; margin-top: 10px; color: rgba(255,255,255,0.4);">
+                    Dieses System ist ein internes Bestellverwaltungstool. Der Nutzer ist für die steuerlich korrekte Verbuchung aller Umsätze verantwortlich.
+                </p>
+            </div>
         </div>
     </footer>
-</div>
 
-<script>
-    const i18n = {
-        de: {
-            brandTitle: "SmartGastro QR",
-            brandTagline: "Digitale Bestellungen für Gastronomie – einfach per QR-Code am Tisch.",
-            whatTitle: "Was ist SmartGastro QR?",
-            whatIntro: "SmartGastro QR ist ein flexibles, modernes Bestellsystem für Gastronomie-Betriebe. Gäste scannen den QR-Code am Tisch, öffnen die digitale Speisekarte und schicken ihre Bestellung direkt an das Service-Team – ohne App, ohne Registrierung.",
-            demoBadge: "Diese Seite ist eine Demo – ideal zur Präsentation bei Interessenten.",
-            benefitsTitle: "Vorteile auf einen Blick:",
-            benefit1: "Funktioniert auf Handy, Tablet und PC.",
-            benefit2: "Kein Login, keine App-Installation notwendig.",
-            benefit3: "Ideal für Eiscafés, Restaurants, Bars und Cafés.",
-            benefit4: "Schnellere Abläufe – weniger Wartezeiten für Gäste.",
-            benefit5: "Sorten, Sahne, Extras und Portionen frei wählbar.",
-            benefit6: "Optional: Weiterleitung an WhatsApp oder Küchendrucker.",
-            howTitle: "Wie funktioniert das System?",
-            step1: "Gast scannt den QR-Code am Tisch mit der Handy-Kamera.",
-            step2: "Die digitale Speisekarte öffnet sich im Browser.",
-            step3: "Tischnummer wird eingetragen (Pflichtfeld).",
-            step4: "Produkte und Optionen werden ausgewählt.",
-            step5: "Bestellung wird z. B. per WhatsApp an Ihr Team gesendet.",
-            videoTitle: "Video-Demo – SmartGastro QR in Aktion",
-            videoTag: "Original-Aufnahme aus einem Eiscafé-Menü",
-            videoCaption: "Dieses Video zeigt, wie Gäste Sorten, Sahne, Kinderbecher und Desserts direkt am Tisch auswählen.",
-            legalTitle: "Rechtliche Hinweise & Haftungsausschluss",
-            legalNote: "Wichtiger Hinweis: SmartGastro QR und das Mitarbeiter-Portal sind interne Organisations-Tools. Sie ersetzen keine Registrierkasse und keine steuerliche Buchführung.",
-            legalText1: "Die gezeigte Software dient ausschließlich zur internen Erfassung von Bestellungen und Arbeitszeiten. Es besteht keine technische Anbindung an ein Kassensystem. Alle Umsätze müssen weiterhin vollständig und gesetzeskonform in Ihrer offiziellen Registrierkasse oder im Kassenbuch erfasst werden.",
-            legalPoint1: "Alle Verkäufe, die mit SmartGastro QR erfasst werden, sind vom Betreiber manuell in der Kasse oder Buchhaltung zu verbuchen.",
-            legalPoint2: "WhatsApp-Nachrichten und Daten aus dem Mitarbeiter-Portal dienen nur als interne Information und gelten nicht als steuerlich relevante Aufzeichnung.",
-            legalPoint3: "Wir treten ausschließlich als Software-Entwickler auf. Für Steuern, Buchführung, Arbeitszeiten und rechtliche Pflichten ist allein der Betreiber verantwortlich.",
-            privacyTitle: "Datenschutz / Privacy (Demo)",
-            privacyText1: "In dieser öffentlichen Demo werden keine personenbezogenen Daten dauerhaft gespeichert. Alle Eingaben dienen ausschließlich zur Veranschaulichung des Systems.",
-            privacyText2: "In einer echten Installation wird SmartGastro QR an Ihre Datenschutzerklärung angepasst (u. a. Verantwortlicher, Zweck der Verarbeitung, Speicherdauer, Rechte der Gäste).",
-            contactTitle: "Interesse an SmartGastro QR?",
-            contactLead: "Diese Demo wurde in einem realen Eiscafé getestet. Wenn Sie das System in Ihrem Betrieb ausprobieren möchten, melden Sie sich einfach – unverbindlich.",
-            contactPhoneLabel: "Telefon / WhatsApp:",
-            contactEmailLabel: "E-Mail:",
-            contactFormTitle: "Kurze Anfrage senden (Demo):",
-            contactBtnWhatsApp: "Per WhatsApp Anfrage senden",
-            contactBtnMail: "Per E-Mail öffnen",
-            footerLine: "© 2025 SmartGastro QR – Demo-Seite nur zur Veranschaulichung des Systems.",
-            footerLegal: "Rechtliche Hinweise",
-            footerPrivacy: "Datenschutz",
-            footerContact: "Kontakt",
-            cfName: "Name",
-            cfBusiness: "Betrieb / Restaurant",
-            cfMessage: "Ihre Nachricht…"
-        },
-        en: {
-            brandTagline: "Digital ordering for hospitality – simply via QR code on the table.",
-            whatTitle: "What is SmartGastro QR?",
-            whatIntro: "SmartGastro QR is a modern ordering system for cafés and restaurants. Guests scan the QR code on the table, open the digital menu and send their order directly to your team – no app, no registration.",
-            demoBadge: "This page is a demo – perfect for presentations to clients.",
-            benefitsTitle: "Main advantages:",
-            benefit1: "Works on smartphone, tablet and PC.",
-            benefit2: "No login, no app installation required.",
-            benefit3: "Ideal for ice-cream parlours, restaurants, bars and cafés.",
-            benefit4: "Faster workflow – less waiting time for guests.",
-            benefit5: "Flavours, toppings and sizes can be configured.",
-            benefit6: "Optional: forward orders to WhatsApp or a kitchen printer.",
-            howTitle: "How does it work?",
-            step1: "The guest scans the QR code on the table with the phone camera.",
-            step2: "The digital menu opens in the browser.",
-            step3: "The table number is entered (required field).",
-            step4: "Products and options are selected.",
-            step5: "The order is sent to your team, e.g. via WhatsApp.",
-            videoTitle: "Video demo – SmartGastro QR in action",
-            videoTag: "Original recording from a real ice-cream menu",
-            videoCaption: "The video shows how guests choose flavours, cream, kids cups and desserts directly at the table.",
-            legalTitle: "Legal notes & disclaimer",
-            legalNote: "Important: SmartGastro QR and the employee portal are internal tools only. They do not replace a POS system or tax-compliant bookkeeping.",
-            legalText1: "The software shown is intended only for internal recording of orders and working times. There is no technical connection to any POS system. All sales must still be booked completely and correctly in your official POS or cash register.",
-            legalPoint1: "All sales recorded with SmartGastro QR must be entered manually by the operator in the POS or accounting system.",
-            legalPoint2: "WhatsApp messages and data from the employee portal are for internal information only and are not considered tax-relevant records.",
-            legalPoint3: "We act solely as software developers. The operator is fully responsible for taxes, bookkeeping, working time records and all legal obligations.",
-            privacyTitle: "Data protection / privacy (demo)",
-            privacyText1: "In this public demo no personal data is stored permanently. All inputs are used only to demonstrate the system.",
-            privacyText2: "In a real installation, SmartGastro QR will be integrated into your own privacy policy.",
-            contactTitle: "Interested in SmartGastro QR?",
-            contactLead: "This demo has been tested in a real ice-cream parlour. If you want to try it in your business, just contact us.",
-            contactPhoneLabel: "Phone / WhatsApp:",
-            contactEmailLabel: "E-mail:",
-            contactFormTitle: "Send a short request (demo):",
-            contactBtnWhatsApp: "Send request via WhatsApp",
-            contactBtnMail: "Open in e-mail",
-            footerLine: "© 2025 SmartGastro QR – demo page for presentation only.",
-            footerLegal: "Legal notes",
-            footerPrivacy: "Privacy",
-            footerContact: "Contact",
-            cfName: "Name",
-            cfBusiness: "Business / restaurant",
-            cfMessage: "Your message…"
-        },
-        pt: {
-            brandTagline: "Pedidos digitais para restauração – simples com QR-Code na mesa.",
-            whatTitle: "O que é o SmartGastro QR?",
-            whatIntro: "O SmartGastro QR é um sistema moderno e flexível de pedidos para cafés e restaurantes. O cliente lê o código QR na mesa, abre o menu digital e envia o pedido diretamente para a equipa – sem app e sem registo.",
-            demoBadge: "Esta página é apenas uma demo – ideal para apresentar o conceito a clientes.",
-            benefitsTitle: "Vantagens principais:",
-            benefit1: "Funciona em telemóvel, tablet e PC.",
-            benefit2: "Sem login, sem instalação de app.",
-            benefit3: "Ideal para gelatarias, restaurantes, bares e cafés.",
-            benefit4: "Serviço muito mais rápido – menos tempo de espera.",
-            benefit5: "Sabores, extras e tamanhos configuráveis.",
-            benefit6: "Opcional: encaminhar o pedido para WhatsApp ou impressora de cozinha.",
-            howTitle: "Como funciona o sistema?",
-            step1: "O cliente lê o QR-Code na mesa com a câmara do telemóvel.",
-            step2: "O menu digital abre no navegador.",
-            step3: "O número da mesa é introduzido (campo obrigatório).",
-            step4: "Os produtos e opções são escolhidos.",
-            step5: "O pedido é enviado para a equipa, por exemplo via WhatsApp.",
-            videoTitle: "Vídeo demo – SmartGastro QR em ação",
-            videoTag: "Gravação real de um menu de gelataria",
-            videoCaption: "O vídeo mostra como o cliente escolhe sabores, natas, taças infantis e sobremesas diretamente na mesa.",
-            legalTitle: "Informações legais & aviso de responsabilidade",
-            legalNote: "Aviso importante: o SmartGastro QR e o Portal de Funcionários são apenas ferramentas internas. Não substituem uma caixa registadora nem a contabilidade fiscal.",
-            legalText1: "O software apresentado serve apenas para registo interno de pedidos e horários de trabalho. Não existe qualquer ligação técnica a sistemas de caixa. Todas as vendas devem continuar a ser registadas de forma completa e correta na caixa oficial ou na contabilidade.",
-            legalPoint1: "Todas as vendas registadas com o SmartGastro QR devem ser introduzidas manualmente, pelo operador, na caixa ou no sistema de contabilidade.",
-            legalPoint2: "Mensagens via WhatsApp e dados do Portal de Funcionários servem apenas como informação interna e não são considerados registo fiscal.",
-            legalPoint3: "Atuamos apenas como programadores de software. A responsabilidade por impostos, contabilidade, horários de trabalho e obrigações legais é exclusivamente do operador.",
-            privacyTitle: "Proteção de dados / privacidade (demo)",
-            privacyText1: "Nesta demo pública não são guardados dados pessoais de forma permanente. Todas as entradas servem apenas para demonstrar o sistema.",
-            privacyText2: "Numa instalação real, o SmartGastro QR será adaptado à sua própria política de privacidade.",
-            contactTitle: "Interessado no SmartGastro QR?",
-            contactLead: "Esta demo foi testada numa gelataria real. Se quiser testar no seu restaurante, é só entrar em contacto.",
-            contactPhoneLabel: "Telefone / WhatsApp:",
-            contactEmailLabel: "E-mail:",
-            contactFormTitle: "Enviar um pedido curto (demo):",
-            contactBtnWhatsApp: "Enviar pedido via WhatsApp",
-            contactBtnMail: "Abrir em e-mail",
-            footerLine: "© 2025 SmartGastro QR – página demo apenas para apresentação.",
-            footerLegal: "Informações legais",
-            footerPrivacy: "Proteção de dados",
-            footerContact: "Contacto",
-            cfName: "Nome",
-            cfBusiness: "Negócio / restaurante",
-            cfMessage: "A sua mensagem…"
-        },
-        it: {
-            brandTagline: "Ordini digitali per la ristorazione – con QR-Code al tavolo.",
-            whatTitle: "Che cos’è SmartGastro QR?",
-            whatIntro: "SmartGastro QR è un sistema moderno di ordinazione per bar e ristoranti. Il cliente scansiona il QR-Code sul tavolo, apre il menù digitale e invia l’ordine direttamente allo staff – senza app e senza registrazione.",
-            demoBadge: "Questa pagina è una demo – perfetta per presentare il sistema ai clienti.",
-            benefitsTitle: "Vantaggi principali:",
-            benefit1: "Funziona su smartphone, tablet e PC.",
-            benefit2: "Nessun login, nessuna app da installare.",
-            benefit3: "Ideale per gelaterie, ristoranti, bar e caffè.",
-            benefit4: "Servizio più veloce – meno tempi di attesa.",
-            benefit5: "Gusti, extra e dimensioni configurabili.",
-            benefit6: "Opzionale: invio ordini a WhatsApp o stampante di cucina.",
-            howTitle: "Come funziona il sistema?",
-            step1: "Il cliente scansiona il QR-Code sul tavolo con la fotocamera.",
-            step2: "Si apre il menù digitale nel browser.",
-            step3: "Si inserisce il numero del tavolo (campo obbligatorio).",
-            step4: "Si scelgono prodotti e opzioni.",
-            step5: "L’ordine viene inviato al team, ad es. tramite WhatsApp.",
-            videoTitle: "Video demo – SmartGastro QR in azione",
-            videoTag: "Registrazione reale di un menù di gelateria",
-            videoCaption: "Il video mostra come i clienti scelgono gusti, panna, coppe bambini e dessert direttamente al tavolo.",
-            legalTitle: "Note legali & esclusione di responsabilità",
-            legalNote: "Avviso importante: SmartGastro QR e il Portale Dipendenti sono solo strumenti interni. Non sostituiscono un registratore di cassa né una contabilità fiscale.",
-            legalText1: "Il software mostrato serve unicamente per la registrazione interna di ordini e orari di lavoro. Non esiste alcun collegamento tecnico a sistemi cassa. Tutte le vendite devono comunque essere registrate in modo completo e corretto nel registratore ufficiale o nella contabilità.",
-            legalPoint1: "Tutte le vendite registrate con SmartGastro QR devono essere inserite manualmente dall’esercente nel sistema cassa o in contabilità.",
-            legalPoint2: "I messaggi WhatsApp e i dati del Portale Dipendenti servono solo come informazione interna e non sono considerati registri fiscali.",
-            legalPoint3: "Siamo solo sviluppatori software. La responsabilità per imposte, contabilità, orari di lavoro e obblighi legali è esclusivamente del gestore.",
-            privacyTitle: "Protezione dati / privacy (demo)",
-            privacyText1: "In questa demo pubblica non vengono salvati in modo permanente dati personali.",
-            privacyText2: "In un’installazione reale SmartGastro QR verrà integrato nella vostra informativa sulla privacy.",
-            contactTitle: "Interessati a SmartGastro QR?",
-            contactLead: "Questa demo è stata testata in una gelateria reale. Se volete provarla nel vostro locale, contattateci.",
-            contactPhoneLabel: "Telefono / WhatsApp:",
-            contactEmailLabel: "E-mail:",
-            contactFormTitle: "Invia una breve richiesta (demo):",
-            contactBtnWhatsApp: "Invia richiesta via WhatsApp",
-            contactBtnMail: "Apri in e-mail",
-            footerLine: "© 2025 SmartGastro QR – pagina demo solo per presentazione.",
-            footerLegal: "Note legali",
-            footerPrivacy: "Privacy",
-            footerContact: "Contatto",
-            cfName: "Nome",
-            cfBusiness: "Locale / ristorante",
-            cfMessage: "Il tuo messaggio…"
-        },
-        es: {
-            brandTagline: "Pedidos digitales para hostelería – con código QR en la mesa.",
-            whatTitle: "¿Qué es SmartGastro QR?",
-            whatIntro: "SmartGastro QR es un sistema moderno de pedidos para bares y restaurantes. El cliente escanea el código QR en la mesa, abre el menú digital y envía el pedido directamente al equipo – sin app y sin registro.",
-            demoBadge: "Esta página es solo una demo – perfecta para presentar el concepto a clientes.",
-            benefitsTitle: "Ventajas principales:",
-            benefit1: "Funciona en móvil, tablet y PC.",
-            benefit2: "Sin inicio de sesión, sin instalar app.",
-            benefit3: "Ideal para heladerías, restaurantes, bares y cafés.",
-            benefit4: "Servicio más rápido – menos tiempo de espera.",
-            benefit5: "Sabores, extras y tamaños configurables.",
-            benefit6: "Opcional: enviar los pedidos a WhatsApp o impresora de cocina.",
-            howTitle: "¿Cómo funciona el sistema?",
-            step1: "El cliente escanea el código QR de la mesa con la cámara del móvil.",
-            step2: "El menú digital se abre en el navegador.",
-            step3: "Se introduce el número de mesa (campo obligatorio).",
-            step4: "Se eligen productos y opciones.",
-            step5: "El pedido se envía al equipo, por ejemplo vía WhatsApp.",
-            videoTitle: "Vídeo demo – SmartGastro QR en acción",
-            videoTag: "Grabación real de un menú de heladería",
-            videoCaption: "El vídeo muestra cómo los clientes eligen sabores, nata, copas infantiles y postres directamente en la mesa.",
-            legalTitle: "Aviso legal & exención de responsabilidad",
-            legalNote: "Aviso importante: SmartGastro QR y el Portal de Empleados son solo herramientas internas. No sustituyen un sistema de caja ni la contabilidad fiscal.",
-            legalText1: "El software mostrado sirve únicamente para el registro interno de pedidos y horarios de trabajo. No existe ninguna conexión técnica a sistemas de caja. Todas las ventas deben seguir registrándose de forma completa y correcta en la caja oficial o en la contabilidad.",
-            legalPoint1: "Todas las ventas registradas con SmartGastro QR deben ser introducidas manualmente por el operador en la caja o en el sistema de contabilidad.",
-            legalPoint2: "Los mensajes de WhatsApp y los datos del Portal de Empleados sirven solo como información interna y no se consideran registros fiscales.",
-            legalPoint3: "Actuamos únicamente como desarrolladores de software. La responsabilidad sobre impuestos, contabilidad, horarios de trabajo y obligaciones legales recae exclusivamente en el operador.",
-            privacyTitle: "Protección de datos / privacidad (demo)",
-            privacyText1: "En esta demo pública no se guardan datos personales de forma permanente.",
-            privacyText2: "En una instalación real, SmartGastro QR se integrará en su propia política de privacidad.",
-            contactTitle: "¿Interesado en SmartGastro QR?",
-            contactLead: "Esta demo se ha probado en una heladería real. Si quiere probarla en su negocio, póngase en contacto.",
-            contactPhoneLabel: "Teléfono / WhatsApp:",
-            contactEmailLabel: "Correo electrónico:",
-            contactFormTitle: "Enviar una consulta corta (demo):",
-            contactBtnWhatsApp: "Enviar consulta por WhatsApp",
-            contactBtnMail: "Abrir en correo",
-            footerLine: "© 2025 SmartGastro QR – página demo solo para presentación.",
-            footerLegal: "Aviso legal",
-            footerPrivacy: "Protección de datos",
-            footerContact: "Contacto",
-            cfName: "Nombre",
-            cfBusiness: "Negocio / restaurante",
-            cfMessage: "Su mensaje…"
-        },
-        fr: {
-            brandTagline: "Commandes numériques pour la restauration – via QR-Code sur la table.",
-            whatTitle: "Qu’est-ce que SmartGastro QR ?",
-            whatIntro: "SmartGastro QR est un système moderne de commande pour cafés et restaurants. Le client scanne le QR-Code sur la table, ouvre le menu numérique et envoie sa commande directement à l’équipe – sans application ni inscription.",
-            demoBadge: "Cette page est une démo – parfaite pour présenter le concept aux clients.",
-            benefitsTitle: "Avantages principaux :",
-            benefit1: "Fonctionne sur smartphone, tablette et PC.",
-            benefit2: "Aucun login, aucune application à installer.",
-            benefit3: "Idéal pour glaciers, restaurants, bars et cafés.",
-            benefit4: "Service plus rapide – moins de temps d’attente.",
-            benefit5: "Parfums, suppléments et tailles configurables.",
-            benefit6: "Optionnel : envoi des commandes vers WhatsApp ou une imprimante de cuisine.",
-            howTitle: "Comment fonctionne le système ?",
-            step1: "Le client scanne le QR-Code sur la table avec son téléphone.",
-            step2: "Le menu numérique s’ouvre dans le navigateur.",
-            step3: "Le numéro de table est saisi (champ obligatoire).",
-            step4: "Les produits et options sont sélectionnés.",
-            step5: "La commande est envoyée à l’équipe, par ex. via WhatsApp.",
-            videoTitle: "Vidéo démo – SmartGastro QR en action",
-            videoTag: "Enregistrement réel d’un menu de glacier",
-            videoCaption: "La vidéo montre comment les clients choisissent parfums, crème, coupes enfants et desserts directement à table.",
-            legalTitle: "Informations légales & clause de non-responsabilité",
-            legalNote: "Important : SmartGastro QR et le Portail Employés sont uniquement des outils internes. Ils ne remplacent ni une caisse enregistreuse ni une comptabilité fiscale.",
-            legalText1: "Le logiciel présenté sert uniquement à l’enregistrement interne des commandes et des horaires de travail. Il n’existe aucune connexion technique à un système de caisse. Toutes les ventes doivent continuer à être enregistrées de manière complète et correcte dans la caisse officielle ou la comptabilité.",
-            legalPoint1: "Toutes les ventes enregistrées avec SmartGastro QR doivent être saisies manuellement par l’exploitant dans la caisse ou la comptabilité.",
-            legalPoint2: "Les messages WhatsApp et les données du Portail Employés servent uniquement d’information interne et ne sont pas considérés comme des enregistrements fiscaux.",
-            legalPoint3: "Nous intervenons uniquement en tant que développeurs du logiciel. La responsabilité des impôts, de la comptabilité, des horaires de travail et des obligations légales incombe exclusivement à l’exploitant.",
-            privacyTitle: "Protection des données / vie privée (démo)",
-            privacyText1: "Dans cette démo publique, aucune donnée personnelle n’est conservée de manière permanente.",
-            privacyText2: "Dans une installation réelle, SmartGastro QR sera intégré à votre propre politique de confidentialité.",
-            contactTitle: "Intéressé par SmartGastro QR ?",
-            contactLead: "Cette démo a été testée dans un glacier réel. Si vous souhaitez l’essayer dans votre établissement, contactez-nous.",
-            contactPhoneLabel: "Téléphone / WhatsApp :",
-            contactEmailLabel: "E-mail :",
-            contactFormTitle: "Envoyer une courte demande (démo) :",
-            contactBtnWhatsApp: "Envoyer par WhatsApp",
-            contactBtnMail: "Ouvrir dans l’e-mail",
-            footerLine: "© 2025 SmartGastro QR – page démo pour présentation uniquement.",
-            footerLegal: "Mentions légales",
-            footerPrivacy: "Protection des données",
-            footerContact: "Contact",
-            cfName: "Nom",
-            cfBusiness: "Établissement / restaurant",
-            cfMessage: "Votre message…"
+    <script>
+        // ===== MENU MOBILE =====
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // ===== FAQ TOGGLE =====
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            answer.classList.toggle('show');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
         }
-    };
-
-    function applyLanguage(lang) {
-        const dict = i18n[lang] || i18n.de;
-
-        document.querySelectorAll("[data-i18n-key]").forEach(el => {
-            const key = el.getAttribute("data-i18n-key");
-            if (dict[key]) el.textContent = dict[key];
+        
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
-
-        document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
-            const key = el.getAttribute("data-i18n-placeholder");
-            if (dict[key]) el.setAttribute("placeholder", dict[key]);
+        
+        // ===== PAYPAL INTEGRATION =====
+        // Botão para Plano Básico (€199)
+        paypal.Buttons({
+            style: {
+                shape: 'rect',
+                color: 'gold',
+                layout: 'vertical',
+                label: 'subscribe'
+            },
+            createSubscription: function(data, actions) {
+                return actions.subscription.create({
+                    plan_id: 'P-77N565988R341761MNEYDYCA'
+                });
+            },
+            onApprove: function(data, actions) {
+                alert('Vielen Dank für Ihren Kauf! Ihre Lizenz wird innerhalb von 24 Stunden per E-Mail versendet. Subscription ID: ' + data.subscriptionID);
+                
+                // Aqui você pode redirecionar para uma página de obrigado
+                // window.location.href = 'danke.html';
+                
+                // OU enviar o email automaticamente (se tiver backend)
+                // fetch('/send-license', {
+                //     method: 'POST',
+                //     headers: {'Content-Type': 'application/json'},
+                //     body: JSON.stringify({
+                //         subscriptionId: data.subscriptionID,
+                //         email: data.payer.email_address
+                //     })
+                // });
+            },
+            onError: function(err) {
+                console.error('PayPal Error:', err);
+                alert('Es gab einen Fehler bei der Zahlung. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.');
+            }
+        }).render('#paypal-button-basic');
+        
+        // IMPORTANTE: Você precisa criar 3 planos diferentes no PayPal:
+        // 1. P-77N565988R341761MNEYDYCA (para €199)
+        // 2. Outro PLAN_ID (para €349)
+        // 3. Outro PLAN_ID (para €599)
+        
+        // Para os outros botões, você usaria:
+        // paypal.Buttons({...}).render('#paypal-button-pro');
+        // paypal.Buttons({...}).render('#paypal-button-premium');
+        
+        // ===== COOKIE CONSENT (Obrigatório na Alemanha) =====
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('cookieConsent')) {
+                const cookieBanner = document.createElement('div');
+                cookieBanner.style.cssText = `
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: var(--primary);
+                    color: white;
+                    padding: 20px;
+                    z-index: 10000;
+                    text-align: center;
+                    box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+                `;
+                cookieBanner.innerHTML = `
+                    <p style="margin-bottom: 15px;">
+                        Diese Website verwendet Cookies. Durch die Nutzung unserer Website stimmen Sie der Verwendung von Cookies gemäß unserer Datenschutzerklärung zu.
+                    </p>
+                    <button id="acceptCookies" style="
+                        background: var(--secondary);
+                        color: white;
+                        border: none;
+                        padding: 10px 25px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        margin-right: 10px;
+                    ">Akzeptieren</button>
+                    <button id="rejectCookies" style="
+                        background: transparent;
+                        color: white;
+                        border: 1px solid white;
+                        padding: 10px 25px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    ">Ablehnen</button>
+                `;
+                document.body.appendChild(cookieBanner);
+                
+                document.getElementById('acceptCookies').addEventListener('click', function() {
+                    localStorage.setItem('cookieConsent', 'accepted');
+                    cookieBanner.remove();
+                });
+                
+                document.getElementById('rejectCookies').addEventListener('click', function() {
+                    localStorage.setItem('cookieConsent', 'rejected');
+                    cookieBanner.remove();
+                });
+            }
         });
-    }
-
-    // Botões de idioma
-    document.querySelectorAll(".lang-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const lang = btn.getAttribute("data-lang");
-            document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            applyLanguage(lang);
-        });
-    });
-
-    // Idioma inicial
-    applyLanguage("de");
-
-    // ➜ Ler ?lic=SG-0001 da URL e mostrar na linha da licença
-    const params = new URLSearchParams(window.location.search);
-    const lic = params.get("lic");
-    if (lic) {
-        const line = document.getElementById("license-line");
-        const span = document.getElementById("license-code");
-        if (line && span) {
-            span.textContent = lic;
-            line.style.display = "block";
-        }
-    }
-
-    // WhatsApp + E-Mail
-    const waBtn = document.getElementById("cfWhatsAppBtn");
-    const mailBtn = document.getElementById("cfMailBtn");
-
-    function buildMessage() {
-        const name = document.getElementById("cfName").value.trim();
-        const business = document.getElementById("cfBusiness").value.trim();
-        const msg = document.getElementById("cfMessage").value.trim();
-
-        let text = "Anfrage zu SmartGastro QR%0A";
-        if (name) text += "%0AName: " + encodeURIComponent(name);
-        if (business) text += "%0ABetrieb: " + encodeURIComponent(business);
-        if (msg) text += "%0ANachricht: " + encodeURIComponent(msg);
-
-        return text;
-    }
-
-    if (waBtn) {
-        waBtn.addEventListener("click", () => {
-            const text = buildMessage();
-            const url = "https://wa.me/4917672809926?text=" + text;
-            window.open(url, "_blank");
-        });
-    }
-
-    if (mailBtn) {
-        mailBtn.addEventListener("click", () => {
-            const text = decodeURIComponent(buildMessage().replace(/%0A/g, "\n"));
-            const subject = "Anfrage zu SmartGastro QR (Demo)";
-            const mailto = "mailto:paulo.sanremo@web.de?subject=" +
-                encodeURIComponent(subject) +
-                "&body=" + encodeURIComponent(text);
-            window.location.href = mailto;
-        });
-    }
-</script>
-
-<!-- SDK PAYPAL -->
-<script src="https://www.paypal.com/sdk/js?client-id=AXNSOvcYdaokv8QFi8lhyhfgsMwzgx5u5NG1yjLW4t7jNQHuyJ0I9ZlM6M_qQ9ptxRzgaw56LgMd47UR&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
-
-<script>
-  if (window.paypal) {
-      paypal.Buttons({
-          style: {
-              shape: 'rect',
-              color: 'gold',
-              layout: 'vertical',
-              label: 'subscribe'
-          },
-          createSubscription: function(data, actions) {
-              return actions.subscription.create({
-                  plan_id: 'P-5WA45756CL7747454NEXAVJA'
-              });
-          },
-          onApprove: function(data, actions) {
-              const subId = data.subscriptionID;
-              document.getElementById("sub-id").textContent = subId;
-              document.getElementById("success-box").style.display = "block";
-              document.getElementById("error-box").style.display = "none";
-          },
-          onError: function(err) {
-              console.error(err);
-              document.getElementById("success-box").style.display = "none";
-              document.getElementById("error-box").style.display = "block";
-          }
-      }).render('#paypal-button-container-P-5WA45756CL7747454NEXAVJA');
-  }
-</script>
-
+    </script>
 </body>
 </html>
