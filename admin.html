@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanremo Admin Panel</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--primary);
+            color: white;
+            padding: 20px 0;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .logo {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .nav-menu a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 25px;
+            transition: all 0.3s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .nav-menu i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .stat-icon.primary { background: var(--primary); }
+        .stat-icon.success { background: var(--success); }
+        .stat-icon.warning { background: var(--warning); }
+        .stat-icon.danger { background: var(--danger); }
+        
+        .stat-info h3 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .stat-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* TABLE */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #eee;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.expired {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        /* DASHBOARD CONTENT */
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        /* QUICK ACTIONS */
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .sidebar .logo span,
+            .sidebar .nav-menu a span {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+        }
+        
+        /* EXPORT BUTTONS */
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo">
+            <h1>
+                <i class="fas fa-store-alt"></i>
+                <span>Sanremo Admin</span>
+            </h1>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="#dashboard" class="nav-link active" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a></li>
+            
+            <li><a href="#licenses" class="nav-link" data-section="licenses">
+                <i class="fas fa-key"></i>
+                <span>Lizenzen</span>
+            </a></li>
+            
+            <li><a href="#customers" class="nav-link" data-section="customers">
+                <i class="fas fa-users"></i>
+                <span>Kunden</span>
+            </a></li>
+            
+            <li><a href="#sales" class="nav-link" data-section="sales">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Verkäufe</span>
+            </a></li>
+            
+            <li><a href="#email" class="nav-link" data-section="email">
+                <i class="fas fa-envelope"></i>
+                <span>Email Vorlagen</span>
+            </a></li>
+            
+            <li><a href="#settings" class="nav-link" data-section="settings">
+                <i class="fas fa-cog"></i>
+                <span>Einstellungen</span>
+            </a></li>
+        </ul>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- HEADER -->
+        <div class="header">
+            <h2 id="pageTitle">Dashboard</h2>
+            <div>
+                <span id="currentDate"></span>
+            </div>
+        </div>
+
+        <!-- DASHBOARD SECTION -->
+        <div id="dashboard" class="content-section active">
+            <!-- STATS CARDS -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon primary">
+                        <i class="fas fa-euro-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalRevenue">€0</h3>
+                        <p>Gesamtumsatz</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon success">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalCustomers">0</h3>
+                        <p>Aktive Kunden</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon warning">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalSales">0</h3>
+                        <p>Verkäufe diesen Monat</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="expiringLicenses">0</h3>
+                        <p>Lizenzen läuft ab</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="quick-actions">
+                <button class="btn btn-primary" onclick="openModal('newLicenseModal')">
+                    <i class="fas fa-plus"></i> Neue Lizenz erstellen
+                </button>
+                
+                <button class="btn btn-success" onclick="openModal('sendEmailModal')">
+                    <i class="fas fa-envelope"></i> Email senden
+                </button>
+                
+                <button class="btn btn-warning" onclick="exportToCSV()">
+                    <i class="fas fa-file-export"></i> Export CSV
+                </button>
+                
+                <button class="btn btn-danger" onclick="clearAllData()">
+                    <i class="fas fa-trash"></i> Alle Daten löschen
+                </button>
+            </div>
+
+            <!-- RECENT SALES TABLE -->
+            <div class="table-container">
+                <h3 style="padding: 20px 20px 0 20px; margin: 0;">Letzte Verkäufe</h3>
+                <table id="recentSalesTable">
+                    <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Kunde</th>
+                            <th>Lizenz</th>
+                            <th>Plan</th>
+                            <th>Betrag</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- LICENSES SECTION -->
+        <div id="licenses" class="content-section">
+            <div class="export-buttons">
+                <button class="btn btn-primary" onclick="openModal('newLicenseModal')">
+                    <i class="fas fa-plus"></i> Neue Lizenz
+                </button>
+                <button class="btn btn-success" onclick="generateMultipleLicenses()">
+                    <i class="fas fa-bolt"></i> 10 Lizenzen generieren
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table id="licensesTable">
+                    <thead>
+                        <tr>
+                            <th>Lizenzschlüssel</th>
+                            <th>Plan</th>
+                            <th>Kunde</th>
+                            <th>Erstellt am</th>
+                            <th>Läuft ab</th>
+                            <th>Status</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CUSTOMERS SECTION -->
+        <div id="customers" class="content-section">
+            <div class="table-container">
+                <table id="customersTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Telefon</th>
+                            <th>Lizenz</th>
+                            <th>Letzter Login</th>
+                            <th>Status</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SALES SECTION -->
+        <div id="sales" class="content-section">
+            <div class="export-buttons">
+                <button class="btn btn-primary" onclick="openModal('newSaleModal')">
+                    <i class="fas fa-plus"></i> Manueller Verkauf
+                </button>
+                <button class="btn btn-success" onclick="showSalesChart()">
+                    <i class="fas fa-chart-bar"></i> Umsatzdiagramm
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table id="salesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Datum</th>
+                            <th>Kunde</th>
+                            <th>Produkt</th>
+                            <th>Betrag</th>
+                            <th>Zahlungsmethode</th>
+                            <th>Status</th>
+                            <th>Rechnung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- EMAIL TEMPLATES SECTION -->
+        <div id="email" class="content-section">
+            <div class="quick-actions">
+                <button class="btn btn-primary" onclick="openModal('newTemplateModal')">
+                    <i class="fas fa-plus"></i> Neue Vorlage
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table id="templatesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Betreff</th>
+                            <th>Erstellt am</th>
+                            <th>Zuletzt verwendet</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="background: white; padding: 30px; border-radius: 10px; margin-top: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h3 style="margin-bottom: 20px;">Vordefinierte Vorlagen</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <!-- Welcome Email Template -->
+                    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; cursor: pointer;" onclick="loadTemplate('welcome')">
+                        <h4 style="color: var(--primary); margin-bottom: 10px;">
+                            <i class="fas fa-handshake" style="margin-right: 10px;"></i>
+                            Willkommens-Email
+                        </h4>
+                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">
+                            Wird automatisch nach Kauf gesendet. Enthält Lizenzschlüssel und Login-Anleitung.
+                        </p>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-sm btn-primary">Bearbeiten</button>
+                            <button class="btn btn-sm btn-success">Vorschau</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Renewal Reminder Template -->
+                    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; cursor: pointer;" onclick="loadTemplate('renewal')">
+                        <h4 style="color: var(--primary); margin-bottom: 10px;">
+                            <i class="fas fa-bell" style="margin-right: 10px;"></i>
+                            Verlängerungserinnerung
+                        </h4>
+                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">
+                            Wird 30 Tage vor Ablauf der Lizenz gesendet.
+                        </p>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-sm btn-primary">Bearbeiten</button>
+                            <button class="btn btn-sm btn-success">Vorschau</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Support Template -->
+                    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; cursor: pointer;" onclick="loadTemplate('support')">
+                        <h4 style="color: var(--primary); margin-bottom: 10px;">
+                            <i class="fas fa-headset" style="margin-right: 10px;"></i>
+                            Support-Email
+                        </h4>
+                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">
+                            Standardantwort für Support-Anfragen.
+                        </p>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-sm btn-primary">Bearbeiten</button>
+                            <button class="btn btn-sm btn-success">Vorschau</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS SECTION -->
+        <div id="settings" class="content-section">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <!-- General Settings -->
+                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <h3 style="margin-bottom: 20px; color: var(--primary);">
+                        <i class="fas fa-cog" style="margin-right: 10px;"></i>
+                        Allgemeine Einstellungen
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label>Unternehmensname</label>
+                        <input type="text" id="companyName" class="form-control" value="Sanremo Digital Systems">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Support-Email</label>
+                        <input type="email" id="supportEmail" class="form-control" value="support@sanremodigital.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Support-Telefon</label>
+                        <input type="text" id="supportPhone" class="form-control" value="+49 123 456 789">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Speichern
+                    </button>
+                </div>
+                
+                <!-- License Settings -->
+                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <h3 style="margin-bottom: 20px; color: var(--primary);">
+                        <i class="fas fa-key" style="margin-right: 10px;"></i>
+                        Lizenz-Einstellungen
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label>Lizenz-Präfix</label>
+                        <input type="text" id="licensePrefix" class="form-control" value="SANREMO">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Standard-Gültigkeit (Monate)</label>
+                        <input type="number" id="licenseValidity" class="form-control" value="120" min="1" max="240">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="autoGenerateLicense" checked>
+                            Lizenz automatisch generieren
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="sendWelcomeEmail" checked>
+                            Willkommens-Email automatisch senden
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Backup & Export -->
+                <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <h3 style="margin-bottom: 20px; color: var(--primary);">
+                        <i class="fas fa-database" style="margin-right: 10px;"></i>
+                        Backup & Export
+                    </h3>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <button class="btn btn-success" onclick="exportAllData()">
+                            <i class="fas fa-file-export"></i> Alle Daten exportieren
+                        </button>
+                        
+                        <button class="btn btn-primary" onclick="backupData()">
+                            <i class="fas fa-save"></i> Backup erstellen
+                        </button>
+                        
+                        <div class="form-group">
+                            <label>Backup importieren</label>
+                            <input type="file" id="backupFile" class="form-control" accept=".json,.csv">
+                            <button class="btn btn-warning" onclick="importBackup()" style="margin-top: 10px;">
+                                <i class="fas fa-file-import"></i> Importieren
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                        <h4 style="color: var(--danger); margin-bottom: 15px;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Gefahrenzone
+                        </h4>
+                        
+                        <button class="btn btn-danger" onclick="resetAllData()">
+                            <i class="fas fa-trash"></i> Alle Daten zurücksetzen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    
+    <!-- New License Modal -->
+    <div class="modal" id="newLicenseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Neue Lizenz erstellen</h3>
+                <button class="close-modal" onclick="closeModal('newLicenseModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Plan auswählen</label>
+                    <select id="licensePlan" class="form-control">
+                        <option value="basic">Basis Plan (€199)</option>
+                        <option value="pro">Professional Plan (€349)</option>
+                        <option value="premium">Premium Plan (€599)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Kunden-Email (optional)</label>
+                    <input type="email" id="customerEmail" class="form-control" placeholder="kunde@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Kundenname (optional)</label>
+                    <input type="text" id="customerName" class="form-control" placeholder="Max Mustermann">
+                </div>
+                
+                <div class="form-group">
+                    <label>Lizenzschlüssel (leer lassen für automatische Generierung)</label>
+                    <input type="text" id="customLicenseKey" class="form-control" placeholder="SANREMO-XXXXXX">
+                </div>
+                
+                <div class="form-group">
+                    <label>Gültig bis</label>
+                    <input type="date" id="licenseExpiry" class="form-control" value="2034-12-31">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('newLicenseModal')">Abbrechen</button>
+                <button class="btn btn-primary" onclick="createNewLicense()">Lizenz erstellen</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Send Email Modal -->
+    <div class="modal" id="sendEmailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Email senden</h3>
+                <button class="close-modal" onclick="closeModal('sendEmailModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Empfänger</label>
+                    <select id="emailRecipient" class="form-control">
+                        <option value="all">Alle Kunden</option>
+                        <option value="active">Nur aktive Kunden</option>
+                        <option value="expired">Nur abgelaufene Lizenzen</option>
+                        <option value="custom">Bestimmte Email</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="customEmailField" style="display: none;">
+                    <label>Empfänger-Email</label>
+                    <input type="email" id="customEmail" class="form-control" placeholder="kunde@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Betreff</label>
+                    <input type="text" id="emailSubject" class="form-control" placeholder="Betreff">
+                </div>
+                
+                <div class="form-group">
+                    <label>Nachricht</label>
+                    <textarea id="emailMessage" class="form-control" rows="10" placeholder="Ihre Nachricht..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Vorlage verwenden</label>
+                    <select id="emailTemplate" class="form-control" onchange="loadEmailTemplate(this.value)">
+                        <option value="">Keine Vorlage</option>
+                        <option value="welcome">Willkommens-Email</option>
+                        <option value="renewal">Verlängerungserinnerung</option>
+                        <option value="support">Support-Email</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('sendEmailModal')">Abbrechen</button>
+                <button class="btn btn-primary" onclick="sendBulkEmail()">Email senden</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Sale Modal -->
+    <div class="modal" id="newSaleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Manueller Verkauf</h3>
+                <button class="close-modal" onclick="closeModal('newSaleModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Kundenname</label>
+                    <input type="text" id="saleCustomerName" class="form-control" placeholder="Max Mustermann">
+                </div>
+                
+                <div class="form-group">
+                    <label>Kunden-Email</label>
+                    <input type="email" id="saleCustomerEmail" class="form-control" placeholder="kunde@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Plan</label>
+                    <select id="salePlan" class="form-control">
+                        <option value="basic">Basis Plan - €199</option>
+                        <option value="pro">Professional Plan - €349</option>
+                        <option value="premium">Premium Plan - €599</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Betrag (€)</label>
+                    <input type="number" id="saleAmount" class="form-control" value="199" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label>Zahlungsmethode</label>
+                    <select id="salePaymentMethod" class="form-control">
+                        <option value="paypal">PayPal</option>
+                        <option value="bank">Banküberweisung</option>
+                        <option value="cash">Barzahlung</option>
+                        <option value="other">Andere</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Notizen</label>
+                    <textarea id="saleNotes" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('newSaleModal')">Abbrechen</button>
+                <button class="btn btn-primary" onclick="createManualSale()">Verkauf speichern</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Email Template Modal -->
+    <div class="modal" id="emailTemplateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Email Vorlage bearbeiten</h3>
+                <button class="close-modal" onclick="closeModal('emailTemplateModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Vorlagenname</label>
+                    <input type="text" id="templateName" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label>Betreff</label>
+                    <input type="text" id="templateSubject" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label>HTML Inhalt</label>
+                    <textarea id="templateContent" class="form-control" rows="15"></textarea>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                    <h4>Verfügbare Variablen:</h4>
+                    <p><code>{customer_name}</code> - Kundenname</p>
+                    <p><code>{license_key}</code> - Lizenzschlüssel</p>
+                    <p><code>{plan_name}</code> - Plan Name</p>
+                    <p><code>{expiry_date}</code> - Ablaufdatum</p>
+                    <p><code>{login_url}</code> - Login URL</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('emailTemplateModal')">Abbrechen</button>
+                <button class="btn btn-success" onclick="previewTemplate()">Vorschau</button>
+                <button class="btn btn-primary" onclick="saveTemplate()">Speichern</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // ============ DATABASE ============
+        let database = {
+            licenses: [],
+            customers: [],
+            sales: [],
+            emailTemplates: [],
+            settings: {}
+        };
+        
+        // ============ INITIALIZATION ============
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDatabase();
+            updateCurrentDate();
+            updateDashboardStats();
+            setupEventListeners();
+            loadDefaultTemplates();
+        });
+        
+        function loadDatabase() {
+            const saved = localStorage.getItem('sanremo_database');
+            if (saved) {
+                database = JSON.parse(saved);
+            } else {
+                initializeDefaultData();
+            }
+            renderAllTables();
+        }
+        
+        function saveDatabase() {
+            localStorage.setItem('sanremo_database', JSON.stringify(database));
+        }
+        
+        function initializeDefaultData() {
+            // Default settings
+            database.settings = {
+                companyName: "Sanremo Digital Systems",
+                supportEmail: "support@sanremodigital.com",
+                supportPhone: "+49 123 456 789",
+                licensePrefix: "SANREMO",
+                licenseValidity: 120,
+                autoGenerateLicense: true,
+                sendWelcomeEmail: true
+            };
+            
+            // Default email templates
+            database.emailTemplates = [
+                {
+                    id: 'welcome',
+                    name: 'Willkommens-Email',
+                    subject: 'Ihre Sanremo Lizenz ist bereit!',
+                    content: `<!DOCTYPE html>
+<html>
+<body>
+    <h2>Willkommen bei Sanremo Digital Systems!</h2>
+    <p>Vielen Dank für Ihren Kauf.</p>
+    <p><strong>Ihr Lizenzschlüssel:</strong> {license_key}</p>
+    <p><strong>Ihr Plan:</strong> {plan_name}</p>
+    <p>Login: {login_url}</p>
+</body>
+</html>`
+                }
+            ];
+            
+            saveDatabase();
+        }
+        
+        // ============ NAVIGATION ============
+        function setupEventListeners() {
+            // Navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    showSection(sectionId);
+                });
+            });
+            
+            // Email recipient selector
+            document.getElementById('emailRecipient').addEventListener('change', function() {
+                document.getElementById('customEmailField').style.display = 
+                    this.value === 'custom' ? 'block' : 'none';
+            });
+        }
+        
+        function showSection(sectionId) {
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+            
+            // Update page title
+            const titles = {
+                dashboard: 'Dashboard',
+                licenses: 'Lizenzen',
+                customers: 'Kunden',
+                sales: 'Verkäufe',
+                email: 'Email Vorlagen',
+                settings: 'Einstellungen'
+            };
+            document.getElementById('pageTitle').textContent = titles[sectionId];
+            
+            // Show section
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+        
+        // ============ DATE & TIME ============
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('currentDate').textContent = 
+                now.toLocaleDateString('de-DE', options);
+        }
+        
+        // ============ LICENSE MANAGEMENT ============
+        function generateLicenseKey() {
+            const prefix = database.settings.licensePrefix || 'SANREMO';
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let key = prefix + '-';
+            
+            for (let i = 0; i < 6; i++) {
+                key += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            key += '-';
+            
+            for (let i = 0; i < 4; i++) {
+                key += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            return key;
+        }
+        
+        function createNewLicense() {
+            const plan = document.getElementById('licensePlan').value;
+            const email = document.getElementById('customerEmail').value.trim();
+            const name = document.getElementById('customerName').value.trim();
+            const customKey = document.getElementById('customLicenseKey').value.trim().toUpperCase();
+            const expiry = document.getElementById('licenseExpiry').value;
+            
+            let licenseKey = customKey;
+            if (!licenseKey && database.settings.autoGenerateLicense) {
+                licenseKey = generateLicenseKey();
+            }
+            
+            if (!licenseKey) {
+                alert('Bitte geben Sie einen Lizenzschlüssel ein oder aktivieren Sie die automatische Generierung.');
+                return;
+            }
+            
+            // Check if license already exists
+            if (database.licenses.find(l => l.key === licenseKey)) {
+                alert('Diese Lizenz existiert bereits!');
+                return;
+            }
+            
+            const planNames = {
+                basic: 'Basis Plan',
+                pro: 'Professional Plan',
+                premium: 'Premium Plan'
+            };
+            
+            const license = {
+                id: Date.now(),
+                key: licenseKey,
+                plan: plan,
+                planName: planNames[plan],
+                customerEmail: email,
+                customerName: name,
+                createdDate: new Date().toISOString().split('T')[0],
+                expiryDate: expiry,
+                status: 'active',
+                isUsed: false
+            };
+            
+            database.licenses.push(license);
+            
+            // Create customer if email provided
+            if (email) {
+                const existingCustomer = database.customers.find(c => c.email === email);
+                if (!existingCustomer) {
+                    database.customers.push({
+                        id: Date.now() + 1,
+                        name: name || 'Unbekannt',
+                        email: email,
+                        phone: '',
+                        licenseKey: licenseKey,
+                        lastLogin: null,
+                        status: 'active'
+                    });
+                }
+            }
+            
+            saveDatabase();
+            renderAllTables();
+            updateDashboardStats();
+            closeModal('newLicenseModal');
+            
+            // Clear form
+            document.getElementById('customerEmail').value = '';
+            document.getElementById('customerName').value = '';
+            document.getElementById('customLicenseKey').value = '';
+            
+            alert(`Lizenz erstellt: ${licenseKey}`);
+            
+            // Send welcome email if enabled
+            if (email && database.settings.sendWelcomeEmail) {
+                sendWelcomeEmail(email, license);
+            }
+        }
+        
+        function generateMultipleLicenses() {
+            const count = 10;
+            const licenses = [];
+            
+            for (let i = 0; i < count; i++) {
+                const licenseKey = generateLicenseKey();
+                licenses.push({
+                    id: Date.now() + i,
+                    key: licenseKey,
+                    plan: 'basic',
+                    planName: 'Basis Plan',
+                    customerEmail: '',
+                    customerName: '',
+                    createdDate: new Date().toISOString().split('T')[0],
+                    expiryDate: '2034-12-31',
+                    status: 'active',
+                    isUsed: false
+                });
+            }
+            
+            database.licenses.push(...licenses);
+            saveDatabase();
+            renderAllTables();
+            updateDashboardStats();
+            
+            // Show licenses in alert
+            const licenseList = licenses.map(l => l.key).join('\n');
+            alert(`${count} Lizenzen generiert:\n\n${licenseList}`);
+        }
+        
+        // ============ SALES MANAGEMENT ============
+        function createManualSale() {
+            const customerName = document.getElementById('saleCustomerName').value.trim();
+            const customerEmail = document.getElementById('saleCustomerEmail').value.trim();
+            const plan = document.getElementById('salePlan').value;
+            const amount = parseFloat(document.getElementById('saleAmount').value);
+            const paymentMethod = document.getElementById('salePaymentMethod').value;
+            const notes = document.getElementById('saleNotes').value.trim();
+            
+            if (!customerName || !customerEmail) {
+                alert('Bitte geben Sie Kundendaten ein.');
+                return;
+            }
+            
+            const planNames = {
+                basic: 'Basis Plan',
+                pro: 'Professional Plan',
+                premium: 'Premium Plan'
+            };
+            
+            const sale = {
+                id: 'MAN-' + Date.now(),
+                date: new Date().toISOString().split('T')[0],
+                customerName: customerName,
+                customerEmail: customerEmail,
+                product: planNames[plan],
+                amount: amount,
+                paymentMethod: paymentMethod,
+                status: 'completed',
+                notes: notes
+            };
+            
+            database.sales.push(sale);
+            
+            // Generate license for this sale
+            const licenseKey = generateLicenseKey();
+            database.licenses.push({
+                id: Date.now(),
+                key: licenseKey,
+                plan: plan,
+                planName: planNames[plan],
+                customerEmail: customerEmail,
+                customerName: customerName,
+                createdDate: new Date().toISOString().split('T')[0],
+                expiryDate: '2034-12-31',
+                status: 'active',
+                isUsed: false
+            });
+            
+            // Add customer
+            database.customers.push({
+                id: Date.now() + 1,
+                name: customerName,
+                email: customerEmail,
+                phone: '',
+                licenseKey: licenseKey,
+                lastLogin: null,
+                status: 'active'
+            });
+            
+            saveDatabase();
+            renderAllTables();
+            updateDashboardStats();
+            closeModal('newSaleModal');
+            
+            // Clear form
+            document.getElementById('saleCustomerName').value = '';
+            document.getElementById('saleCustomerEmail').value = '';
+            document.getElementById('saleNotes').value = '';
+            
+            // Send email
+            sendWelcomeEmail(customerEmail, {
+                key: licenseKey,
+                planName: planNames[plan]
+            });
+            
+            alert(`Verkauf gespeichert und Lizenz ${licenseKey} erstellt.`);
+        }
+        
+        // ============ EMAIL SYSTEM ============
+        function sendWelcomeEmail(email, license) {
+            const template = database.emailTemplates.find(t => t.id === 'welcome');
+            if (!template) return;
+            
+            let content = template.content
+                .replace(/{customer_name}/g, license.customerName || 'Kunde')
+                .replace(/{license_key}/g, license.key)
+                .replace(/{plan_name}/g, license.planName)
+                .replace(/{expiry_date}/g, license.expiryDate)
+                .replace(/{login_url}/g, 'https://sanremodigital.com/login');
+            
+            // In a real application, you would send the email via a server
+            // For now, we'll just log it
+            console.log('Email würde gesendet werden an:', email);
+            console.log('Betreff:', template.subject);
+            console.log('Inhalt:', content);
+            
+            alert(`Willkommens-Email wurde an ${email} gesendet.`);
+        }
+        
+        function loadEmailTemplate(templateId) {
+            if (!templateId) return;
+            
+            const template = database.emailTemplates.find(t => t.id === templateId);
+            if (template) {
+                document.getElementById('emailSubject').value = template.subject;
+                document.getElementById('emailMessage').value = template.content.replace(/<[^>]*>/g, '');
+            }
+        }
+        
+        function sendBulkEmail() {
+            const recipientType = document.getElementById('emailRecipient').value;
+            const customEmail = document.getElementById('customEmail').value;
+            const subject = document.getElementById('emailSubject').value;
+            const message = document.getElementById('emailMessage').value;
+            
+            if (!subject || !message) {
+                alert('Bitte Betreff und Nachricht eingeben.');
+                return;
+            }
+            
+            let emails = [];
+            
+            if (recipientType === 'custom' && customEmail) {
+                emails = [customEmail];
+            } else if (recipientType === 'all') {
+                emails = database.customers.map(c => c.email).filter(email => email);
+            } else if (recipientType === 'active') {
+                emails = database.customers
+                    .filter(c => c.status === 'active')
+                    .map(c => c.email)
+                    .filter(email => email);
+            } else if (recipientType === 'expired') {
+                // You would need to check license expiry dates
+                // Simplified for this example
+                emails = ['expired@example.com'];
+            }
+            
+            if (emails.length === 0) {
+                alert('Keine Empfänger gefunden.');
+                return;
+            }
+            
+            // In a real application, you would send the emails via a server
+            // For now, we'll just show a confirmation
+            alert(`${emails.length} Emails werden gesendet an:\n\n${emails.join('\n')}`);
+            
+            closeModal('sendEmailModal');
+        }
+        
+        function loadTemplate(templateId) {
+            const template = database.emailTemplates.find(t => t.id === templateId);
+            if (!template) return;
+            
+            document.getElementById('templateName').value = template.name;
+            document.getElementById('templateSubject').value = template.subject;
+            document.getElementById('templateContent').value = template.content;
+            
+            openModal('emailTemplateModal');
+        }
+        
+        function saveTemplate() {
+            const name = document.getElementById('templateName').value;
+            const subject = document.getElementById('templateSubject').value;
+            const content = document.getElementById('templateContent').value;
+            
+            if (!name || !subject || !content) {
+                alert('Bitte alle Felder ausfüllen.');
+                return;
+            }
+            
+            // Generate an ID from the name
+            const id = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            
+            const existingIndex = database.emailTemplates.findIndex(t => t.id === id);
+            
+            const template = {
+                id: id,
+                name: name,
+                subject: subject,
+                content: content,
+                lastUsed: new Date().toISOString().split('T')[0]
+            };
+            
+            if (existingIndex >= 0) {
+                database.emailTemplates[existingIndex] = template;
+            } else {
+                database.emailTemplates.push(template);
+            }
+            
+            saveDatabase();
+            closeModal('emailTemplateModal');
+            alert('Vorlage gespeichert!');
+        }
+        
+        function previewTemplate() {
+            const content = document.getElementById('templateContent').value;
+            const win = window.open('', '_blank');
+            win.document.write(content);
+            win.document.close();
+        }
+        
+        function loadDefaultTemplates() {
+            if (database.emailTemplates.length === 0) {
+                database.emailTemplates = [
+                    {
+                        id: 'welcome',
+                        name: 'Willkommens-Email',
+                        subject: 'Ihre Sanremo Lizenz ist bereit!',
+                        content: `<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #2c3e50; color: white; padding: 20px; text-align: center; }
+        .content { background: white; padding: 30px; border: 1px solid #ddd; }
+        .license-box { background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .footer { background: #f1f1f1; padding: 20px; text-align: center; font-size: 12px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sanremo Digital Systems</h1>
+        </div>
+        
+        <div class="content">
+            <h2>Willkommen {customer_name}!</h2>
+            <p>Vielen Dank für Ihren Kauf bei Sanremo Digital Systems.</p>
+            
+            <div class="license-box">
+                <h3>Ihre Lizenzdetails</h3>
+                <p><strong>Lizenzschlüssel:</strong> <code>{license_key}</code></p>
+                <p><strong>Plan:</strong> {plan_name}</p>
+                <p><strong>Gültig bis:</strong> {expiry_date}</p>
+            </div>
+            
+            <h3>So starten Sie:</h3>
+            <ol>
+                <li>Gehen Sie zu: <a href="{login_url}">{login_url}</a></li>
+                <li>Geben Sie Ihren Lizenzschlüssel ein</li>
+                <li>Erstellen Sie Ihr Konto</li>
+                <li>Beginnen Sie mit der Einrichtung</li>
+            </ol>
+            
+            <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <h4>⚠️ Wichtiger rechtlicher Hinweis:</h4>
+                <p>Dieses System ist ein internes Bestellverwaltungstool und ersetzt keine Registrierkasse.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Sanremo Digital Systems • support@sanremodigital.com • +49 123 456 789</p>
+            <p>© 2024 Sanremo Digital Systems. Alle Rechte vorbehalten.</p>
+        </div>
+    </div>
+</body>
+</html>`
+                    }
+                ];
+                saveDatabase();
+            }
+        }
+        
+        // ============ TABLE RENDERING ============
+        function renderAllTables() {
+            renderLicensesTable();
+            renderCustomersTable();
+            renderSalesTable();
+            renderTemplatesTable();
+            renderRecentSales();
+        }
+        
+        function renderLicensesTable() {
+            const tbody = document.querySelector('#licensesTable tbody');
+            tbody.innerHTML = '';
+            
+            database.licenses.forEach(license => {
+                const tr = document.createElement('tr');
+                
+                // Determine status
+                const today = new Date();
+                const expiry = new Date(license.expiryDate);
+                let statusText = 'Aktiv';
+                let statusClass = 'active';
+                
+                if (license.status !== 'active') {
+                    statusText = 'Inaktiv';
+                    statusClass = 'expired';
+                } else if (expiry < today) {
+                    statusText = 'Abgelaufen';
+                    statusClass = 'expired';
+                } else if (!license.isUsed) {
+                    statusText = 'Nicht aktiviert';
+                    statusClass = 'pending';
+                }
+                
+                tr.innerHTML = `
+                    <td><strong>${license.key}</strong></td>
+                    <td>${license.planName}</td>
+                    <td>${license.customerName || '-'}<br><small>${license.customerEmail || '-'}</small></td>
+                    <td>${formatDate(license.createdDate)}</td>
+                    <td>${formatDate(license.expiryDate)}</td>
+                    <td><span class="status ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-primary" onclick="editLicense('${license.key}')">Bearbeiten</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteLicense('${license.key}')">Löschen</button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function renderCustomersTable() {
+            const tbody = document.querySelector('#customersTable tbody');
+            tbody.innerHTML = '';
+            
+            database.customers.forEach(customer => {
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td>${customer.name}</td>
+                    <td>${customer.email}</td>
+                    <td>${customer.phone || '-'}</td>
+                    <td>${customer.licenseKey || '-'}</td>
+                    <td>${customer.lastLogin ? formatDate(customer.lastLogin) : 'Nie'}</td>
+                    <td><span class="status ${customer.status === 'active' ? 'active' : 'expired'}">${customer.status === 'active' ? 'Aktiv' : 'Inaktiv'}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-primary" onclick="contactCustomer('${customer.email}')">Kontakt</button>
+                            <button class="btn btn-sm btn-warning" onclick="editCustomer('${customer.id}')">Bearbeiten</button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function renderSalesTable() {
+            const tbody = document.querySelector('#salesTable tbody');
+            tbody.innerHTML = '';
+            
+            database.sales.forEach(sale => {
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td>${sale.id}</td>
+                    <td>${formatDate(sale.date)}</td>
+                    <td>${sale.customerName}<br><small>${sale.customerEmail}</small></td>
+                    <td>${sale.product}</td>
+                    <td>€${sale.amount.toFixed(2)}</td>
+                    <td>${sale.paymentMethod}</td>
+                    <td><span class="status ${sale.status === 'completed' ? 'active' : 'pending'}">${sale.status === 'completed' ? 'Abgeschlossen' : 'Ausstehend'}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="generateInvoice('${sale.id}')">Rechnung</button>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function renderTemplatesTable() {
+            const tbody = document.querySelector('#templatesTable tbody');
+            tbody.innerHTML = '';
+            
+            database.emailTemplates.forEach(template => {
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td>${template.name}</td>
+                    <td>${template.subject}</td>
+                    <td>${template.createdDate ? formatDate(template.createdDate) : '-'}</td>
+                    <td>${template.lastUsed ? formatDate(template.lastUsed) : 'Nie'}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-primary" onclick="loadTemplate('${template.id}')">Bearbeiten</button>
+                            <button class="btn btn-sm btn-success" onclick="useTemplate('${template.id}')">Verwenden</button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function renderRecentSales() {
+            const tbody = document.querySelector('#recentSalesTable tbody');
+            tbody.innerHTML = '';
+            
+            // Get last 5 sales
+            const recentSales = [...database.sales]
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 5);
+            
+            recentSales.forEach(sale => {
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td>${formatDate(sale.date)}</td>
+                    <td>${sale.customerName}</td>
+                    <td>${sale.customerEmail}</td>
+                    <td>${sale.product}</td>
+                    <td>€${sale.amount.toFixed(2)}</td>
+                    <td><span class="status ${sale.status === 'completed' ? 'active' : 'pending'}">${sale.status === 'completed' ? 'Abgeschlossen' : 'Ausstehend'}</span></td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        // ============ DASHBOARD STATS ============
+        function updateDashboardStats() {
+            // Total Revenue
+            const totalRevenue = database.sales.reduce((sum, sale) => sum + sale.amount, 0);
+            document.getElementById('totalRevenue').textContent = `€${totalRevenue.toFixed(2)}`;
+            
+            // Total Customers
+            const activeCustomers = database.customers.filter(c => c.status === 'active').length;
+            document.getElementById('totalCustomers').textContent = activeCustomers;
+            
+            // Monthly Sales
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const monthlySales = database.sales.filter(sale => {
+                const saleDate = new Date(sale.date);
+                return saleDate.getMonth() === currentMonth && saleDate.getFullYear() === currentYear;
+            }).length;
+            document.getElementById('totalSales').textContent = monthlySales;
+            
+            // Expiring Licenses
+            const today = new Date();
+            const nextMonth = new Date();
+            nextMonth.setMonth(nextMonth.getMonth() + 1);
+            
+            const expiringLicenses = database.licenses.filter(license => {
+                const expiry = new Date(license.expiryDate);
+                return expiry > today && expiry < nextMonth && license.status === 'active';
+            }).length;
+            
+            document.getElementById('expiringLicenses').textContent = expiringLicenses;
+        }
+        
+        // ============ MODAL FUNCTIONS ============
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+        
+        // ============ UTILITY FUNCTIONS ============
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('de-DE');
+        }
+        
+        // ============ EXPORT FUNCTIONS ============
+        function exportToCSV() {
+            let csv = 'Lizenz,Plan,Kunde,Email,Erstellt,Läuft ab,Status\n';
+            
+            database.licenses.forEach(license => {
+                csv += `"${license.key}","${license.planName}","${license.customerName || ''}","${license.customerEmail || ''}","${license.createdDate}","${license.expiryDate}","${license.status}"\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sanremo_lizenzen_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            alert('CSV Datei wurde heruntergeladen.');
+        }
+        
+        function exportAllData() {
+            const dataStr = JSON.stringify(database, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sanremo_backup_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            alert('Backup wurde heruntergeladen.');
+        }
+        
+        function backupData() {
+            localStorage.setItem('sanremo_backup_' + Date.now(), JSON.stringify(database));
+            alert('Backup im Browser gespeichert.');
+        }
+        
+        function importBackup() {
+            const fileInput = document.getElementById('backupFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Bitte wählen Sie eine Backup-Datei aus.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    database = importedData;
+                    saveDatabase();
+                    renderAllTables();
+                    updateDashboardStats();
+                    alert('Backup erfolgreich importiert!');
+                } catch (error) {
+                    alert('Fehler beim Importieren: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        // ============ DATA MANAGEMENT ============
+        function clearAllData() {
+            if (confirm('SIND SIE SICHER? Alle Daten werden unwiderruflich gelöscht!')) {
+                localStorage.removeItem('sanremo_database');
+                database = { licenses: [], customers: [], sales: [], emailTemplates: [], settings: {} };
+                initializeDefaultData();
+                renderAllTables();
+                updateDashboardStats();
+                alert('Alle Daten wurden gelöscht.');
+            }
+        }
+        
+        function resetAllData() {
+            if (confirm('SIND SIE ABSOLUT SICHER? Dies setzt ALLES zurück!')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+        
+        function saveSettings() {
+            database.settings.companyName = document.getElementById('companyName').value;
+            database.settings.supportEmail = document.getElementById('supportEmail').value;
+            database.settings.supportPhone = document.getElementById('supportPhone').value;
+            database.settings.licensePrefix = document.getElementById('licensePrefix').value;
+            database.settings.licenseValidity = parseInt(document.getElementById('licenseValidity').value);
+            database.settings.autoGenerateLicense = document.getElementById('autoGenerateLicense').checked;
+            database.settings.sendWelcomeEmail = document.getElementById('sendWelcomeEmail').checked;
+            
+            saveDatabase();
+            alert('Einstellungen gespeichert!');
+        }
+        
+        // ============ HELPER FUNCTIONS ============
+        function editLicense(licenseKey) {
+            alert('Bearbeiten von Lizenz: ' + licenseKey);
+            // Implement edit functionality
+        }
+        
+        function deleteLicense(licenseKey) {
+            if (confirm(`Lizenz ${licenseKey} wirklich löschen?`)) {
+                database.licenses = database.licenses.filter(l => l.key !== licenseKey);
+                saveDatabase();
+                renderAllTables();
+                updateDashboardStats();
+                alert('Lizenz gelöscht.');
+            }
+        }
+        
+        function contactCustomer(email) {
+            document.getElementById('emailRecipient').value = 'custom';
+            document.getElementById('customEmail').value = email;
+            document.getElementById('customEmailField').style.display = 'block';
+            openModal('sendEmailModal');
+        }
+        
+        function editCustomer(customerId) {
+            alert('Bearbeiten von Kunde ID: ' + customerId);
+            // Implement edit functionality
+        }
+        
+        function generateInvoice(saleId) {
+            const sale = database.sales.find(s => s.id === saleId);
+            if (!sale) return;
+            
+            const invoiceContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 50px; }
+                        .invoice { max-width: 800px; margin: 0 auto; border: 2px solid #333; padding: 30px; }
+                        .header { text-align: center; margin-bottom: 40px; }
+                        .details { display: flex; justify-content: space-between; margin-bottom: 40px; }
+                        .items { margin: 40px 0; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+                        th { background: #f4f4f4; }
+                        .total { text-align: right; font-size: 1.2rem; font-weight: bold; }
+                    </style>
+                </head>
+                <body>
+                    <div class="invoice">
+                        <div class="header">
+                            <h1>RECHNUNG</h1>
+                            <h2>Sanremo Digital Systems</h2>
+                        </div>
+                        
+                        <div class="details">
+                            <div>
+                                <h3>Rechnung an:</h3>
+                                <p>${sale.customerName}</p>
+                                <p>${sale.customerEmail}</p>
+                            </div>
+                            
+                            <div>
+                                <p><strong>Rechnungsnummer:</strong> ${sale.id}</p>
+                                <p><strong>Datum:</strong> ${formatDate(sale.date)}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="items">
+                            <table>
+                                <tr>
+                                    <th>Beschreibung</th>
+                                    <th>Betrag</th>
+                                </tr>
+                                <tr>
+                                    <td>${sale.product} - Softwarelizenz</td>
+                                    <td>€${sale.amount.toFixed(2)}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="total">
+                            <p>Gesamtbetrag: €${sale.amount.toFixed(2)}</p>
+                            <p>Zahlungsmethode: ${sale.paymentMethod}</p>
+                            <p>Status: ${sale.status === 'completed' ? 'Bezahlt' : 'Ausstehend'}</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            const win = window.open('', '_blank');
+            win.document.write(invoiceContent);
+            win.document.close();
+            win.print();
+        }
+        
+        function showSalesChart() {
+            alert('Umsatzdiagramm würde hier angezeigt werden.');
+            // Implement chart functionality
+        }
+        
+        function useTemplate(templateId) {
+            document.getElementById('emailTemplate').value = templateId;
+            loadEmailTemplate(templateId);
+            openModal('sendEmailModal');
+        }
+    </script>
+</body>
+</html>
