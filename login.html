@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SmartGastro Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header i {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .login-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .help-text {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-login:hover {
+            background: #5a67d8;
+        }
+
+        .login-footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .demo-license {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .demo-license h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .demo-code {
+            font-family: monospace;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px dashed #ddd;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <i class="fas fa-utensils"></i>
+                <h1>SmartGastro Pro</h1>
+                <p>Kunden Login</p>
+            </div>
+            
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="email">E-Mail Adresse</label>
+                    <input type="email" id="email" placeholder="ihre@email.de" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="license">Lizenzschlüssel</label>
+                    <input type="text" id="license" placeholder="SG-XXXX-XXXX-XXXX-XXXX" required>
+                    <span class="help-text">
+                        Sie finden Ihren Lizenzschlüssel in der Bestätigungs-E-Mail
+                    </span>
+                </div>
+                
+                <button class="btn-login" onclick="login()">
+                    <i class="fas fa-sign-in-alt"></i> Einloggen
+                </button>
+                
+                <div class="demo-license">
+                    <h4><i class="fas fa-vial"></i> Demo Login (für Test)</h4>
+                    <p>E-Mail: <strong>demo@smartgastro.de</strong></p>
+                    <p>Lizenz: <span class="demo-code">SG-DEMO-2024-ABCD-EFGH</span></p>
+                </div>
+                
+                <div class="login-footer">
+                    <p>Noch keine Lizenz? <a href="index.html#pricing">Jetzt kaufen</a></p>
+                    <p><a href="#" onclick="showHelp()">Hilfe beim Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Einfache Login-Funktion
+        function login() {
+            const email = document.getElementById('email').value.trim();
+            const license = document.getElementById('license').value.trim();
+            
+            // Validierung
+            if (!email || !license) {
+                alert('Bitte geben Sie E-Mail und Lizenzschlüssel ein.');
+                return;
+            }
+            
+            // Demo-Account (immer funktioniert)
+            if (license === 'SG-DEMO-2024-ABCD-EFGH') {
+                const demoUser = {
+                    email: email,
+                    license: license,
+                    name: 'Demo Kunde',
+                    software: 'both',
+                    expiry: '2025-12-31'
+                };
+                
+                localStorage.setItem('smartgastro_user', JSON.stringify(demoUser));
+                window.location.href = 'dashboard.html';
+                return;
+            }
+            
+            // Echte Lizenzvalidierung
+            if (!license.startsWith('SG-')) {
+                alert('Ungültiger Lizenzschlüssel. Bitte überprüfen Sie Ihre Eingabe.');
+                return;
+            }
+            
+            // Lizenz in localStorage speichern (später Server-Validierung)
+            const user = {
+                email: email,
+                license: license,
+                name: email.split('@')[0],
+                expiry: '2025-12-31' // Standardwert
+            };
+            
+            localStorage.setItem('smartgastro_user', JSON.stringify(user));
+            window.location.href = 'dashboard.html';
+        }
+        
+        // Hilfe anzeigen
+        function showHelp() {
+            alert(`HILFE BEIM LOGIN:\n\n1. Kaufen Sie eine Lizenz auf unserer Hauptseite\n2. Sie erhalten eine E-Mail mit Ihrem Lizenzschlüssel\n3. Geben Sie hier Ihre E-Mail und den Lizenzschlüssel ein\n4. Klicken Sie auf "Einloggen"\n\nBei Problemen: paulo.sanremo@web.de`);
+        }
+        
+        // Enter-Taste für Login
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+        
+        // Auto-focus auf E-Mail Feld
+        document.getElementById('email').focus();
+    </script>
+</body>
+</html>
