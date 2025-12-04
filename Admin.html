@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - SmartGastro Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .admin-header {
+            background: #2D3748;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .admin-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f1f5f9;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: bold;
+            color: #64748b;
+        }
+
+        .tab-btn.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+            background: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .client-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background: white;
+        }
+
+        .license-code {
+            background: #f3f4f6;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-email {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-user-shield"></i> SmartGastro Admin System</h1>
+            <p>Lizenzverwaltung für QR-Bestellsystem & Zeiterfassung</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="clients">Kunden</button>
+            <button class="tab-btn" data-tab="new-client">Neuer Kunde</button>
+            <button class="tab-btn" data-tab="export">Export</button>
+        </div>
+
+        <div id="clients" class="tab-content active">
+            <h2>Kundenliste</h2>
+            <div id="clients-list" class="clients-grid">
+                <!-- Kunden werden hier angezeigt -->
+            </div>
+        </div>
+
+        <div id="new-client" class="tab-content">
+            <h2>Neuen Kunden anlegen</h2>
+            <form id="client-form">
+                <div class="form-group">
+                    <label>Name des Kunden *</label>
+                    <input type="text" id="client-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>E-Mail Adresse *</label>
+                    <input type="email" id="client-email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Software wählen *</label>
+                    <select id="client-software" required>
+                        <option value="qr">QR-Bestellsystem (99€)</option>
+                        <option value="time">Zeiterfassung (99€)</option>
+                        <option value="both">Beide Softwaren (178€)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Lizenzdauer *</label>
+                    <select id="license-years" required>
+                        <option value="1">1 Jahr</option>
+                        <option value="2">2 Jahre</option>
+                        <option value="3">3 Jahre</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn">
+                    <i class="fas fa-user-plus"></i> Kunde erstellen
+                </button>
+            </form>
+        </div>
+
+        <div id="export" class="tab-content">
+            <h2>Daten exportieren</h2>
+            <div style="margin: 20px 0;">
+                <button class="btn" onclick="exportData()">
+                    <i class="fas fa-download"></i> Alle Daten exportieren (JSON)
+                </button>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #f9fafb; border-radius: 8px;">
+                <h3>Daten importieren</h3>
+                <input type="file" id="import-file" style="margin: 10px 0;">
+                <button class="btn" onclick="importData()">
+                    <i class="fas fa-upload"></i> Importieren
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Einfache Datenverwaltung
+        let clients = JSON.parse(localStorage.getItem('smartgastro_clients')) || [];
+        
+        // Beim Laden der Seite
+        document.addEventListener('DOMContentLoaded', function() {
+            loadClients();
+            setupTabs();
+            setupForm();
+        });
+        
+        // Tabs einrichten
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Alle Tabs deaktivieren
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Aktiven Tab aktivieren
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+        
+        // Formular einrichten
+        function setupForm() {
+            document.getElementById('client-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createClient();
+            });
+        }
+        
+        // Kunden erstellen
+        function createClient() {
+            const client = {
+                id: Date.now(),
+                name: document.getElementById('client-name').value,
+                email: document.getElementById('client-email').value,
+                software: document.getElementById('client-software').value,
+                years: parseInt(document.getElementById('license-years').value),
+                licenseQR: generateLicense('QR'),
+                licenseTime: generateLicense('TIME'),
+                created: new Date().toISOString(),
+                expiry: calculateExpiryDate(parseInt(document.getElementById('license-years').value))
+            };
+            
+            clients.push(client);
+            localStorage.setItem('smartgastro_clients', JSON.stringify(clients));
+            
+            // E-Mail senden
+            sendLicenseEmail(client);
+            
+            // Formular zurücksetzen
+            document.getElementById('client-form').reset();
+            
+            // Erfolgsmeldung
+            alert('Kunde erstellt! Lizenzschlüssel wurden per E-Mail gesendet.');
+            
+            // Liste aktualisieren
+            loadClients();
+        }
+        
+        // Lizenz generieren
+        function generateLicense(type) {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = `SG-${type}-`;
+            
+            for (let i = 0; i < 12; i++) {
+                if (i > 0 && i % 4 === 0) code += '-';
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            return code;
+        }
+        
+        // Ablaufdatum berechnen
+        function calculateExpiryDate(years) {
+            const date = new Date();
+            date.setFullYear(date.getFullYear() + years);
+            return date.toISOString().split('T')[0];
+        }
+        
+        // Kunden laden
+        function loadClients() {
+            const container = document.getElementById('clients-list');
+            container.innerHTML = '';
+            
+            if (clients.length === 0) {
+                container.innerHTML = '<p style="color: #666; text-align: center; padding: 40px;">Noch keine Kunden vorhanden.</p>';
+                return;
+            }
+            
+            clients.forEach(client => {
+                const softwareNames = {
+                    'qr': 'QR-Bestellsystem',
+                    'time': 'Zeiterfassung',
+                    'both': 'Beide Softwaren'
+                };
+                
+                container.innerHTML += `
+                    <div class="client-card">
+                        <h3>${client.name}</h3>
+                        <p><strong>E-Mail:</strong> ${client.email}</p>
+                        <p><strong>Software:</strong> ${softwareNames[client.software]}</p>
+                        <p><strong>Gültig bis:</strong> ${formatDate(client.expiry)}</p>
+                        
+                        ${client.software !== 'time' ? `
+                            <div class="license-code">
+                                QR-System: ${client.licenseQR}
+                            </div>
+                        ` : ''}
+                        
+                        ${client.software !== 'qr' ? `
+                            <div class="license-code">
+                                Zeiterfassung: ${client.licenseTime}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="action-buttons">
+                            <button class="action-btn btn-email" onclick="resendEmail(${client.id})">
+                                <i class="fas fa-paper-plane"></i> E-Mail
+                            </button>
+                            <button class="action-btn btn-delete" onclick="deleteClient(${client.id})">
+                                <i class="fas fa-trash"></i> Löschen
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        // E-Mail senden
+        function sendLicenseEmail(client) {
+            const subject = encodeURIComponent('SmartGastro Pro - Ihre Lizenzschlüssel');
+            const body = encodeURIComponent(`
+Hallo ${client.name},
+
+vielen Dank für Ihren Kauf! Hier sind Ihre Lizenzschlüssel:
+
+${client.software !== 'time' ? `QR-Bestellsystem: ${client.licenseQR}` : ''}
+${client.software !== 'qr' ? `Zeiterfassung: ${client.licenseTime}` : ''}
+
+So verwenden Sie die Lizenz:
+1. Gehen Sie zu: https://Ihre-Website.de/login.html
+2. Geben Sie Ihre E-Mail und Lizenzschlüssel ein
+3. Klicken Sie auf "Login"
+
+Mit freundlichen Grüßen,
+SmartGastro Pro Team
+            `);
+            
+            window.open(`mailto:${client.email}?subject=${subject}&body=${body}`);
+        }
+        
+        // E-Mail erneut senden
+        function resendEmail(clientId) {
+            const client = clients.find(c => c.id === clientId);
+            if (client) sendLicenseEmail(client);
+        }
+        
+        // Kunden löschen
+        function deleteClient(clientId) {
+            if (confirm('Sind Sie sicher, dass Sie diesen Kunden löschen möchten?')) {
+                clients = clients.filter(c => c.id !== clientId);
+                localStorage.setItem('smartgastro_clients', JSON.stringify(clients));
+                loadClients();
+            }
+        }
+        
+        // Daten exportieren
+        function exportData() {
+            const data = JSON.stringify(clients, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `smartgastro-clientes-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+        
+        // Daten importieren
+        function importData() {
+            const fileInput = document.getElementById('import-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Bitte wählen Sie eine Datei aus');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        clients = imported;
+                        localStorage.setItem('smartgastro_clients', JSON.stringify(clients));
+                        loadClients();
+                        alert('Daten erfolgreich importiert!');
+                    } else {
+                        throw new Error('Ungültiges Dateiformat');
+                    }
+                } catch (error) {
+                    alert('Fehler beim Import: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        // Datum formatieren
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('de-DE');
+        }
+    </script>
+</body>
+</html>
