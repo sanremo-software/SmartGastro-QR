@@ -394,7 +394,16 @@
             justify-content: center;
             backdrop-filter: blur(5px);
         }
+<button class="btn btn-primary" id="login-btn">
+    <i class="fas fa-sign-in-alt"></i>
+    <span data-i18n="login">Anmelden</span>
+</button>
 
+<!-- ADICIONE ESTE BOTÃO DE LOGOUT (fica escondido por padrão) -->
+<a href="logout.html" id="logout-btn" class="btn btn-danger" style="display: none; margin-left: 10px;">
+    <i class="fas fa-sign-out-alt"></i>
+    <span data-i18n="logout">Abmelden</span>
+</a>
         .modal.active {
             display: flex;
         }
@@ -1799,6 +1808,67 @@
                 }
             });
         });
-    </script>
+  <script>
+// ============================================
+// LOGOUT SYSTEM FÜR INDEX.HTML
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateNavigationBasedOnLogin();
+});
+
+function updateNavigationBasedOnLogin() {
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const userMenu = document.getElementById('user-menu');
+    
+    const user = localStorage.getItem('smartgastro_user');
+    
+    if (user) {
+        // Benutzer ist EINGELOGGT
+        if (loginBtn) {
+            loginBtn.innerHTML = '<i class="fas fa-tachometer-alt"></i> Dashboard';
+            loginBtn.onclick = function() {
+                window.location.href = 'dashboard.html';
+                return false;
+            };
+            loginBtn.href = '#';
+        }
+        
+        if (logoutBtn) {
+            logoutBtn.style.display = 'flex';
+        }
+        
+        if (userMenu) {
+            userMenu.style.display = 'block';
+        }
+    } else {
+        // Benutzer ist NICHT eingeloggt
+        if (loginBtn) {
+            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Anmelden';
+            loginBtn.onclick = null;
+            loginBtn.href = 'login.html';
+        }
+        
+        if (logoutBtn) {
+            logoutBtn.style.display = 'none';
+        }
+        
+        if (userMenu) {
+            userMenu.style.display = 'none';
+        }
+    }
+}
+
+// Bei Änderungen im localStorage (Login/Logout) aktualisieren
+window.addEventListener('storage', function(e) {
+    if (e.key === 'smartgastro_user') {
+        updateNavigationBasedOnLogin();
+    }
+});
+
+// Alle 5 Sekunden prüfen (für Tabs/Windows Synchronisation)
+setInterval(updateNavigationBasedOnLogin, 5000);
+</script>  </script>
 </body>
 </html>
