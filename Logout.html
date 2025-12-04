@@ -1,19 +1,29 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>Logout</title>
-</head>
-<body>
-    <script>
-        // 1. Apagar dados do usuário
-        localStorage.removeItem('smartgastro_user');
-        
-        // 2. Mostrar mensagem
-        alert('Sie wurden abgemeldet!');
-        
-        // 3. Redirecionar para página principal
-        window.location.href = 'index.html';
-    </script>
-</body>
-</html>
+<div class="nav-links">
+    <a href="#features">Funktionen</a>
+    <a href="#videos">Videos</a>
+    <a href="#gallery">Fotos</a>
+    <a href="#stempeln">Zeiterfassung</a>
+    <a href="#access">Software Zugang</a>
+    <a href="#pricing">Preise</a>
+    <a href="#legal">Rechtliches</a>
+    
+    <div class="language-selector">
+        <!-- language selector code -->
+    </div>
+    
+    <div class="user-menu" id="user-menu" style="display: none;">
+        <!-- user menu code -->
+    </div>
+    
+    <!-- LOGIN BUTTON -->
+    <button class="btn btn-primary" id="login-btn">
+        <i class="fas fa-sign-in-alt"></i>
+        <span data-i18n="login">Anmelden</span>
+    </button>
+    
+    <!-- LOGOUT BUTTON (hidden by default) -->
+    <a href="logout.html" id="logout-btn" class="btn btn-danger" style="display: none; margin-left: 10px;">
+        <i class="fas fa-sign-out-alt"></i>
+        <span data-i18n="logout">Abmelden</span>
+    </a>
+</div>
