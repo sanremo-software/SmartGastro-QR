@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartGastro Complete - QR-Bestellsystem & Zeiterfassung</title>
-    <meta name="description" content="Professionelles QR-Bestellsystem mit integrierter Zeiterfassung für Gastronomie. Nur 99€/Jahr für beide Softwaren inklusive.">
+    <meta name="description" content="Professionelles QR-Bestellsystem mit integrierter Zeiterfassung (Stempeln) für Gastronomiebetriebe. Zwei Softwaren in einem Paket.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -36,7 +36,6 @@
             line-height: 1.6;
             color: var(--dark);
             background-color: var(--light);
-            overflow-x: hidden;
         }
 
         .container {
@@ -45,21 +44,20 @@
             padding: 0 20px;
         }
 
-        /* Header */
+        /* Header & Navigation */
         header {
             background-color: white;
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 3px solid var(--primary);
         }
 
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 20px 0;
         }
 
         .logo {
@@ -67,15 +65,14 @@
             align-items: center;
             gap: 12px;
             font-size: 24px;
-            font-weight: 800;
+            font-weight: 700;
             color: var(--primary);
             text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
         }
 
-        .logo i {
-            font-size: 28px;
+        .logo img {
+            height: 40px;
+            width: auto;
         }
 
         .nav-links {
@@ -87,29 +84,12 @@
         .nav-links a {
             text-decoration: none;
             color: var(--dark);
-            font-weight: 600;
-            font-size: 15px;
+            font-weight: 500;
             transition: color 0.3s;
-            position: relative;
         }
 
         .nav-links a:hover {
             color: var(--primary);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
         }
 
         .language-selector {
@@ -167,37 +147,23 @@
             overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.03)" d="M0,0 L100,0 L100,100 Z"></path></svg>');
-            background-size: cover;
-        }
-
         .hero-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
-            position: relative;
-            z-index: 1;
         }
 
         .hero-text h1 {
             font-size: 48px;
             line-height: 1.2;
             margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .hero-text p {
             font-size: 20px;
             margin-bottom: 30px;
-            opacity: 0.95;
+            opacity: 0.9;
         }
 
         .hero-buttons {
@@ -218,187 +184,136 @@
             transition: all 0.3s;
             border: none;
             font-size: 16px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-
-        .btn:focus:not(:active)::after {
-            animation: ripple 1s ease-out;
-        }
-
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
         }
 
         .btn-primary {
             background-color: white;
             color: var(--primary);
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
         }
 
         .btn-primary:hover {
             background-color: #f0f9ff;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
             border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
         }
 
         .hero-image {
             position: relative;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            transform: perspective(1000px) rotateY(-5deg);
-            transition: transform 0.5s;
-        }
-
-        .hero-image:hover {
-            transform: perspective(1000px) rotateY(0deg);
         }
 
         .hero-image img {
             width: 100%;
             height: 400px;
             object-fit: cover;
-            display: block;
-        }
-
-        /* Payment Wall */
-        .payment-wall {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .payment-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
             border-radius: var(--radius);
-            padding: 50px;
             box-shadow: var(--shadow-lg);
-            border: 2px solid var(--primary);
-            position: relative;
-            overflow: hidden;
         }
 
-        .payment-container::before {
-            content: '🔒 GESCHÜTZTER BEREICH';
-            position: absolute;
-            top: 20px;
-            right: -30px;
-            background: var(--danger);
-            color: white;
-            padding: 8px 40px;
-            transform: rotate(45deg);
-            font-size: 12px;
-            font-weight: 700;
+        /* Video Section */
+        .video-section {
+            background-color: #f8fafc;
+            padding: 100px 0;
         }
 
-        .payment-icon {
-            font-size: 80px;
-            color: var(--primary);
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
+        .video-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .payment-wall h2 {
-            font-size: 36px;
-            color: var(--dark);
-            margin-bottom: 15px;
-        }
-
-        .payment-wall p {
-            font-size: 18px;
-            color: var(--gray);
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .price-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 32px;
-            font-weight: 800;
-            margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-        }
-
-        .price-period {
-            font-size: 18px;
-            color: var(--gray);
-            margin-bottom: 40px;
-        }
-
-        #paypal-button-container {
-            margin-top: 30px;
-            min-height: 55px;
-        }
-
-        .payment-features {
+        .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
             margin-top: 40px;
-            text-align: left;
         }
 
-        .payment-feature {
+        .video-player {
+            position: relative;
+            width: 100%;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            background: #000;
+        }
+
+        .video-player video {
+            width: 100%;
+            display: block;
+            filter: brightness(1.05) contrast(1.1) saturate(1.1);
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-player:hover .video-controls {
+            opacity: 1;
+        }
+
+        .video-control-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: #f8fafc;
-            border-radius: var(--radius-sm);
-            border-left: 4px solid var(--primary);
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--primary);
+            transition: all 0.3s;
         }
 
-        .payment-feature i {
-            color: var(--success);
-            font-size: 20px;
+        .video-control-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .video-title {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: var(--dark);
+        }
+
+        .video-description {
+            text-align: center;
+            color: var(--gray);
+            margin-top: 5px;
+            font-size: 14px;
         }
 
         /* Features Section */
@@ -411,21 +326,6 @@
             font-size: 36px;
             margin-bottom: 20px;
             color: var(--dark);
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(to right, transparent, var(--primary), transparent);
-            border-radius: 2px;
         }
 
         .section-subtitle {
@@ -433,7 +333,7 @@
             font-size: 18px;
             color: var(--gray);
             max-width: 700px;
-            margin: 30px auto 60px;
+            margin: 0 auto 60px;
         }
 
         .features-grid {
@@ -449,224 +349,462 @@
             padding: 40px 30px;
             box-shadow: var(--shadow);
             text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-top: 5px solid transparent;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .feature-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
-            border-top-color: var(--primary);
         }
 
         .feature-icon {
             font-size: 48px;
             color: var(--primary);
             margin-bottom: 20px;
-            display: inline-block;
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover .feature-icon {
-            transform: scale(1.2) rotate(5deg);
         }
 
         .feature-card h3 {
             font-size: 22px;
             margin-bottom: 15px;
-            color: var(--dark);
         }
 
         .feature-card p {
             color: var(--gray);
-            line-height: 1.7;
         }
 
-        /* Software Access Section */
-        .software-access {
-            background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
-            padding: 80px 0;
+        /* Gallery Section */
+        .gallery-section {
+            background-color: white;
+            padding: 100px 0;
         }
 
-        .software-grid {
+        .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            margin-top: 50px;
         }
 
-        .software-card {
-            background: white;
+        .gallery-item {
             border-radius: var(--radius);
-            padding: 40px;
+            overflow: hidden;
             box-shadow: var(--shadow);
-            text-align: center;
-            transition: all 0.3s;
-            border: 2px solid transparent;
+            transition: transform 0.3s;
             position: relative;
         }
 
-        .software-card:hover {
+        .gallery-item:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
         }
 
-        .software-card.locked::before {
-            content: '🔒';
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            color: var(--gray);
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
         }
 
-        .software-icon {
-            font-size: 60px;
-            color: var(--primary);
-            margin-bottom: 20px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .gallery-caption {
+            padding: 15px;
+            background: white;
         }
 
-        .software-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
+        .gallery-caption h4 {
+            margin-bottom: 5px;
             color: var(--dark);
         }
 
-        .software-card p {
+        .gallery-caption p {
             color: var(--gray);
-            margin-bottom: 25px;
-            line-height: 1.7;
+            font-size: 14px;
         }
 
-        .access-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 28px;
+        /* How It Works */
+        .how-it-works {
+            background-color: #f8fafc;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            counter-reset: step-counter;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 80px;
+        }
+
+        .step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60px;
+            height: 60px;
             background: var(--primary);
             color: white;
-            border-radius: var(--radius-sm);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            width: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
         }
 
-        .access-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        .step h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
         }
 
-        .access-btn.locked {
-            background: var(--gray);
-            cursor: not-allowed;
+        .step p {
+            color: var(--gray);
         }
 
-        .access-btn.locked:hover {
-            background: var(--gray);
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Demo Section */
-        .demo-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* Stempeln Software Section */
+        .stempeln-section {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
             color: white;
-            padding: 80px 0;
+            padding: 100px 0;
         }
 
-        .demo-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .demo-content h2 {
-            font-size: 42px;
-            margin-bottom: 30px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .demo-grid {
+        .stempeln-features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 50px;
         }
 
-        .demo-item {
+        .stempeln-feature {
             background: rgba(255, 255, 255, 0.1);
             border-radius: var(--radius);
             padding: 30px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s;
         }
 
-        .demo-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .demo-item h4 {
+        .stempeln-feature h4 {
             font-size: 20px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
-            justify-content: center;
         }
 
-        /* Video Section */
-        .video-section {
-            background-color: #f8fafc;
+        .stempeln-feature p {
+            opacity: 0.9;
+        }
+
+        /* Access Section */
+        .access-section {
+            background-color: white;
             padding: 100px 0;
         }
 
-        .video-container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
         }
 
-        .video-grid {
+        .access-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .access-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .access-card h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .access-card p {
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .software-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background-color: #f8fafc;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 50px 40px;
+            box-shadow: var(--shadow-lg);
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: border-color 0.3s;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+        }
+
+        .pricing-card h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .price {
+            font-size: 60px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .price-period {
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .price-note {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: var(--primary);
+            border: 1px solid #dbeafe;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features i {
+            color: var(--success);
+        }
+
+        #paypal-button-container {
+            margin-top: 30px;
+        }
+
+        /* Legal Section */
+        .legal-section {
+            background-color: #fef2f2;
+            border-radius: var(--radius);
+            padding: 40px;
+            margin-top: 60px;
+        }
+
+        .legal-section h3 {
+            color: var(--danger);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .legal-content {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--gray);
+        }
+
+        /* Login/Register Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+        }
+
+        .form-switch {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-switch a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Client Dashboard */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 0;
+            background-color: #f8fafc;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .welcome-message h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .welcome-message p {
+            color: var(--gray);
+        }
+
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dashboard-card h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .download-section {
+            text-align: center;
+            padding: 40px;
+            background: #f0f9ff;
+            border-radius: var(--radius);
             margin-top: 40px;
         }
 
-        .video-player {
-            position: relative;
-            width: 100%;
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            background: #000;
+        .software-links {
+            margin-top: 30px;
         }
 
-        .video-player video {
-            width: 100%;
-            height: 300px;
+        .software-link {
             display: block;
-            object-fit: cover;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s;
         }
 
-        .video-title {
-            margin-top: 15px;
-            font-size: 18px;
-            font-weight: 600;
-            text-align: center;
-            color: var(--dark);
+        .software-link:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .software-link h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         /* Footer */
@@ -674,7 +812,6 @@
             background-color: var(--dark);
             color: white;
             padding: 60px 0 30px;
-            border-top: 3px solid var(--primary);
         }
 
         .footer-content {
@@ -694,7 +831,6 @@
         .footer-links h4 {
             margin-bottom: 20px;
             font-size: 18px;
-            color: white;
         }
 
         .footer-links ul {
@@ -713,7 +849,6 @@
 
         .footer-links a:hover {
             color: white;
-            padding-left: 5px;
         }
 
         .footer-bottom {
@@ -724,68 +859,11 @@
             font-size: 14px;
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: var(--radius);
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            animation: slideUp 0.4s;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--gray);
-            transition: color 0.3s;
-        }
-
-        .close-modal:hover {
-            color: var(--danger);
-        }
-
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 992px) {
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
-                gap: 40px;
             }
             
             .video-grid {
@@ -799,13 +877,13 @@
             .mobile-menu-btn {
                 display: block;
             }
-            
-            .hero-text h1 {
-                font-size: 36px;
-            }
         }
 
         @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 36px;
+            }
+            
             .section {
                 padding: 60px 0;
             }
@@ -823,25 +901,10 @@
                 flex-direction: column;
             }
             
-            .payment-container {
-                padding: 30px 20px;
-            }
-            
-            .payment-wall h2 {
-                font-size: 28px;
-            }
-            
-            .price-badge {
-                font-size: 24px;
-                padding: 10px 20px;
-            }
-            
-            .hero-image {
-                transform: none;
-            }
-            
-            .hero-image:hover {
-                transform: none;
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
             }
         }
 
@@ -853,114 +916,102 @@
             color: var(--dark);
             cursor: pointer;
         }
+        
+        /* Gelateria Gush Demo */
+        .gelateria-demo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .gelateria-logo {
+            max-width: 300px;
+            margin: 0 auto 40px;
+        }
+        
+        .gelateria-logo img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .gelateria-description {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-size: 18px;
+            line-height: 1.8;
+        }
 
-        /* Success Animation */
-        .success-checkmark {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto;
+        /* User Menu */
+        .user-menu {
             position: relative;
+            display: none;
         }
 
-        .check-icon {
-            width: 80px;
-            height: 80px;
-            position: relative;
-            border-radius: 50%;
-            box-sizing: content-box;
-            border: 4px solid var(--success);
-            margin: 0 auto 20px;
-        }
-
-        .check-icon::before {
-            top: 3px;
-            left: -2px;
-            width: 30px;
-            transform-origin: 100% 50%;
-            border-radius: 100px 0 0 100px;
-        }
-
-        .check-icon::after {
-            top: 0;
-            left: 30px;
-            width: 60px;
-            transform-origin: 0 50%;
-            border-radius: 0 100px 100px 0;
-            animation: rotate-circle 4.25s ease-in;
-        }
-
-        .check-icon::before, .check-icon::after {
-            content: '';
-            height: 100px;
-            position: absolute;
-            background: white;
-            transform: rotate(-45deg);
-        }
-
-        .icon-line {
-            height: 5px;
-            background-color: var(--success);
+        .user-menu.active {
             display: block;
-            border-radius: 2px;
+        }
+
+        .user-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .user-dropdown {
             position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow);
+            min-width: 200px;
+            display: none;
             z-index: 10;
         }
 
-        .icon-line.line-tip {
-            top: 46px;
-            left: 14px;
-            width: 25px;
-            transform: rotate(45deg);
-            animation: icon-line-tip 0.75s;
+        .user-dropdown.active {
+            display: block;
         }
 
-        .icon-line.line-long {
-            top: 38px;
-            right: 8px;
-            width: 47px;
-            transform: rotate(-45deg);
-            animation: icon-line-long 0.75s;
+        .user-dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
         }
 
-        @keyframes rotate-circle {
-            0% { transform: rotate(-45deg); }
-            5% { transform: rotate(-45deg); }
-            12% { transform: rotate(-405deg); }
-            100% { transform: rotate(-405deg); }
-        }
-
-        @keyframes icon-line-tip {
-            0% { width: 0; left: 1px; top: 19px; }
-            54% { width: 0; left: 1px; top: 19px; }
-            70% { width: 50px; left: -8px; top: 37px; }
-            84% { width: 17px; left: 21px; top: 48px; }
-            100% { width: 25px; left: 14px; top: 45px; }
-        }
-
-        @keyframes icon-line-long {
-            0% { width: 0; right: 46px; top: 54px; }
-            65% { width: 0; right: 46px; top: 54px; }
-            84% { width: 55px; right: 0px; top: 35px; }
-            100% { width: 47px; right: 8px; top: 38px; }
+        .user-dropdown-item:hover {
+            background: #f3f4f6;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header & Navigation -->
     <header>
         <div class="container">
             <div class="nav-container">
                 <a href="#" class="logo">
-                    <i class="fas fa-utensils"></i>
-                    SmartGastro Complete
+                    <img src="https://via.placeholder.com/150x40/2563eb/ffffff?text=SmartGastro+Complete" alt="SmartGastro Complete Logo">
                 </a>
                 
                 <div class="nav-links">
                     <a href="#features">Funktionen</a>
-                    <a href="#software">Software</a>
-                    <a href="#demo">Demo</a>
-                    <a href="#pricing">Preis</a>
-                    <a href="#access">Zugang</a>
+                    <a href="#videos">Videos</a>
+                    <a href="#gallery">Fotos</a>
+                    <a href="#stempeln">Zeiterfassung</a>
+                    <a href="#access">Software Zugang</a>
+                    <a href="#pricing">Preise</a>
+                    <a href="#legal">Rechtliches</a>
                     
                     <div class="language-selector">
                         <button class="language-btn">
@@ -978,8 +1029,34 @@
                             <div class="language-option" data-lang="en">
                                 <span>🇬🇧 English</span>
                             </div>
+                            <div class="language-option" data-lang="pt">
+                                <span>🇵🇹 Português</span>
+                            </div>
                         </div>
                     </div>
+                    
+                    <div class="user-menu" id="user-menu">
+                        <button class="user-btn" id="user-btn">
+                            <i class="fas fa-user-circle"></i>
+                            <span id="user-name">Konto</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-dropdown" id="user-dropdown">
+                            <div class="user-dropdown-item" id="dashboard-link">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </div>
+                            <div class="user-dropdown-item" id="logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Abmelden</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span data-i18n="login">Anmelden</span>
+                    </button>
                 </div>
                 
                 <button class="mobile-menu-btn" id="mobile-menu-btn">
@@ -989,280 +1066,555 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Client Dashboard -->
+    <section class="dashboard" id="client-dashboard">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>2 Professionelle Softwaren<br>Nur <span style="color: #ffd700">99€/Jahr</span></h1>
-                    <p>QR-Bestellsystem & Zeiterfassung in einem Komplettpaket. Optimieren Sie Ihren Gastronomiebetrieb mit modernster Technologie.</p>
-                    <div class="hero-buttons">
-                        <button class="btn btn-primary" id="buy-now-hero">
-                            <i class="fas fa-shopping-cart"></i>
-                            Jetzt kaufen & Zugang erhalten
-                        </button>
-                        <a href="#demo" class="btn btn-secondary">
-                            <i class="fas fa-play-circle"></i>
-                            Demo ansehen
+            <div class="dashboard-header">
+                <div class="welcome-message">
+                    <h2>Willkommen, <span id="dashboard-username">Max Mustermann</span>!</h2>
+                    <p>Zugriff auf Ihre SmartGastro Softwaren</p>
+                </div>
+                <button class="btn btn-danger" id="dashboard-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Abmelden
+                </button>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-qrcode"></i> QR-Bestellsystem</h3>
+                    <p>Verwalten Sie Ihr QR-Bestellsystem für Ihr Restaurant oder Café.</p>
+                    <div class="software-links">
+                        <a href="https://sanremo-software.github.io/Eis-Menu/" target="_blank" class="software-link">
+                            <h4><i class="fas fa-external-link-alt"></i> Zum QR-Bestellsystem</h4>
+                            <p>Klicken Sie hier, um direkt zum Bestellsystem zu gelangen</p>
                         </a>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <img src="IMG-20251120-WA0003.jpg" alt="SmartGastro Complete System" 
-                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'">
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-users"></i> Mitarbeiter-Zeiterfassung</h3>
+                    <p>Verwalten Sie Mitarbeiter, Dienstpläne und Arbeitszeiten.</p>
+                    <div class="software-links">
+                        <a href="https://sanremo-software.github.io/Sanremo-mitarbeiter/" target="_blank" class="software-link">
+                            <h4><i class="fas fa-external-link-alt"></i> Zur Zeiterfassung</h4>
+                            <p>Klicken Sie hier, um zur Mitarbeiterverwaltung zu gelangen</p>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-cogs"></i> Systemeinstellungen</h3>
+                    <p>Passen Sie Ihr System an Ihre Bedürfnisse an.</p>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">
+                            <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                            Lizenz aktiv bis: 31.12.2025
+                        </li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">
+                            <i class="fas fa-store" style="color: var(--primary);"></i>
+                            Standort: Ihr Restaurant Name
+                        </li>
+                        <li style="padding: 8px 0;">
+                            <i class="fas fa-user-shield" style="color: var(--warning);"></i>
+                            Admin-Berechtigungen aktiv
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Payment Wall -->
-    <section class="payment-wall" id="pricing">
-        <div class="container">
-            <div class="payment-container">
-                <div class="payment-icon">
-                    <i class="fas fa-lock"></i>
-                </div>
-                <h2>Zugang zu beiden Softwaren</h2>
-                <p>Um vollen Zugriff auf das QR-Bestellsystem und die Zeiterfassungs-Software zu erhalten, benötigen Sie eine aktive Lizenz.</p>
-                
-                <div class="price-badge">99€</div>
-                <div class="price-period">pro Jahr • Beide Softwaren inklusive • Keine Einrichtungsgebühr</div>
-                
-                <div class="payment-features">
-                    <div class="payment-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>QR-Bestellsystem für Ihr Restaurant</span>
-                    </div>
-                    <div class="payment-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Zeiterfassung für Mitarbeiter</span>
-                    </div>
-                    <div class="payment-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Vollständiges Admin-Dashboard</span>
-                    </div>
-                    <div class="payment-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Technischer Support & Updates</span>
-                    </div>
-                </div>
-                
-                <div id="paypal-button-container"></div>
-                
-                <p style="margin-top: 30px; font-size: 14px; color: var(--gray);">
-                    <i class="fas fa-shield-alt"></i> Sichere Zahlung via PayPal • Jährlich kündbar • Sofortiger Zugang nach Zahlung
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Software Access Section -->
-    <section class="software-access" id="software">
-        <div class="container">
-            <h2 class="section-title">Ihre Softwaren im Überblick</h2>
-            <p class="section-subtitle">Zwei spezialisierte Systeme für einen reibungslosen Betrieb</p>
             
-            <div class="software-grid">
-                <div class="software-card locked">
-                    <div class="software-icon">
-                        <i class="fas fa-qrcode"></i>
-                    </div>
-                    <h3>QR-Bestellsystem</h3>
-                    <p>Modernes Bestellsystem über QR-Codes. Ihre Gäste scannen, bestellen und bezahlen direkt am Tisch. Bestellungen gehen automatisch an die Küche.</p>
-                    <button class="access-btn locked" id="software1-btn">
-                        <i class="fas fa-lock"></i>
-                        Kauf erforderlich
+            <div class="download-section">
+                <h3>Hilfe & Support</h3>
+                <p>Benötigen Sie Hilfe mit Ihren Softwaren? Kontaktieren Sie uns jederzeit.</p>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-question-circle"></i>
+                        Hilfe-Center
                     </button>
-                </div>
-                
-                <div class="software-card locked">
-                    <div class="software-icon">
-                        <i class="fas fa-users-clock"></i>
-                    </div>
-                    <h3>Zeiterfassung & Mitarbeiter</h3>
-                    <p>Professionelle Zeiterfassung mit Stempelfunktion. Mitarbeiterverwaltung, Dienstplanung und WhatsApp-Integration in einem System.</p>
-                    <button class="access-btn locked" id="software2-btn">
-                        <i class="fas fa-lock"></i>
-                        Kauf erforderlich
-                    </button>
-                </div>
-                
-                <div class="software-card">
-                    <div class="software-icon">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <h3>Admin Dashboard</h3>
-                    <p>Zentrale Steuerung beider Systeme. Verwalten Sie Bestellungen, Mitarbeiter und erhalten Sie detaillierte Analysen Ihres Betriebs.</p>
-                    <button class="access-btn" id="dashboard-btn">
-                        <i class="fas fa-external-link-alt"></i>
-                        Zum Dashboard (Nach Kauf)
+                    <button class="btn btn-secondary" style="margin-left: 10px;">
+                        <i class="fas fa-envelope"></i>
+                        Support kontaktieren
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="section" id="features">
-        <div class="container">
-            <h2 class="section-title">Warum SmartGastro Complete?</h2>
-            <p class="section-subtitle">Alles, was Sie für einen modernen Gastronomiebetrieb benötigen</p>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Sofortige Bestellungen</h3>
-                    <p>Kunden bestellen direkt vom Smartphone - keine Wartezeiten mehr für die Bedienung.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Umsatzsteigerung</h3>
-                    <p>Digitale Speisekarte mit Bildern erhöht die durchschnittliche Bestellsumme.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-user-clock"></i>
-                    </div>
-                    <h3>Zeitersparnis</h3>
-                    <p>Automatische Zeiterfassung spart Stunden bei der Lohnabrechnung.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-print"></i>
-                    </div>
-                    <h3>Automatischer Druck</h3>
-                    <p>Bestellungen gehen direkt in Küche/Bar - keine Fehler durch mündliche Bestellungen.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>100% Responsive</h3>
-                    <p>Funktioniert perfekt auf allen Geräten - Smartphone, Tablet und Desktop.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3>Deutscher Support</h3>
-                    <p>Persönlicher Support auf Deutsch bei allen Fragen und Problemen.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Demo Section -->
-    <section class="demo-section" id="demo">
-        <div class="container">
-            <div class="demo-content">
-                <h2>Live Demo: Gelateria Gush</h2>
-                <p style="font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto 30px;">
-                    Sehen Sie, wie ein Eiscafé in Berlin mit SmartGastro Complete arbeitet und seine Prozesse optimiert hat.
-                </p>
-                
-                <div class="demo-grid">
-                    <div class="demo-item">
-                        <h4><i class="fas fa-qrcode"></i> QR-Bestellung</h4>
-                        <p>Kunden scannen QR-Code, wählen ihre Eissorten und Toppings direkt am Tisch aus.</p>
-                    </div>
-                    
-                    <div class="demo-item">
-                        <h4><i class="fas fa-print"></i> Automatischer Druck</h4>
-                        <p>Bestellung erscheint sofort in der Küche - klar, deutlich und fehlerfrei.</p>
-                    </div>
-                    
-                    <div class="demo-item">
-                        <h4><i class="fas fa-users"></i> Mitarbeiter Verwaltung</h4>
-                        <p>Einfache Zeiterfassung und Dienstplanung für das gesamte Team.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Video Section -->
-    <section class="video-section" id="videos">
-        <div class="container">
-            <h2 class="section-title">Video Demonstrationen</h2>
-            <p class="section-subtitle">Sehen Sie beide Systeme in Aktion</p>
-            
-            <div class="video-container">
-                <div class="video-grid">
-                    <div class="video-item">
-                        <div class="video-player">
-                            <video controls>
-                                <source src="VID-20251203-WA0008.mp4" type="video/mp4">
-                                Ihr Browser unterstützt das Video-Tag nicht.
-                            </video>
+    <!-- Main Content (shown when not logged in) -->
+    <div id="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 data-i18n="hero_title">Komplettsystem für Gastronomiebetriebe</h1>
+                        <p data-i18n="hero_subtitle">QR-Bestellsystem & Zeiterfassung in einem Paket. Professionell, einfach, effizient.</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" id="buy-now-btn">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span data-i18n="buy_now">Jetzt kaufen - 149€/Jahr</span>
+                            </button>
+                            <a href="#videos" class="btn btn-secondary">
+                                <i class="fas fa-play-circle"></i>
+                                <span data-i18n="video_demo">Video Demo ansehen</span>
+                            </a>
                         </div>
-                        <div class="video-title">QR-Bestellsystem Demo</div>
                     </div>
-                    
-                    <div class="video-item">
-                        <div class="video-player">
-                            <video controls>
-                                <source src="VID-20251203-WA0010.mp4" type="video/mp4">
-                                Ihr Browser unterstützt das Video-Tag nicht.
-                            </video>
-                        </div>
-                        <div class="video-title">Zeiterfassung Demo</div>
+                    <div class="hero-image">
+                        <!-- Foto horizontal completa -->
+                        <img src="1000002998.jpg" alt="SmartGastro Complete Demo" 
+                             onerror="this.src='https://via.placeholder.com/600x400/2563eb/ffffff?text=QR+Bestellsystem+%26+Zeiterfassung'">
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Success Modal -->
-    <div class="modal" id="success-modal">
+        <!-- Gelateria Gush Demo Section -->
+        <section class="gelateria-demo">
+            <div class="container">
+                <div class="gelateria-logo">
+                    <!-- Logo Gelateria Gush -->
+                    <img src="https://via.placeholder.com/300x100/ffffff/667eea?text=Gelateria+Gush+Demo" alt="Gelateria Gush">
+                </div>
+                
+                <h2 style="font-size: 36px; margin-bottom: 30px;">Kundenerfahrung: Gelateria Gush</h2>
+                
+                <div class="gelateria-description">
+                    <p>Willkommen in der neuen Generation der Eiscafe-Bedienung. Ihre Gäste scannen einfach den QR-Code auf dem Tisch, wählen Eisbecher, Sorten, Sahne und Portionen - ganz einfach.</p>
+                    <p>In der Küche erscheint der Ausdruck automatisch. Klar, schnell und fehlerfrei. Mit nur einem Klick wird die Bestellung direkt an Ihr Team gesendet.</p>
+                    <p>Alle Verkäufe werden wie gewohnt über die Kasse verbucht - 100% Finanzamt-konform.</p>
+                </div>
+                
+                <button class="btn btn-primary" style="background: white; color: #764ba2;">
+                    <i class="fas fa-play"></i>
+                    <span>Video ansehen</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Video Section -->
+        <section class="video-section" id="videos">
+            <div class="container">
+                <h2 class="section-title" data-i18n="video_title">Video-Demonstrationen</h2>
+                <p class="section-subtitle" data-i18n="video_subtitle">Sehen Sie beide Systeme in Aktion - Seite an Seite</p>
+                
+                <div class="video-container">
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <div class="video-player">
+                                <video id="video1" controls>
+                                    <source src="VID-20251203-WA0008.mp4" type="video/mp4">
+                                    Ihr Browser unterstützt das Video-Tag nicht.
+                                </video>
+                                <div class="video-controls">
+                                    <button class="video-control-btn" data-video="video1">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <button class="video-control-btn" data-video="video1">
+                                        <i class="fas fa-pause"></i>
+                                    </button>
+                                    <button class="video-control-btn" data-video="video1">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="video-title">QR-Bestellsystem Demo</div>
+                            <div class="video-description">Kundenbestellung über QR-Code</div>
+                        </div>
+                        
+                        <div class="video-item">
+                            <div class="video-player">
+                                <video id="video2" controls>
+                                    <source src="VID-20251203-WA0010.mp4" type="video/mp4">
+                                    Ihr Browser unterstützt das Video-Tag nicht.
+                                </video>
+                                <div class="video-controls">
+                                    <button class="video-control-btn" data-video="video2">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <button class="video-control-btn" data-video="video2">
+                                        <i class="fas fa-pause"></i>
+                                    </button>
+                                    <button class="video-control-btn" data-video="video2">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="video-title">Zeiterfassung (Stempeln) Demo</div>
+                            <div class="video-description">Mitarbeiter-Zeiterfassung in Aktion</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery-section" id="gallery">
+            <div class="container">
+                <h2 class="section-title" data-i18n="gallery_title">System Screenshots</h2>
+                <p class="section-subtitle" data-i18n="gallery_subtitle">Sehen Sie, wie das System in der Praxis aussieht</p>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="1000002998.jpg" alt="SmartGastro QR Interface" 
+                             onerror="this.src='https://via.placeholder.com/600x400/2563eb/ffffff?text=QR+System+Interface'">
+                        <div class="gallery-caption">
+                            <h4 data-i18n="gallery1_title">QR Code Bestellinterface</h4>
+                            <p data-i18n="gallery1_desc">Kundenansicht für einfache Bestellungen</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="IMG-20251119-WA0011.jpg" alt="SmartGastro QR Screenshot 1" 
+                             onerror="this.src='https://via.placeholder.com/600x400/10b981/ffffff?text=Admin+Dashboard'">
+                        <div class="gallery-caption">
+                            <h4 data-i18n="gallery2_title">Admin Dashboard</h4>
+                            <p data-i18n="gallery2_desc">Vollständige Übersicht für den Betreiber</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="IMG-20251120-WA0003.jpg" alt="SmartGastro QR Screenshot 2" 
+                             onerror="this.src='https://via.placeholder.com/600x400/8b5cf6/ffffff?text=Stempeln+Interface'">
+                        <div class="gallery-caption">
+                            <h4 data-i18n="gallery3_title">Stempeln Interface</h4>
+                            <p data-i18n="gallery3_desc">Zeiterfassung für Mitarbeiter</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section" id="features">
+            <div class="container">
+                <h2 class="section-title" data-i18n="features_title">Vollständiges System inklusive</h2>
+                <p class="section-subtitle" data-i18n="features_subtitle">Zwei professionelle Softwaren in einem Paket</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <h3 data-i18n="feature1_title">QR Bestellsystem</h3>
+                        <p data-i18n="feature1_desc">Kunden scannen QR-Code, bestellen direkt vom Smartphone</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3 data-i18n="feature2_title">Admin Dashboard</h3>
+                        <p data-i18n="feature2_desc">Vollständige Übersicht über Bestellungen, Verkäufe und Kunden</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <h3 data-i18n="feature3_title">Kundenverwaltung</h3>
+                        <p data-i18n="feature3_desc">Verwalten Sie Kunden, Bestellhistorien und Präferenzen</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 data-i18n="feature4_title">Verkaufsanalyse</h3>
+                        <p data-i18n="feature4_desc">Detaillierte Berichte und Umsatzstatistiken</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-print"></i>
+                        </div>
+                        <h3 data-i18n="feature5_title">Automatischer Druck</h3>
+                        <p data-i18n="feature5_desc">Bestellungen gehen direkt in Küche/Bar zum Ausdruck</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 data-i18n="feature6_title">100% Responsive</h3>
+                        <p data-i18n="feature6_desc">Funktioniert auf allen Geräten - Desktop, Tablet, Smartphone</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stempeln Software Section -->
+        <section class="section stempeln-section" id="stempeln">
+            <div class="container">
+                <h2 class="section-title" style="color: white;">Zeiterfassung (Stempeln) Software</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Komplette Mitarbeiterverwaltung mit Zeiterfassung</p>
+                
+                <div class="stempeln-features">
+                    <div class="stempeln-feature">
+                        <h4><i class="fas fa-clock"></i> 1️⃣ Ein-/Ausstempeln</h4>
+                        <p>Mitarbeiter stempeln per Klick ein und aus. System erfasst exakte Uhrzeit, Datum und Name. Optional mit GPS-Verifikation für Standortkontrolle.</p>
+                    </div>
+                    
+                    <div class="stempeln-feature">
+                        <h4><i class="fas fa-history"></i> 2️⃣ Arbeitszeiten-Historie</h4>
+                        <p>Tägliche und monatliche Übersicht aller Arbeitszeiten. Export und Druckfunktion für monatliche Abrechnungen.</p>
+                    </div>
+                    
+                    <div class="stempeln-feature">
+                        <h4><i class="fas fa-users"></i> 3️⃣ Mitarbeiterverwaltung</h4>
+                        <p>Admin kann Mitarbeiter hinzufügen, entfernen und bearbeiten. Geschützter Admin-Bereich mit Passwortschutz.</p>
+                    </div>
+                    
+                    <div class="stempeln-feature">
+                        <h4><i class="fas fa-calendar-alt"></i> 4️⃣ Dienstplan</h4>
+                        <p>Monatliche Dienstplanerstellung. Automatische WhatsApp-Benachrichtigung an Mitarbeiter.</p>
+                    </div>
+                    
+                    <div class="stempeln-feature">
+                        <h4><i class="fab fa-whatsapp"></i> 5️⃣ WhatsApp Integration</h4>
+                        <p>Direkte Kommunikation mit Mitarbeitern über integrierten WhatsApp-Button. Schnelle Planänderungen und Mitteilungen.</p>
+                    </div>
+                    
+                    <div class="stempeln-feature">
+                        <h4><i class="fas fa-lock"></i> 6️⃣ Geschützter Zugang</h4>
+                        <p>Admin-Passwortschutz für sensible Funktionen. Einfache Benutzeroberfläche für alle Mitarbeiter.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 50px;">
+                    <p style="font-size: 20px; opacity: 0.9;">Diese Zeiterfassungs-Software ist speziell für Eiscafé Sanremo entwickelt und wird zusammen mit dem QR-Bestellsystem geliefert.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Access Section -->
+        <section class="section access-section" id="access">
+            <div class="container">
+                <h2 class="section-title">Software Zugang</h2>
+                <p class="section-subtitle">Direkter Zugriff auf beide Softwaren nach dem Kauf</p>
+                
+                <div class="access-grid">
+                    <div class="access-card">
+                        <div class="software-badge">QR-Bestellsystem</div>
+                        <h3>Eis-Menu Bestellsystem</h3>
+                        <p>Professionelles QR-Code Bestellsystem für Restaurants, Cafés und Eiscafés. Kunden bestellen direkt vom Smartphone.</p>
+                        <a href="https://sanremo-software.github.io/Eis-Menu/" target="_blank" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-external-link-alt"></i>
+                            Zum Bestellsystem
+                        </a>
+                    </div>
+                    
+                    <div class="access-card">
+                        <div class="software-badge">Zeiterfassung</div>
+                        <h3>Sanremo Mitarbeiter</h3>
+                        <p>Komplette Mitarbeiterverwaltung mit Zeiterfassung, Dienstplanung und WhatsApp-Integration.</p>
+                        <a href="https://sanremo-software.github.io/Sanremo-mitarbeiter/" target="_blank" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-external-link-alt"></i>
+                            Zur Zeiterfassung
+                        </a>
+                    </div>
+                    
+                    <div class="access-card">
+                        <div class="software-badge">Admin Panel</div>
+                        <h3>Dashboard Zugang</h3>
+                        <p>Zentrales Dashboard zur Verwaltung beider Systeme. Nur für registrierte Kunden verfügbar.</p>
+                        <button class="btn btn-secondary" style="width: 100%;" id="access-login-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Zum Login
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 50px; padding: 30px; background: #f0f9ff; border-radius: var(--radius);">
+                    <h3>Wie erhalte ich Zugang?</h3>
+                    <p style="margin-top: 15px;">1. Kaufen Sie das SmartGastro Complete Paket<br>
+                    2. Sie erhalten Login-Daten per E-Mail<br>
+                    3. Melden Sie sich an und erhalten Sie Zugriff auf beide Softwaren</p>
+                    <button class="btn btn-primary" style="margin-top: 20px;" id="access-buy-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Jetzt kaufen und Zugang erhalten
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="section how-it-works" id="how-it-works">
+            <div class="container">
+                <h2 class="section-title" data-i18n="how_title">So einfach funktioniert's</h2>
+                <p class="section-subtitle" data-i18n="how_subtitle">Vier einfache Schritte zu einem effizienteren Betrieb</p>
+                
+                <div class="steps">
+                    <div class="step">
+                        <h3 data-i18n="step1_title">QR-Code scannen</h3>
+                        <p data-i18n="step1_desc">Ihre Gäste scannen den QR-Code auf dem Tisch mit dem Smartphone</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h3 data-i18n="step2_title">Digital bestellen</h3>
+                        <p data-i18n="step2_desc">Speisekarte erscheint - Auswählen, Bestellen, Bezahlen</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h3 data-i18n="step3_title">Automatische Weiterleitung</h3>
+                        <p data-i18n="step3_desc">Bestellung geht direkt an Küche/Bar - Kein Warten notwendig</p>
+                    </div>
+                    
+                    <div class="step">
+                        <h3 data-i18n="step4_title">Admin Übersicht</h3>
+                        <p data-i18n="step4_desc">Sie behalten alle Bestellungen und Verkäufe im Blick</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="section pricing" id="pricing">
+            <div class="container">
+                <h2 class="section-title" data-i18n="pricing_title">Komplettpaket - Beide Softwaren</h2>
+                <p class="section-subtitle" data-i18n="pricing_subtitle">QR-Bestellsystem + Zeiterfassung (Stempeln) in einem Paket</p>
+                
+                <div class="pricing-card">
+                    <h3 data-i18n="plan_title">SmartGastro Complete</h3>
+                    <div class="price">149€</div>
+                    <div class="price-period" data-i18n="price_period">pro Jahr • 1 Standort</div>
+                    
+                    <div class="price-note">
+                        <i class="fas fa-gift"></i> Enthält beide Softwaren: QR-System + Stempeln-Software
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Vollständiges QR-Bestellsystem</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Zeiterfassung (Stempeln) Software</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Admin-Panel mit Dashboard</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Mitarbeiterverwaltung & Dienstplan</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Kunden- und Verkaufsverwaltung</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Automatische Bestellweiterleitung</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>WhatsApp Integration</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check"></i>
+                            <span>Technischer Support & Updates</span>
+                        </li>
+                    </ul>
+                    
+                    <div id="paypal-button-container"></div>
+                    
+                    <p style="margin-top: 20px; font-size: 14px; color: var(--gray);" data-i18n="payment_info">
+                        Sichere Zahlung via PayPal • Jährlich kündbar • Keine Einrichtungsgebühr
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legal Section -->
+        <section class="section" id="legal">
+            <div class="container">
+                <div class="legal-section">
+                    <h3 data-i18n="legal_title">Wichtige rechtliche Hinweise</h3>
+                    <div class="legal-content">
+                        <p data-i18n="legal_1"><strong>§ 69a UrhG - Schutz von Computerprogrammen:</strong> Das SmartGastro System ist urheberrechtlich geschützt. Jegliche Vervielfältigung, Verbreitung oder Veränderung ohne ausdrückliche Genehmigung ist untersagt.</p>
+                        
+                        <p data-i18n="legal_2"><strong>Haftungsausschluss:</strong> SmartGastro ist ein internes Organisationssystem zur Bestellverwaltung und Zeiterfassung. Es ersetzt kein Kassensystem und übernimmt keine steuerrechtlichen Funktionen.</p>
+                        
+                        <p data-i18n="legal_3"><strong>Kundenspezifische Anpassungen:</strong> Der Kunde ist verantwortlich für die konforme Nutzung des Systems gemäß den lokalen gesetzlichen Bestimmungen (insbesondere KassenSichV und GoBD).</p>
+                        
+                        <p data-i18n="legal_4"><strong>Keine Gewährleistung für steuerliche Konformität:</strong> Der Anbieter übernimmt keine Gewähr für die steuerliche oder rechtliche Konformität der vom Kunden mit dem System erzeugten Daten.</p>
+                        
+                        <p data-i18n="legal_5"><strong>Urheberrecht:</strong> Alle Rechte am Softwarecode, Design und Konzept liegen beim Anbieter. Eine Weitergabe oder kommerzielle Nutzung der Software durch Dritte ist untersagt.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Login/Register Modal -->
+    <div class="modal" id="auth-modal">
         <div class="modal-content">
-            <button class="close-modal" id="close-success-modal">&times;</button>
+            <button class="close-modal" id="close-modal">&times;</button>
             
-            <div class="success-checkmark">
-                <div class="check-icon">
-                    <span class="icon-line line-tip"></span>
-                    <span class="icon-line line-long"></span>
-                    <div class="icon-circle"></div>
-                    <div class="icon-fix"></div>
+            <div id="login-form">
+                <h2 data-i18n="login_form_title">Kunden-Login</h2>
+                <p style="margin-bottom: 20px; color: var(--gray);" data-i18n="login_form_desc">Melden Sie sich an, um auf Ihre Software zuzugreifen</p>
+                
+                <div class="form-group">
+                    <label for="login-email" data-i18n="email_label">E-Mail Adresse</label>
+                    <input type="email" id="login-email" placeholder="ihre@email.de">
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password" data-i18n="password_label">Passwort</label>
+                    <input type="password" id="login-password" placeholder="••••••••">
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%;" id="submit-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span data-i18n="login_button">Einloggen</span>
+                </button>
+                
+                <div class="form-switch">
+                    <p data-i18n="no_account">Noch kein Konto? <a href="#" id="switch-to-register">Hier registrieren</a></p>
                 </div>
             </div>
             
-            <h2 style="text-align: center; margin-bottom: 20px;">Zahlung erfolgreich!</h2>
-            <p style="text-align: center; color: var(--gray); margin-bottom: 30px;">
-                Vielen Dank für Ihren Kauf! Ihr Zugang wird jetzt aktiviert.
-            </p>
-            
-            <div style="background: #f0f9ff; padding: 20px; border-radius: var(--radius-sm); margin-bottom: 30px;">
-                <h4 style="margin-bottom: 15px; color: var(--primary);">
-                    <i class="fas fa-key"></i> Ihre Zugangsdaten:
-                </h4>
-                <p style="margin-bottom: 10px;">
-                    <strong>Dashboard:</strong> <span id="dashboard-url">Wird generiert...</span>
-                </p>
-                <p style="margin-bottom: 10px;">
-                    <strong>Login:</strong> Ihre E-Mail Adresse
-                </p>
-                <p>
-                    <strong>Passwort:</strong> Wurde Ihnen per E-Mail gesendet
-                </p>
+            <div id="register-form" style="display: none;">
+                <h2 data-i18n="register_form_title">Neues Konto</h2>
+                <p style="margin-bottom: 20px; color: var(--gray);" data-i18n="register_form_desc">Registrieren Sie sich für den Zugang zum SmartGastro System</p>
+                
+                <div class="form-group">
+                    <label for="register-name" data-i18n="name_label">Vor- und Nachname</label>
+                    <input type="text" id="register-name" placeholder="Max Mustermann">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-business" data-i18n="business_label">Betriebsname</label>
+                    <input type="text" id="register-business" placeholder="Ihr Restaurant Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email" data-i18n="email_label">E-Mail Adresse</label>
+                    <input type="email" id="register-email" placeholder="ihre@email.de">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password" data-i18n="password_label">Passwort</label>
+                    <input type="password" id="register-password" placeholder="••••••••">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-confirm" data-i18n="confirm_password_label">Passwort bestätigen</label>
+                    <input type="password" id="register-confirm" placeholder="••••••••">
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%;" id="submit-register">
+                    <i class="fas fa-user-plus"></i>
+                    <span data-i18n="register_button">Konto erstellen</span>
+                </button>
+                
+                <div class="form-switch">
+                    <p data-i18n="has_account">Bereits registriert? <a href="#" id="switch-to-login">Zum Login</a></p>
+                </div>
             </div>
-            
-            <button class="access-btn" id="go-to-dashboard" style="margin-bottom: 15px;">
-                <i class="fas fa-tachometer-alt"></i>
-                Zum Dashboard
-            </button>
-            
-            <button class="btn btn-secondary" style="width: 100%;" id="close-success-btn">
-                Schließen
-            </button>
         </div>
     </div>
 
@@ -1272,37 +1624,35 @@
             <div class="footer-content">
                 <div>
                     <div class="footer-logo">SmartGastro Complete</div>
-                    <p>Professionelles QR-Bestellsystem & Zeiterfassung für Gastronomiebetriebe. Zwei Softwaren in einem Paket für nur 99€/Jahr.</p>
+                    <p data-i18n="footer_desc">Professionelles QR-Bestellsystem & Zeiterfassung für Gastronomiebetriebe. Zwei Softwaren in einem Paket.</p>
                 </div>
                 
                 <div class="footer-links">
-                    <h4>Softwaren</h4>
+                    <h4 data-i18n="quick_links">Schnellzugriff</h4>
                     <ul>
-                        <li><a href="#software">QR-Bestellsystem</a></li>
-                        <li><a href="#software">Zeiterfassung</a></li>
-                        <li><a href="#features">Funktionen</a></li>
-                        <li><a href="#demo">Demo</a></li>
-                        <li><a href="#pricing">Preis & Kauf</a></li>
+                        <li><a href="#features" data-i18n="link_features">Funktionen</a></li>
+                        <li><a href="#videos" data-i18n="link_videos">Videos</a></li>
+                        <li><a href="#gallery" data-i18n="link_gallery">Fotos</a></li>
+                        <li><a href="#stempeln" data-i18n="link_stempeln">Zeiterfassung</a></li>
+                        <li><a href="#access" data-i18n="link_access">Software Zugang</a></li>
+                        <li><a href="#pricing" data-i18n="link_pricing">Preise</a></li>
+                        <li><a href="#legal" data-i18n="link_legal">Rechtliches</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-links">
-                    <h4>Kontakt & Support</h4>
+                    <h4 data-i18n="contact">Kontakt</h4>
                     <ul>
                         <li><i class="fas fa-envelope"></i> paulo.sanremo@web.de</li>
                         <li><i class="fas fa-phone"></i> +49 176 7280 9926</li>
                         <li><i class="fas fa-map-marker-alt"></i> Deutschland</li>
-                        <li><i class="fas fa-question-circle"></i> Technischer Support</li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>© 2025 SmartGastro Complete. Alle Rechte vorbehalten. Das System ist urheberrechtlich geschützt.</p>
-                <p style="margin-top: 10px; font-size: 12px;">
-                    SmartGastro ist ein internes Organisationssystem. Es ersetzt keine Kassensysteme. 
-                    Der Kunde ist für die steuerlich konforme Nutzung verantwortlich.
-                </p>
+                <p data-i18n="copyright">© 2025 SmartGastro Complete. Alle Rechte vorbehalten. Das System ist urheberrechtlich geschützt.</p>
+                <p style="margin-top: 10px; font-size: 12px;" data-i18n="footer_legal">SmartGastro ist ein internes Organisationssystem. Es ersetzt keine Kassensysteme. Der Kunde ist für die steuerlich konforme Nutzung verantwortlich.</p>
             </div>
         </div>
     </footer>
@@ -1310,67 +1660,548 @@
     <!-- JavaScript -->
     <script src="https://www.paypal.com/sdk/js?client-id=AXNSOvcYdaokv8QFi8lhyhfgsMwzgx5u5NG1yjLW4t7jNQHuyJ0I9ZlM6M_qQ9ptxRzgaw56LgMd47UR&vault=true&intent=subscription&locale=de_DE"></script>
     <script>
-        // Current user state
-        let currentUser = null;
-        let hasPaid = false;
+        // Multi-language support
+        const translations = {
+            de: {
+                // Navigation
+                login: "Anmelden",
+                
+                // Hero
+                hero_title: "Komplettsystem für Gastronomiebetriebe",
+                hero_subtitle: "QR-Bestellsystem & Zeiterfassung in einem Paket. Professionell, einfach, effizient.",
+                buy_now: "Jetzt kaufen - 149€/Jahr",
+                video_demo: "Video Demo ansehen",
+                
+                // Video Section
+                video_title: "Video-Demonstrationen",
+                video_subtitle: "Sehen Sie beide Systeme in Aktion - Seite an Seite",
+                
+                // Gallery
+                gallery_title: "System Screenshots",
+                gallery_subtitle: "Sehen Sie, wie das System in der Praxis aussieht",
+                gallery1_title: "QR Code Bestellinterface",
+                gallery1_desc: "Kundenansicht für einfache Bestellungen",
+                gallery2_title: "Admin Dashboard",
+                gallery2_desc: "Vollständige Übersicht für den Betreiber",
+                gallery3_title: "Stempeln Interface",
+                gallery3_desc: "Zeiterfassung für Mitarbeiter",
+                
+                // Features
+                features_title: "Vollständiges System inklusive",
+                features_subtitle: "Zwei professionelle Softwaren in einem Paket",
+                feature1_title: "QR Bestellsystem",
+                feature1_desc: "Kunden scannen QR-Code, bestellen direkt vom Smartphone",
+                feature2_title: "Admin Dashboard",
+                feature2_desc: "Vollständige Übersicht über Bestellungen, Verkäufe und Kunden",
+                feature3_title: "Kundenverwaltung",
+                feature3_desc: "Verwalten Sie Kunden, Bestellhistorien und Präferenzen",
+                feature4_title: "Verkaufsanalyse",
+                feature4_desc: "Detaillierte Berichte und Umsatzstatistiken",
+                feature5_title: "Automatischer Druck",
+                feature5_desc: "Bestellungen gehen direkt in Küche/Bar zum Ausdruck",
+                feature6_title: "100% Responsive",
+                feature6_desc: "Funktioniert auf allen Geräten - Desktop, Tablet, Smartphone",
+                
+                // How it works
+                how_title: "So einfach funktioniert's",
+                how_subtitle: "Vier einfache Schritte zu einem effizienteren Betrieb",
+                step1_title: "QR-Code scannen",
+                step1_desc: "Ihre Gäste scannen den QR-Code auf dem Tisch mit dem Smartphone",
+                step2_title: "Digital bestellen",
+                step2_desc: "Speisekarte erscheint - Auswählen, Bestellen, Bezahlen",
+                step3_title: "Automatische Weiterleitung",
+                step3_desc: "Bestellung geht direkt an Küche/Bar - Kein Warten notwendig",
+                step4_title: "Admin Übersicht",
+                step4_desc: "Sie behalten alle Bestellungen und Verkäufe im Blick",
+                
+                // Pricing
+                pricing_title: "Komplettpaket - Beide Softwaren",
+                pricing_subtitle: "QR-Bestellsystem + Zeiterfassung (Stempeln) in einem Paket",
+                plan_title: "SmartGastro Complete",
+                price_period: "pro Jahr • 1 Standort",
+                payment_info: "Sichere Zahlung via PayPal • Jährlich kündbar • Keine Einrichtungsgebühr",
+                
+                // Legal
+                legal_title: "Wichtige rechtliche Hinweise",
+                legal_1: "§ 69a UrhG - Schutz von Computerprogrammen: Das SmartGastro System ist urheberrechtlich geschützt. Jegliche Vervielfältigung, Verbreitung oder Veränderung ohne ausdrückliche Genehmigung ist untersagt.",
+                legal_2: "Haftungsausschluss: SmartGastro ist ein internes Organisationssystem zur Bestellverwaltung und Zeiterfassung. Es ersetzt kein Kassensystem und übernimmt keine steuerrechtlichen Funktionen.",
+                legal_3: "Kundenspezifische Anpassungen: Der Kunde ist verantwortlich für die konforme Nutzung des Systems gemäß den lokalen gesetzlichen Bestimmungen (insbesondere KassenSichV und GoBD).",
+                legal_4: "Keine Gewährleistung für steuerliche Konformität: Der Anbieter übernimmt keine Gewähr für die steuerliche oder rechtliche Konformität der vom Kunden mit dem System erzeugten Daten.",
+                legal_5: "Urheberrecht: Alle Rechte am Softwarecode, Design und Konzept liegen beim Anbieter. Eine Weitergabe oder kommerzielle Nutzung der Software durch Dritte ist untersagt.",
+                
+                // Login/Register
+                login_form_title: "Kunden-Login",
+                login_form_desc: "Melden Sie sich an, um auf Ihre Software zuzugreifen",
+                email_label: "E-Mail Adresse",
+                password_label: "Passwort",
+                login_button: "Einloggen",
+                no_account: "Noch kein Konto?",
+                register_form_title: "Neues Konto",
+                register_form_desc: "Registrieren Sie sich für den Zugang zum SmartGastro System",
+                name_label: "Vor- und Nachname",
+                business_label: "Betriebsname",
+                confirm_password_label: "Passwort bestätigen",
+                register_button: "Konto erstellen",
+                has_account: "Bereits registriert?",
+                
+                // Footer
+                footer_desc: "Professionelles QR-Bestellsystem & Zeiterfassung für Gastronomiebetriebe. Zwei Softwaren in einem Paket.",
+                quick_links: "Schnellzugriff",
+                link_features: "Funktionen",
+                link_videos: "Videos",
+                link_gallery: "Fotos",
+                link_stempeln: "Zeiterfassung",
+                link_access: "Software Zugang",
+                link_pricing: "Preise",
+                link_legal: "Rechtliches",
+                contact: "Kontakt",
+                copyright: "© 2025 SmartGastro Complete. Alle Rechte vorbehalten. Das System ist urheberrechtlich geschützt.",
+                footer_legal: "SmartGastro ist ein internes Organisationssystem. Es ersetzt keine Kassensysteme. Der Kunde ist für die steuerlich konforme Nutzung verantwortlich."
+            },
+            it: {
+                login: "Accedi",
+                hero_title: "Sistema completo per attività di ristorazione",
+                hero_subtitle: "Sistema di ordinazione QR & rilevazione presenze in un unico pacchetto. Professionale, semplice, efficiente.",
+                buy_now: "Acquista ora - 149€/anno",
+                video_demo: "Guarda la demo video",
+                video_title: "Dimostrazioni Video",
+                video_subtitle: "Guarda entrambi i sistemi in azione - Uno accanto all'altro",
+                gallery_title: "Screenshot del sistema",
+                gallery_subtitle: "Guarda come appare il sistema nella pratica",
+                gallery1_title: "Interfaccia ordini QR",
+                gallery1_desc: "Vista cliente per ordinazioni semplici",
+                gallery2_title: "Dashboard Admin",
+                gallery2_desc: "Panoramica completa per il gestore",
+                gallery3_title: "Interfaccia timbratura",
+                gallery3_desc: "Rilevazione presenze per dipendenti",
+                features_title: "Sistema completo incluso",
+                features_subtitle: "Due software professionali in un unico pacchetto",
+                feature1_title: "Sistema di ordinazione QR",
+                feature1_desc: "I clienti scansionano il codice QR, ordinano direttamente dallo smartphone",
+                feature2_title: "Dashboard Admin",
+                feature2_desc: "Panoramica completa di ordini, vendite e clienti",
+                feature3_title: "Gestione clienti",
+                feature3_desc: "Gestisci clienti, cronologia ordini e preferenze",
+                feature4_title: "Analisi delle vendite",
+                feature4_desc: "Report dettagliati e statistiche di vendita",
+                feature5_title: "Stampa automatica",
+                feature5_desc: "Gli ordini vanno direttamente in cucina/bar per la stampa",
+                feature6_title: "100% Responsive",
+                feature6_desc: "Funziona su tutti i dispositivi - Desktop, Tablet, Smartphone",
+                how_title: "Funziona così semplicemente",
+                how_subtitle: "Quattro semplici passi per un'attività più efficiente",
+                step1_title: "Scansiona il codice QR",
+                step1_desc: "I tuoi clienti scansionano il codice QR sul tavolo con lo smartphone",
+                step2_title: "Ordina digitalmente",
+                step2_desc: "Il menu appare - Scegli, Ordina, Paga",
+                step3_title: "Inoltro automatico",
+                step3_desc: "L'ordine va direttamente in cucina/bar - Nessuna attesa necessaria",
+                step4_title: "Panoramica amministrativa",
+                step4_desc: "Tieni traccia di tutti gli ordini e le vendite",
+                pricing_title: "Pacchetto completo - Entrambi i software",
+                pricing_subtitle: "Sistema ordinazione QR + Rilevazione presenze in un pacchetto",
+                plan_title: "SmartGastro Complete",
+                price_period: "all'anno • 1 sede",
+                payment_info: "Pagamento sicuro tramite PayPal • Rinnovabile annualmente • Nessun costo di installazione",
+                login_form_title: "Accesso cliente",
+                login_form_desc: "Accedi per accedere al tuo software",
+                email_label: "Indirizzo email",
+                password_label: "Password",
+                login_button: "Accedi",
+                no_account: "Non hai ancora un account?",
+                register_form_title: "Nuovo account",
+                register_form_desc: "Registrati per accedere al sistema SmartGastro",
+                name_label: "Nome e cognome",
+                business_label: "Nome attività",
+                confirm_password_label: "Conferma password",
+                register_button: "Crea account",
+                has_account: "Già registrato?",
+                footer_desc: "Sistema di ordinazione QR & rilevazione presenze professionale per attività di ristorazione. Due software in un pacchetto."
+            },
+            en: {
+                login: "Login",
+                hero_title: "Complete System for Hospitality Businesses",
+                hero_subtitle: "QR Ordering System & Time Tracking in one package. Professional, simple, efficient.",
+                buy_now: "Buy Now - 149€/Year",
+                video_demo: "Watch Video Demo",
+                video_title: "Video Demonstrations",
+                video_subtitle: "See both systems in action - Side by side",
+                gallery_title: "System Screenshots",
+                gallery_subtitle: "See how the system looks in practice",
+                gallery1_title: "QR Order Interface",
+                gallery1_desc: "Customer view for easy ordering",
+                gallery2_title: "Admin Dashboard",
+                gallery2_desc: "Complete overview for the operator",
+                gallery3_title: "Time Tracking Interface",
+                gallery3_desc: "Employee time tracking",
+                features_title: "Complete System Included",
+                features_subtitle: "Two professional software in one package",
+                feature1_title: "QR Ordering System",
+                feature1_desc: "Customers scan QR code, order directly from smartphone",
+                feature2_title: "Admin Dashboard",
+                feature2_desc: "Complete overview of orders, sales and customers",
+                feature3_title: "Customer Management",
+                feature3_desc: "Manage customers, order history and preferences",
+                feature4_title: "Sales Analysis",
+                feature4_desc: "Detailed reports and sales statistics",
+                feature5_title: "Automatic Printing",
+                feature5_desc: "Orders go directly to kitchen/bar for printing",
+                feature6_title: "100% Responsive",
+                feature6_desc: "Works on all devices - Desktop, Tablet, Smartphone",
+                how_title: "How It Works",
+                how_subtitle: "Four simple steps to a more efficient operation",
+                step1_title: "Scan QR Code",
+                step1_desc: "Your guests scan the QR code on the table with their smartphone",
+                step2_title: "Order Digitally",
+                step2_desc: "Menu appears - Select, Order, Pay",
+                step3_title: "Automatic Forwarding",
+                step3_desc: "Order goes directly to kitchen/bar - No waiting required",
+                step4_title: "Admin Overview",
+                step4_desc: "Keep track of all orders and sales",
+                pricing_title: "Complete Package - Both Software",
+                pricing_subtitle: "QR Ordering System + Time Tracking in one package",
+                plan_title: "SmartGastro Complete",
+                price_period: "per year • 1 location",
+                payment_info: "Secure payment via PayPal • Yearly renewable • No setup fee",
+                login_form_title: "Customer Login",
+                login_form_desc: "Sign in to access your software",
+                email_label: "Email Address",
+                password_label: "Password",
+                login_button: "Sign In",
+                no_account: "Don't have an account yet?",
+                register_form_title: "New Account",
+                register_form_desc: "Register to access the SmartGastro system",
+                name_label: "First and Last Name",
+                business_label: "Business Name",
+                confirm_password_label: "Confirm Password",
+                register_button: "Create Account",
+                has_account: "Already registered?",
+                footer_desc: "Professional QR Ordering System & Time Tracking for hospitality businesses. Two software in one package."
+            },
+            pt: {
+                login: "Login",
+                hero_title: "Sistema Completo para Empresas de Restauração",
+                hero_subtitle: "Sistema de Pedidos QR & Controlo de Tempos num único pacote. Profissional, simples, eficiente.",
+                buy_now: "Comprar Agora - 149€/Ano",
+                video_demo: "Ver Demonstração em Vídeo",
+                video_title: "Demonstrações em Vídeo",
+                video_subtitle: "Veja ambos os sistemas em ação - Lado a lado",
+                gallery_title: "Screenshots do Sistema",
+                gallery_subtitle: "Veja como o sistema se apresenta na prática",
+                gallery1_title: "Interface de Pedidos QR",
+                gallery1_desc: "Vista do cliente para pedidos fáceis",
+                gallery2_title: "Dashboard de Administração",
+                gallery2_desc: "Visão completa para o operador",
+                gallery3_title: "Interface de Controlo de Tempos",
+                gallery3_desc: "Controlo de horários dos funcionários",
+                features_title: "Sistema Completo Incluído",
+                features_subtitle: "Dois softwares profissionais num único pacote",
+                feature1_title: "Sistema de Pedidos QR",
+                feature1_desc: "Clientes escaneiam código QR, pedem diretamente do smartphone",
+                feature2_title: "Dashboard Admin",
+                feature2_desc: "Visão completa de pedidos, vendas e clientes",
+                feature3_title: "Gestão de Clientes",
+                feature3_desc: "Gerencie clientes, histórico de pedidos e preferências",
+                feature4_title: "Análise de Vendas",
+                feature4_desc: "Relatórios detalhados e estatísticas de vendas",
+                feature5_title: "Impressão Automática",
+                feature5_desc: "Pedidos vão diretamente para cozinha/bar para impressão",
+                feature6_title: "100% Responsivo",
+                feature6_desc: "Funciona em todos os dispositivos - Desktop, Tablet, Smartphone",
+                how_title: "Como Funciona",
+                how_subtitle: "Quatro passos simples para uma operação mais eficiente",
+                step1_title: "Escanear Código QR",
+                step1_desc: "Seus clientes escaneiam o código QR na mesa com o smartphone",
+                step2_title: "Pedir Digitalmente",
+                step2_desc: "Menu aparece - Selecionar, Pedir, Pagar",
+                step3_title: "Encaminhamento Automático",
+                step3_desc: "Pedido vai diretamente para cozinha/bar - Sem espera necessária",
+                step4_title: "Visão Geral do Admin",
+                step4_desc: "Acompanhe todos os pedidos e vendas",
+                pricing_title: "Pacote Completo - Ambos os Softwares",
+                pricing_subtitle: "Sistema de Pedidos QR + Controlo de Tempos num pacote",
+                plan_title: "SmartGastro Complete",
+                price_period: "por ano • 1 localização",
+                payment_info: "Pagamento seguro via PayPal • Renovável anualmente • Sem taxa de instalação",
+                login_form_title: "Login do Cliente",
+                login_form_desc: "Faça login para aceder ao seu software",
+                email_label: "Endereço de Email",
+                password_label: "Palavra-passe",
+                login_button: "Entrar",
+                no_account: "Ainda não tem uma conta?",
+                register_form_title: "Nova Conta",
+                register_form_desc: "Registe-se para aceder ao sistema SmartGastro",
+                name_label: "Nome Completo",
+                business_label: "Nome do Estabelecimento",
+                confirm_password_label: "Confirmar Palavra-passe",
+                register_button: "Criar Conta",
+                has_account: "Já está registado?",
+                footer_desc: "Sistema Profissional de Pedidos QR & Controlo de Tempos para empresas de restauração. Dois softwares num pacote."
+            }
+        };
 
-        // Check payment status
-        function checkPaymentStatus() {
-            const paymentStatus = localStorage.getItem('smartgastro_payment');
-            const userData = localStorage.getItem('smartgastro_user');
+        // Current language
+        let currentLanguage = 'de';
+
+        // Apply translation
+        function applyTranslation(lang) {
+            currentLanguage = lang;
+            const dict = translations[lang] || translations.de;
             
-            if (paymentStatus === 'paid' && userData) {
-                currentUser = JSON.parse(userData);
-                hasPaid = true;
-                updateSoftwareAccess();
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (dict[key]) {
+                    element.textContent = dict[key];
+                }
+            });
+            
+            // Update language button
+            document.querySelector('.current-language').textContent = 
+                lang === 'de' ? 'Deutsch' : 
+                lang === 'it' ? 'Italiano' : 
+                lang === 'en' ? 'English' : 'Português';
+            
+            // Update PayPal button locale
+            if (window.paypal && document.querySelector('#paypal-button-container').children.length > 0) {
+                // Re-render PayPal button with new locale
+                document.querySelector('#paypal-button-container').innerHTML = '';
+                initializePayPal();
+            }
+            
+            // Save language preference
+            localStorage.setItem('smartgastro_language', lang);
+        }
+
+        // Auth and User Management
+        let currentUser = null;
+
+        // Check if user is logged in
+        function checkAuth() {
+            const user = localStorage.getItem('smartgastro_user');
+            if (user) {
+                currentUser = JSON.parse(user);
+                showDashboard();
+            } else {
+                showMainContent();
             }
         }
 
-        // Update software access based on payment
-        function updateSoftwareAccess() {
-            if (hasPaid) {
-                // Remove locked state
-                document.querySelectorAll('.software-card.locked').forEach(card => {
-                    card.classList.remove('locked');
-                    card.querySelector('.access-btn').classList.remove('locked');
-                    card.querySelector('.access-btn').innerHTML = '<i class="fas fa-external-link-alt"></i> Zur Software';
-                    
-                    // Remove lock icon
-                    const lockIcon = card.querySelector('.fa-lock');
-                    if (lockIcon) {
-                        lockIcon.parentNode.removeChild(lockIcon);
+        // Show dashboard
+        function showDashboard() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('client-dashboard').classList.add('active');
+            document.getElementById('login-btn').style.display = 'none';
+            document.getElementById('user-menu').classList.add('active');
+            
+            // Update user name
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('dashboard-username').textContent = currentUser.name;
+        }
+
+        // Show main content
+        function showMainContent() {
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('client-dashboard').classList.remove('active');
+            document.getElementById('login-btn').style.display = 'flex';
+            document.getElementById('user-menu').classList.remove('active');
+        }
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('smartgastro_user');
+            showMainContent();
+            alert('Erfolgreich abgemeldet!');
+        }
+
+        // Login function
+        function login(email, password) {
+            // Demo login - in production this would be a server call
+            if (email && password) {
+                currentUser = {
+                    name: 'Max Mustermann',
+                    email: email,
+                    business: 'Ihr Restaurant',
+                    subscription: 'active'
+                };
+                
+                localStorage.setItem('smartgastro_user', JSON.stringify(currentUser));
+                showDashboard();
+                document.getElementById('auth-modal').classList.remove('active');
+                alert('Erfolgreich eingeloggt! Willkommen im Dashboard.');
+            } else {
+                alert('Bitte geben Sie Email und Passwort ein.');
+            }
+        }
+
+        // Register function
+        function register(name, business, email, password) {
+            if (name && email && password) {
+                currentUser = {
+                    name: name,
+                    email: email,
+                    business: business,
+                    subscription: 'pending'
+                };
+                
+                localStorage.setItem('smartgastro_user', JSON.stringify(currentUser));
+                showDashboard();
+                document.getElementById('auth-modal').classList.remove('active');
+                alert('Registrierung erfolgreich! Bitte aktivieren Sie Ihr Konto durch Kauf des Abonnements.');
+            }
+        }
+
+        // Video player functionality
+        document.querySelectorAll('.video-control-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const videoId = this.getAttribute('data-video');
+                const video = document.getElementById(videoId);
+                
+                if (this.querySelector('.fa-play')) {
+                    video.play();
+                } else if (this.querySelector('.fa-pause')) {
+                    video.pause();
+                } else if (this.querySelector('.fa-volume-up')) {
+                    video.volume = Math.min(1, video.volume + 0.1);
+                }
+            });
+        });
+
+        // Enhance video colors and quality
+        function enhanceVideoQuality() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                // Apply CSS filters for better color
+                video.style.filter = 'brightness(1.05) contrast(1.1) saturate(1.1)';
+                
+                // Set video quality
+                video.addEventListener('loadedmetadata', function() {
+                    if (this.videoWidth > 0) {
+                        this.style.width = '100%';
+                        this.style.height = 'auto';
                     }
                 });
-                
-                // Update buttons functionality
-                document.getElementById('software1-btn').onclick = () => {
-                    window.open('https://sanremo-software.github.io/Eis-Menu/', '_blank');
-                };
-                
-                document.getElementById('software2-btn').onclick = () => {
-                    window.open('https://sanremo-software.github.io/Sanremo-mitarbeiter/', '_blank');
-                };
-                
-                document.getElementById('dashboard-btn').onclick = () => {
-                    window.open('https://sanremo-software.github.io/Eis-Menu/admin', '_blank');
-                };
-            }
+            });
         }
 
-        // Show success modal
-        function showSuccessModal() {
-            document.getElementById('success-modal').classList.add('active');
+        // Language selector
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                applyTranslation(lang);
+                document.querySelector('.language-dropdown').classList.remove('active');
+            });
+        });
+
+        document.querySelector('.language-btn').addEventListener('click', function() {
+            document.querySelector('.language-dropdown').classList.toggle('active');
+        });
+
+        // User dropdown
+        document.getElementById('user-btn').addEventListener('click', function() {
+            document.getElementById('user-dropdown').classList.toggle('active');
+        });
+
+        document.getElementById('dashboard-link').addEventListener('click', function() {
+            document.getElementById('user-dropdown').classList.remove('active');
+            showDashboard();
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            document.getElementById('user-dropdown').classList.remove('active');
+            logout();
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.language-selector')) {
+                document.querySelector('.language-dropdown').classList.remove('active');
+            }
+            if (!event.target.closest('.user-menu')) {
+                document.getElementById('user-dropdown').classList.remove('active');
+            }
+        });
+
+        // Auth Modal
+        const authModal = document.getElementById('auth-modal');
+        const loginBtn = document.getElementById('login-btn');
+        const closeModal = document.getElementById('close-modal');
+        const switchToRegister = document.getElementById('switch-to-register');
+        const switchToLogin = document.getElementById('switch-to-login');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const accessLoginBtn = document.getElementById('access-login-btn');
+        const accessBuyBtn = document.getElementById('access-buy-btn');
+
+        // Show login modal
+        loginBtn.addEventListener('click', function() {
+            authModal.classList.add('active');
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        });
+
+        // Access section login button
+        accessLoginBtn.addEventListener('click', function() {
+            authModal.classList.add('active');
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        });
+
+        // Access section buy button
+        accessBuyBtn.addEventListener('click', function() {
+            document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', function() {
+            authModal.classList.remove('active');
+        });
+
+        // Switch to register form
+        switchToRegister.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        });
+
+        // Switch to login form
+        switchToLogin.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+
+        // Login submission
+        document.getElementById('submit-login').addEventListener('click', function() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            login(email, password);
+        });
+
+        // Register submission
+        document.getElementById('submit-register').addEventListener('click', function() {
+            const name = document.getElementById('register-name').value;
+            const business = document.getElementById('register-business').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-confirm').value;
             
-            // Generate dashboard URL
-            const email = localStorage.getItem('smartgastro_user_email') || 'ihre@email.de';
-            const dashboardUrl = `https://sanremo-software.github.io/Eis-Menu/admin?user=${encodeURIComponent(email)}`;
-            document.getElementById('dashboard-url').textContent = dashboardUrl;
+            if (password !== confirm) {
+                alert('Passwörter stimmen nicht überein.');
+                return;
+            }
             
-            // Set dashboard button
-            document.getElementById('go-to-dashboard').onclick = () => {
-                window.open(dashboardUrl, '_blank');
-            };
-        }
+            register(name, business, email, password);
+        });
+
+        // Dashboard logout
+        document.getElementById('dashboard-logout').addEventListener('click', logout);
+
+        // Buy now button
+        document.getElementById('buy-now-btn').addEventListener('click', function() {
+            document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+        });
 
         // Initialize PayPal
         function initializePayPal() {
@@ -1380,167 +2211,42 @@
                     color: 'gold',
                     layout: 'vertical',
                     label: 'subscribe',
-                    locale: 'de_DE'
+                    locale: currentLanguage === 'de' ? 'de_DE' : 
+                           currentLanguage === 'it' ? 'it_IT' : 
+                           currentLanguage === 'pt' ? 'pt_PT' : 'en_US'
                 },
                 createSubscription: function(data, actions) {
                     return actions.subscription.create({
-                        plan_id: 'P-5WA45756CL7747454NEXAVJA',
-                        application_context: {
-                            shipping_preference: 'NO_SHIPPING'
-                        }
+                        plan_id: 'P-5WA45756CL7747454NEXAVJA'
                     });
                 },
                 onApprove: function(data, actions) {
-                    // Payment successful
-                    localStorage.setItem('smartgastro_payment', 'paid');
-                    
-                    // Create or update user
-                    const userEmail = prompt("Bitte geben Sie Ihre E-Mail Adresse für den Zugang ein:", "ihre@email.de");
-                    if (userEmail) {
-                        const userData = {
-                            email: userEmail,
-                            paymentDate: new Date().toISOString(),
-                            subscriptionId: data.subscriptionID
-                        };
-                        
-                        localStorage.setItem('smartgastro_user', JSON.stringify(userData));
-                        localStorage.setItem('smartgastro_user_email', userEmail);
-                        
-                        hasPaid = true;
-                        currentUser = userData;
-                        
-                        // Show success modal
-                        showSuccessModal();
-                        
-                        // Update software access
-                        updateSoftwareAccess();
-                    }
+                    alert('Vielen Dank für Ihren Kauf! Ihre Lizenz wird per Email versendet.');
+                    console.log('Subscription ID:', data.subscriptionID);
                 },
                 onError: function(err) {
                     console.error('PayPal Fehler:', err);
-                    alert('Es gab ein Problem mit der Zahlung. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.');
+                    alert('Es gab ein Problem mit der Zahlung. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.');
                 }
             }).render('#paypal-button-container');
         }
 
-        // Language support
-        const translations = {
-            de: {
-                login: "Anmelden",
-                hero_title: "2 Professionelle Softwaren<br>Nur 99€/Jahr",
-                hero_subtitle: "QR-Bestellsystem & Zeiterfassung in einem Komplettpaket",
-                buy_now: "Jetzt kaufen & Zugang erhalten",
-                video_demo: "Demo ansehen"
-            },
-            it: {
-                login: "Accedi",
-                hero_title: "2 Software Professionali<br>Solo 99€/Anno",
-                hero_subtitle: "Sistema di ordinazione QR & rilevazione presenze in un unico pacchetto",
-                buy_now: "Acquista ora & ottieni accesso",
-                video_demo: "Guarda la demo"
-            },
-            en: {
-                login: "Login",
-                hero_title: "2 Professional Software<br>Only 99€/Year",
-                hero_subtitle: "QR Ordering System & Time Tracking in one complete package",
-                buy_now: "Buy Now & Get Access",
-                video_demo: "Watch Demo"
-            }
-        };
-
-        let currentLanguage = 'de';
-
-        function applyTranslation(lang) {
-            currentLanguage = lang;
-            const dict = translations[lang] || translations.de;
-            
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (dict[key]) {
-                    element.innerHTML = dict[key];
-                }
-            });
-            
-            document.querySelector('.current-language').textContent = 
-                lang === 'de' ? 'Deutsch' : 
-                lang === 'it' ? 'Italiano' : 'English';
-            
-            localStorage.setItem('smartgastro_language', lang);
-        }
-
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Check payment status
-            checkPaymentStatus();
-            
-            // Set language
+            // Set language from localStorage or default to German
             const savedLanguage = localStorage.getItem('smartgastro_language') || 'de';
             applyTranslation(savedLanguage);
+            
+            // Check auth status
+            checkAuth();
+            
+            // Enhance video quality
+            enhanceVideoQuality();
             
             // Initialize PayPal
             if (typeof paypal !== 'undefined') {
                 initializePayPal();
             }
-            
-            // Buy now buttons
-            document.getElementById('buy-now-hero').addEventListener('click', function() {
-                document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            // Software access buttons (show payment required)
-            document.querySelectorAll('.access-btn.locked').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
-                    alert('Bitte erwerben Sie zuerst eine Lizenz für 99€/Jahr, um Zugang zu erhalten.');
-                });
-            });
-            
-            // Dashboard button
-            document.getElementById('dashboard-btn').addEventListener('click', function() {
-                if (!hasPaid) {
-                    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
-                    alert('Bitte erwerben Sie zuerst eine Lizenz für 99€/Jahr, um Zugang zu erhalten.');
-                }
-            });
-            
-            // Language selector
-            document.querySelectorAll('.language-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const lang = this.getAttribute('data-lang');
-                    applyTranslation(lang);
-                    document.querySelector('.language-dropdown').classList.remove('active');
-                });
-            });
-
-            document.querySelector('.language-btn').addEventListener('click', function() {
-                document.querySelector('.language-dropdown').classList.toggle('active');
-            });
-
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!event.target.closest('.language-selector')) {
-                    document.querySelector('.language-dropdown').classList.remove('active');
-                }
-            });
-            
-            // Modal controls
-            document.getElementById('close-success-modal').addEventListener('click', function() {
-                document.getElementById('success-modal').classList.remove('active');
-            });
-            
-            document.getElementById('close-success-btn').addEventListener('click', function() {
-                document.getElementById('success-modal').classList.remove('active');
-            });
-            
-            // Close modal on outside click
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        this.classList.remove('active');
-                    }
-                });
-            });
             
             // Mobile menu
             document.getElementById('mobile-menu-btn').addEventListener('click', function() {
@@ -1548,9 +2254,16 @@
                 navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
             });
             
-            // Smooth scrolling
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.nav-container') && window.innerWidth <= 992) {
+                    document.querySelector('.nav-links').style.display = 'none';
+                }
+            });
+            
+            // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
+                anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     
                     const targetId = this.getAttribute('href');
@@ -1568,12 +2281,6 @@
                         }
                     }
                 });
-            });
-            
-            // Enhance video quality
-            const videos = document.querySelectorAll('video');
-            videos.forEach(video => {
-                video.style.filter = 'brightness(1.05) contrast(1.1) saturate(1.1)';
             });
         });
     </script>
