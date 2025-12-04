@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartGastro QR - QR-Bestellsystem mit Admin-Panel</title>
-    <meta name="description" content="Professionelles QR-Bestellsystem für Restaurants, Cafés und Eiscafés. Inklusive Admin-Panel, Kundenverwaltung und Verkaufsanalyse.">
+    <title>SmartGastro Complete - QR-Bestellsystem & Zeiterfassung</title>
+    <meta name="description" content="Professionelles QR-Bestellsystem mit integrierter Zeiterfassung (Stempeln) für Gastronomiebetriebe. Zwei Softwaren in einem Paket.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -225,8 +225,15 @@
         }
 
         .video-container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
         }
 
         .video-player {
@@ -236,12 +243,12 @@
             overflow: hidden;
             box-shadow: var(--shadow-lg);
             background: #000;
-            margin-bottom: 30px;
         }
 
         .video-player video {
             width: 100%;
             display: block;
+            filter: brightness(1.05) contrast(1.1) saturate(1.1);
         }
 
         .video-controls {
@@ -282,55 +289,19 @@
             transform: scale(1.1);
         }
 
-        .video-thumbnails {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .video-thumbnail {
-            border-radius: var(--radius);
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s;
-            position: relative;
-        }
-
-        .video-thumbnail:hover {
-            transform: translateY(-5px);
-        }
-
-        .video-thumbnail img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        .video-thumbnail-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 30px;
-        }
-
-        .video-thumbnail-title {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 10px;
-            font-size: 14px;
+        .video-title {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: 600;
             text-align: center;
+            color: var(--dark);
+        }
+
+        .video-description {
+            text-align: center;
+            color: var(--gray);
+            margin-top: 5px;
+            font-size: 14px;
         }
 
         /* Features Section */
@@ -480,6 +451,40 @@
             color: var(--gray);
         }
 
+        /* Stempeln Software Section */
+        .stempeln-section {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 100px 0;
+        }
+
+        .stempeln-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stempeln-feature {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stempeln-feature h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stempeln-feature p {
+            opacity: 0.9;
+        }
+
         /* Pricing Section */
         .pricing {
             background-color: white;
@@ -517,6 +522,16 @@
         .price-period {
             color: var(--gray);
             margin-bottom: 30px;
+        }
+
+        .price-note {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: var(--primary);
+            border: 1px solid #dbeafe;
         }
 
         .pricing-features {
@@ -634,46 +649,6 @@
             font-weight: 500;
         }
 
-        /* Client Dashboard */
-        .dashboard {
-            min-height: 100vh;
-            padding: 40px 0;
-            display: none;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .welcome-message h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .dashboard-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .download-section {
-            text-align: center;
-            padding: 40px;
-            background: #f0f9ff;
-            border-radius: var(--radius);
-            margin-top: 40px;
-        }
-
         /* Footer */
         footer {
             background-color: var(--dark);
@@ -733,6 +708,10 @@
                 text-align: center;
             }
             
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .nav-links {
                 display: none;
             }
@@ -762,10 +741,6 @@
             
             .hero-buttons {
                 flex-direction: column;
-            }
-            
-            .video-thumbnails {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -810,15 +785,14 @@
         <div class="container">
             <div class="nav-container">
                 <a href="#" class="logo">
-                    <!-- Substitua esta imagem pelo seu logotipo -->
-                    <img src="https://via.placeholder.com/150x40/2563eb/ffffff?text=SmartGastro+QR" alt="SmartGastro QR Logo">
+                    <img src="https://via.placeholder.com/150x40/2563eb/ffffff?text=SmartGastro+Complete" alt="SmartGastro Complete Logo">
                 </a>
                 
                 <div class="nav-links">
                     <a href="#features">Funktionen</a>
                     <a href="#videos">Videos</a>
                     <a href="#gallery">Fotos</a>
-                    <a href="#how-it-works">So funktioniert's</a>
+                    <a href="#stempeln">Zeiterfassung</a>
                     <a href="#pricing">Preise</a>
                     <a href="#legal">Rechtliches</a>
                     
@@ -862,12 +836,12 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1 data-i18n="hero_title">QR-Bestellsystem für Ihren Gastro-Betrieb</h1>
-                    <p data-i18n="hero_subtitle">Professionelles System mit Admin-Panel, Kundenverwaltung und automatischer Bestellabwicklung. Einfach. Schnell. Effizient.</p>
+                    <h1 data-i18n="hero_title">Komplettsystem für Gastronomiebetriebe</h1>
+                    <p data-i18n="hero_subtitle">QR-Bestellsystem & Zeiterfassung in einem Paket. Professionell, einfach, effizient.</p>
                     <div class="hero-buttons">
                         <button class="btn btn-primary" id="buy-now-btn">
                             <i class="fas fa-shopping-cart"></i>
-                            <span data-i18n="buy_now">Jetzt kaufen - 99€/Jahr</span>
+                            <span data-i18n="buy_now">Jetzt kaufen - 149€/Jahr</span>
                         </button>
                         <a href="#videos" class="btn btn-secondary">
                             <i class="fas fa-play-circle"></i>
@@ -876,8 +850,8 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <!-- Substitua esta imagem pela sua foto do sistema -->
-                    <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="QR Code Bestellsystem">
+                    <!-- Ihre horizontale Foto hier -->
+                    <img src="https://via.placeholder.com/600x400/2563eb/ffffff?text=SmartGastro+Complete+Demo" alt="QR Code Bestellsystem und Zeiterfassung">
                 </div>
             </div>
         </div>
@@ -887,8 +861,8 @@
     <section class="gelateria-demo">
         <div class="container">
             <div class="gelateria-logo">
-                <!-- Substitua pelo logo da Gelateria Gush -->
-                <img src="https://via.placeholder.com/300x100/ffffff/667eea?text=Gelateria+Gush+Logo" alt="Gelateria Gush">
+                <!-- Logo Gelateria Gush -->
+                <img src="https://via.placeholder.com/300x100/ffffff/667eea?text=Gelateria+Gush+Demo" alt="Gelateria Gush">
             </div>
             
             <h2 style="font-size: 36px; margin-bottom: 30px;">Kundenerfahrung: Gelateria Gush</h2>
@@ -910,52 +884,52 @@
     <section class="video-section" id="videos">
         <div class="container">
             <h2 class="section-title" data-i18n="video_title">Video-Demonstrationen</h2>
-            <p class="section-subtitle" data-i18n="video_subtitle">Sehen Sie das System in Aktion</p>
+            <p class="section-subtitle" data-i18n="video_subtitle">Sehen Sie beide Systeme in Aktion - Seite an Seite</p>
             
             <div class="video-container">
-                <div class="video-player">
-                    <video id="main-video" controls>
-                        <!-- SEU VÍDEO 1 -->
-                        <source src="VID-20251203-WA0008.mp4" type="video/mp4">
-                        Ihr Browser unterstützt das Video-Tag nicht.
-                    </video>
-                    <div class="video-controls">
-                        <button class="video-control-btn" id="play-btn">
-                            <i class="fas fa-play"></i>
-                        </button>
-                        <button class="video-control-btn" id="pause-btn">
-                            <i class="fas fa-pause"></i>
-                        </button>
-                        <button class="video-control-btn" id="volume-up">
-                            <i class="fas fa-volume-up"></i>
-                        </button>
-                        <button class="video-control-btn" id="volume-down">
-                            <i class="fas fa-volume-down"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="video-thumbnails">
-                    <div class="video-thumbnail" data-video="VID-20251203-WA0008.mp4">
-                        <div class="video-thumbnail-overlay">
-                            <i class="fas fa-play"></i>
+                <div class="video-grid">
+                    <div class="video-item">
+                        <div class="video-player">
+                            <video id="video1" controls>
+                                <source src="VID-20251203-WA0008.mp4" type="video/mp4">
+                                Ihr Browser unterstützt das Video-Tag nicht.
+                            </video>
+                            <div class="video-controls">
+                                <button class="video-control-btn" data-video="video1">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="video-control-btn" data-video="video1">
+                                    <i class="fas fa-pause"></i>
+                                </button>
+                                <button class="video-control-btn" data-video="video1">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
                         </div>
-                        <!-- Thumbnail do vídeo 1 -->
-                        <img src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Video 1 Thumbnail">
-                        <div class="video-thumbnail-title">
-                            <span data-i18n="video1_title">QR-Bestellung Demo</span>
-                        </div>
+                        <div class="video-title">QR-Bestellsystem Demo</div>
+                        <div class="video-description">Kundenbestellung über QR-Code</div>
                     </div>
                     
-                    <div class="video-thumbnail" data-video="VID-20251203-WA0010.mp4">
-                        <div class="video-thumbnail-overlay">
-                            <i class="fas fa-play"></i>
+                    <div class="video-item">
+                        <div class="video-player">
+                            <video id="video2" controls>
+                                <source src="VID-20251203-WA0010.mp4" type="video/mp4">
+                                Ihr Browser unterstützt das Video-Tag nicht.
+                            </video>
+                            <div class="video-controls">
+                                <button class="video-control-btn" data-video="video2">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="video-control-btn" data-video="video2">
+                                    <i class="fas fa-pause"></i>
+                                </button>
+                                <button class="video-control-btn" data-video="video2">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
                         </div>
-                        <!-- Thumbnail do vídeo 2 -->
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Video 2 Thumbnail">
-                        <div class="video-thumbnail-title">
-                            <span data-i18n="video2_title">Admin-Panel Übersicht</span>
-                        </div>
+                        <div class="video-title">Zeiterfassung (Stempeln) Demo</div>
+                        <div class="video-description">Mitarbeiter-Zeiterfassung in Aktion</div>
                     </div>
                 </div>
             </div>
@@ -970,17 +944,17 @@
             
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <!-- SUA FOTO 1 -->
-                    <img src="IMG-20251119-WA0011.jpg" alt="SmartGastro QR Screenshot 1" onerror="this.src='https://via.placeholder.com/600x400/2563eb/ffffff?text=QR+System+Interface'">
+                    <!-- Ihre horizontale Foto hier -->
+                    <img src="1000002998.jpg" alt="SmartGastro QR Interface" onerror="this.src='https://via.placeholder.com/600x400/2563eb/ffffff?text=QR+System+Interface'">
                     <div class="gallery-caption">
-                        <h4 data-i18n="gallery1_title">QR Code Interface</h4>
-                        <p data-i18n="gallery1_desc">Kundenansicht auf dem Smartphone</p>
+                        <h4 data-i18n="gallery1_title">QR Code Bestellinterface</h4>
+                        <p data-i18n="gallery1_desc">Kundenansicht für einfache Bestellungen</p>
                     </div>
                 </div>
                 
                 <div class="gallery-item">
-                    <!-- SUA FOTO 2 -->
-                    <img src="IMG-20251120-WA0003.jpg" alt="SmartGastro QR Screenshot 2" onerror="this.src='https://via.placeholder.com/600x400/10b981/ffffff?text=Admin+Dashboard'">
+                    <!-- SUA FOTO 1 -->
+                    <img src="IMG-20251119-WA0011.jpg" alt="SmartGastro QR Screenshot 1" onerror="this.src='https://via.placeholder.com/600x400/10b981/ffffff?text=Admin+Dashboard'">
                     <div class="gallery-caption">
                         <h4 data-i18n="gallery2_title">Admin Dashboard</h4>
                         <p data-i18n="gallery2_desc">Vollständige Übersicht für den Betreiber</p>
@@ -988,10 +962,11 @@
                 </div>
                 
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/600x400/8b5cf6/ffffff?text=Bestell%C3%BCbersicht" alt="SmartGastro QR Screenshot 3">
+                    <!-- SUA FOTO 2 -->
+                    <img src="IMG-20251120-WA0003.jpg" alt="SmartGastro QR Screenshot 2" onerror="this.src='https://via.placeholder.com/600x400/8b5cf6/ffffff?text=Bestell%C3%BCbersicht'">
                     <div class="gallery-caption">
-                        <h4 data-i18n="gallery3_title">Bestellübersicht</h4>
-                        <p data-i18n="gallery3_desc">Alle aktiven Bestellungen im Blick</p>
+                        <h4 data-i18n="gallery3_title">Stempeln Interface</h4>
+                        <p data-i18n="gallery3_desc">Zeiterfassung für Mitarbeiter</p>
                     </div>
                 </div>
             </div>
@@ -1002,7 +977,7 @@
     <section class="section" id="features">
         <div class="container">
             <h2 class="section-title" data-i18n="features_title">Vollständiges System inklusive</h2>
-            <p class="section-subtitle" data-i18n="features_subtitle">Alles was Sie für einen reibungslosen Betrieb benötigen - in einem Paket</p>
+            <p class="section-subtitle" data-i18n="features_subtitle">Zwei professionelle Softwaren in einem Paket</p>
             
             <div class="features-grid">
                 <div class="feature-card">
@@ -1056,6 +1031,50 @@
         </div>
     </section>
 
+    <!-- Stempeln Software Section -->
+    <section class="section stempeln-section" id="stempeln">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Zeiterfassung (Stempeln) Software</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Komplette Mitarbeiterverwaltung mit Zeiterfassung</p>
+            
+            <div class="stempeln-features">
+                <div class="stempeln-feature">
+                    <h4><i class="fas fa-clock"></i> 1️⃣ Ein-/Ausstempeln</h4>
+                    <p>Mitarbeiter stempeln per Klick ein und aus. System erfasst exakte Uhrzeit, Datum und Name. Optional mit GPS-Verifikation für Standortkontrolle.</p>
+                </div>
+                
+                <div class="stempeln-feature">
+                    <h4><i class="fas fa-history"></i> 2️⃣ Arbeitszeiten-Historie</h4>
+                    <p>Tägliche und monatliche Übersicht aller Arbeitszeiten. Export und Druckfunktion für monatliche Abrechnungen.</p>
+                </div>
+                
+                <div class="stempeln-feature">
+                    <h4><i class="fas fa-users"></i> 3️⃣ Mitarbeiterverwaltung</h4>
+                    <p>Admin kann Mitarbeiter hinzufügen, entfernen und bearbeiten. Geschützter Admin-Bereich mit Passwortschutz.</p>
+                </div>
+                
+                <div class="stempeln-feature">
+                    <h4><i class="fas fa-calendar-alt"></i> 4️⃣ Dienstplan</h4>
+                    <p>Monatliche Dienstplanerstellung. Automatische WhatsApp-Benachrichtigung an Mitarbeiter.</p>
+                </div>
+                
+                <div class="stempeln-feature">
+                    <h4><i class="fab fa-whatsapp"></i> 5️⃣ WhatsApp Integration</h4>
+                    <p>Direkte Kommunikation mit Mitarbeitern über integrierten WhatsApp-Button. Schnelle Planänderungen und Mitteilungen.</p>
+                </div>
+                
+                <div class="stempeln-feature">
+                    <h4><i class="fas fa-lock"></i> 6️⃣ Geschützter Zugang</h4>
+                    <p>Admin-Passwortschutz für sensible Funktionen. Einfache Benutzeroberfläche für alle Mitarbeiter.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 20px; opacity: 0.9;">Diese Zeiterfassungs-Software ist speziell für Eiscafé Sanremo entwickelt und wird zusammen mit dem QR-Bestellsystem geliefert.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- How It Works Section -->
     <section class="section how-it-works" id="how-it-works">
         <div class="container">
@@ -1089,46 +1108,50 @@
     <!-- Pricing Section -->
     <section class="section pricing" id="pricing">
         <div class="container">
-            <h2 class="section-title" data-i18n="pricing_title">Einfache Preisgestaltung</h2>
-            <p class="section-subtitle" data-i18n="pricing_subtitle">Alles inklusive - Keine versteckten Kosten</p>
+            <h2 class="section-title" data-i18n="pricing_title">Komplettpaket - Beide Softwaren</h2>
+            <p class="section-subtitle" data-i18n="pricing_subtitle">QR-Bestellsystem + Zeiterfassung (Stempeln) in einem Paket</p>
             
             <div class="pricing-card">
-                <h3 data-i18n="plan_title">SmartGastro QR Komplett</h3>
-                <div class="price">99€</div>
+                <h3 data-i18n="plan_title">SmartGastro Complete</h3>
+                <div class="price">149€</div>
                 <div class="price-period" data-i18n="price_period">pro Jahr • 1 Standort</div>
+                
+                <div class="price-note">
+                    <i class="fas fa-gift"></i> Enthält beide Softwaren: QR-System + Stempeln-Software
+                </div>
                 
                 <ul class="pricing-features">
                     <li>
                         <i class="fas fa-check"></i>
-                        <span data-i18n="feature_1">QR Bestellsystem inklusive</span>
+                        <span>Vollständiges QR-Bestellsystem</span>
                     </li>
                     <li>
                         <i class="fas fa-check"></i>
-                        <span data-i18n="feature_2">Admin-Panel mit Dashboard</span>
+                        <span>Zeiterfassung (Stempeln) Software</span>
                     </li>
                     <li>
                         <i class="fas fa-check"></i>
-                        <span data-i18n="feature_3">Kunden- und Verkaufsverwaltung</span>
+                        <span>Admin-Panel mit Dashboard</span>
                     </li>
                     <li>
                         <i class="fas fa-check"></i>
-                        <span data-i18n="feature_4">Automatische Bestellweiterleitung</span>
+                        <span>Mitarbeiterverwaltung & Dienstplan</span>
                     </li>
                     <li>
                         <i class="fas fa-check"></i>
-                        <span data-i18n="feature_5">Drucker-Anbindung (optional)</span>
+                        <span>Kunden- und Verkaufsverwaltung</span>
                     </li>
                     <li>
                         <i class="fas fa-check"></i>
-                        <span data-i18n="feature_6">E-Mail-Benachrichtigungen</span>
+                        <span>Automatische Bestellweiterleitung</span>
                     </li>
                     <li>
                         <i class="fas fa-check"></i>
-                        <span data-i18n="feature_7">Mehrsprachige Oberfläche</span>
+                        <span>WhatsApp Integration</span>
                     </li>
                     <li>
                         <i class="fas fa-check"></i>
-                        <span data-i18n="feature_8">Technischer Support</span>
+                        <span>Technischer Support & Updates</span>
                     </li>
                 </ul>
                 
@@ -1147,9 +1170,9 @@
             <div class="legal-section">
                 <h3 data-i18n="legal_title">Wichtige rechtliche Hinweise</h3>
                 <div class="legal-content">
-                    <p data-i18n="legal_1"><strong>§ 69a UrhG - Schutz von Computerprogrammen:</strong> Das SmartGastro QR System ist urheberrechtlich geschützt. Jegliche Vervielfältigung, Verbreitung oder Veränderung ohne ausdrückliche Genehmigung ist untersagt.</p>
+                    <p data-i18n="legal_1"><strong>§ 69a UrhG - Schutz von Computerprogrammen:</strong> Das SmartGastro System ist urheberrechtlich geschützt. Jegliche Vervielfältigung, Verbreitung oder Veränderung ohne ausdrückliche Genehmigung ist untersagt.</p>
                     
-                    <p data-i18n="legal_2"><strong>Haftungsausschluss:</strong> SmartGastro QR ist ein internes Organisationssystem zur Bestellverwaltung. Es ersetzt kein Kassensystem und übernimmt keine steuerrechtlichen Funktionen.</p>
+                    <p data-i18n="legal_2"><strong>Haftungsausschluss:</strong> SmartGastro ist ein internes Organisationssystem zur Bestellverwaltung und Zeiterfassung. Es ersetzt kein Kassensystem und übernimmt keine steuerrechtlichen Funktionen.</p>
                     
                     <p data-i18n="legal_3"><strong>Kundenspezifische Anpassungen:</strong> Der Kunde ist verantwortlich für die konforme Nutzung des Systems gemäß den lokalen gesetzlichen Bestimmungen (insbesondere KassenSichV und GoBD).</p>
                     
@@ -1192,7 +1215,7 @@
             
             <div id="register-form" style="display: none;">
                 <h2 data-i18n="register_form_title">Neues Konto</h2>
-                <p style="margin-bottom: 20px; color: var(--gray);" data-i18n="register_form_desc">Registrieren Sie sich für den Zugang zum SmartGastro QR System</p>
+                <p style="margin-bottom: 20px; color: var(--gray);" data-i18n="register_form_desc">Registrieren Sie sich für den Zugang zum SmartGastro System</p>
                 
                 <div class="form-group">
                     <label for="register-name" data-i18n="name_label">Vor- und Nachname</label>
@@ -1236,8 +1259,8 @@
         <div class="container">
             <div class="footer-content">
                 <div>
-                    <div class="footer-logo">SmartGastro QR</div>
-                    <p data-i18n="footer_desc">Professionelles QR-Bestellsystem für Gastronomiebetriebe. Einfach. Effizient. Zuverlässig.</p>
+                    <div class="footer-logo">SmartGastro Complete</div>
+                    <p data-i18n="footer_desc">Professionelles QR-Bestellsystem & Zeiterfassung für Gastronomiebetriebe. Zwei Softwaren in einem Paket.</p>
                 </div>
                 
                 <div class="footer-links">
@@ -1246,6 +1269,7 @@
                         <li><a href="#features" data-i18n="link_features">Funktionen</a></li>
                         <li><a href="#videos" data-i18n="link_videos">Videos</a></li>
                         <li><a href="#gallery" data-i18n="link_gallery">Fotos</a></li>
+                        <li><a href="#stempeln" data-i18n="link_stempeln">Zeiterfassung</a></li>
                         <li><a href="#pricing" data-i18n="link_pricing">Preise</a></li>
                         <li><a href="#legal" data-i18n="link_legal">Rechtliches</a></li>
                     </ul>
@@ -1262,8 +1286,8 @@
             </div>
             
             <div class="footer-bottom">
-                <p data-i18n="copyright">© 2025 SmartGastro QR. Alle Rechte vorbehalten. Das System ist urheberrechtlich geschützt.</p>
-                <p style="margin-top: 10px; font-size: 12px;" data-i18n="footer_legal">SmartGastro QR ist ein internes Organisationssystem. Es ersetzt keine Kassensysteme. Der Kunde ist für die steuerlich konforme Nutzung verantwortlich.</p>
+                <p data-i18n="copyright">© 2025 SmartGastro Complete. Alle Rechte vorbehalten. Das System ist urheberrechtlich geschützt.</p>
+                <p style="margin-top: 10px; font-size: 12px;" data-i18n="footer_legal">SmartGastro ist ein internes Organisationssystem. Es ersetzt keine Kassensysteme. Der Kunde ist für die steuerlich konforme Nutzung verantwortlich.</p>
             </div>
         </div>
     </footer>
@@ -1278,30 +1302,28 @@
                 login: "Login",
                 
                 // Hero
-                hero_title: "QR-Bestellsystem für Ihren Gastro-Betrieb",
-                hero_subtitle: "Professionelles System mit Admin-Panel, Kundenverwaltung und automatischer Bestellabwicklung. Einfach. Schnell. Effizient.",
-                buy_now: "Jetzt kaufen - 99€/Jahr",
+                hero_title: "Komplettsystem für Gastronomiebetriebe",
+                hero_subtitle: "QR-Bestellsystem & Zeiterfassung in einem Paket. Professionell, einfach, effizient.",
+                buy_now: "Jetzt kaufen - 149€/Jahr",
                 video_demo: "Video Demo ansehen",
                 
                 // Video Section
                 video_title: "Video-Demonstrationen",
-                video_subtitle: "Sehen Sie das System in Aktion",
-                video1_title: "QR-Bestellung Demo",
-                video2_title: "Admin-Panel Übersicht",
+                video_subtitle: "Sehen Sie beide Systeme in Aktion - Seite an Seite",
                 
                 // Gallery
                 gallery_title: "System Screenshots",
                 gallery_subtitle: "Sehen Sie, wie das System in der Praxis aussieht",
-                gallery1_title: "QR Code Interface",
-                gallery1_desc: "Kundenansicht auf dem Smartphone",
+                gallery1_title: "QR Code Bestellinterface",
+                gallery1_desc: "Kundenansicht für einfache Bestellungen",
                 gallery2_title: "Admin Dashboard",
                 gallery2_desc: "Vollständige Übersicht für den Betreiber",
-                gallery3_title: "Bestellübersicht",
-                gallery3_desc: "Alle aktiven Bestellungen im Blick",
+                gallery3_title: "Stempeln Interface",
+                gallery3_desc: "Zeiterfassung für Mitarbeiter",
                 
                 // Features
                 features_title: "Vollständiges System inklusive",
-                features_subtitle: "Alles was Sie für einen reibungslosen Betrieb benötigen - in einem Paket",
+                features_subtitle: "Zwei professionelle Softwaren in einem Paket",
                 feature1_title: "QR Bestellsystem",
                 feature1_desc: "Kunden scannen QR-Code, bestellen direkt vom Smartphone",
                 feature2_title: "Admin Dashboard",
@@ -1328,24 +1350,16 @@
                 step4_desc: "Sie behalten alle Bestellungen und Verkäufe im Blick",
                 
                 // Pricing
-                pricing_title: "Einfache Preisgestaltung",
-                pricing_subtitle: "Alles inklusive - Keine versteckten Kosten",
-                plan_title: "SmartGastro QR Komplett",
+                pricing_title: "Komplettpaket - Beide Softwaren",
+                pricing_subtitle: "QR-Bestellsystem + Zeiterfassung (Stempeln) in einem Paket",
+                plan_title: "SmartGastro Complete",
                 price_period: "pro Jahr • 1 Standort",
-                feature_1: "QR Bestellsystem inklusive",
-                feature_2: "Admin-Panel mit Dashboard",
-                feature_3: "Kunden- und Verkaufsverwaltung",
-                feature_4: "Automatische Bestellweiterleitung",
-                feature_5: "Drucker-Anbindung (optional)",
-                feature_6: "E-Mail-Benachrichtigungen",
-                feature_7: "Mehrsprachige Oberfläche",
-                feature_8: "Technischer Support",
                 payment_info: "Sichere Zahlung via PayPal • Jährlich kündbar • Keine Einrichtungsgebühr",
                 
                 // Legal
                 legal_title: "Wichtige rechtliche Hinweise",
-                legal_1: "§ 69a UrhG - Schutz von Computerprogrammen: Das SmartGastro QR System ist urheberrechtlich geschützt. Jegliche Vervielfältigung, Verbreitung oder Veränderung ohne ausdrückliche Genehmigung ist untersagt.",
-                legal_2: "Haftungsausschluss: SmartGastro QR ist ein internes Organisationssystem zur Bestellverwaltung. Es ersetzt kein Kassensystem und übernimmt keine steuerrechtlichen Funktionen.",
+                legal_1: "§ 69a UrhG - Schutz von Computerprogrammen: Das SmartGastro System ist urheberrechtlich geschützt. Jegliche Vervielfältigung, Verbreitung oder Veränderung ohne ausdrückliche Genehmigung ist untersagt.",
+                legal_2: "Haftungsausschluss: SmartGastro ist ein internes Organisationssystem zur Bestellverwaltung und Zeiterfassung. Es ersetzt kein Kassensystem und übernimmt keine steuerrechtlichen Funktionen.",
                 legal_3: "Kundenspezifische Anpassungen: Der Kunde ist verantwortlich für die konforme Nutzung des Systems gemäß den lokalen gesetzlichen Bestimmungen (insbesondere KassenSichV und GoBD).",
                 legal_4: "Keine Gewährleistung für steuerliche Konformität: Der Anbieter übernimmt keine Gewähr für die steuerliche oder rechtliche Konformität der vom Kunden mit dem System erzeugten Daten.",
                 legal_5: "Urheberrecht: Alle Rechte am Softwarecode, Design und Konzept liegen beim Anbieter. Eine Weitergabe oder kommerzielle Nutzung der Software durch Dritte ist untersagt.",
@@ -1358,7 +1372,7 @@
                 login_button: "Einloggen",
                 no_account: "Noch kein Konto?",
                 register_form_title: "Neues Konto",
-                register_form_desc: "Registrieren Sie sich für den Zugang zum SmartGastro QR System",
+                register_form_desc: "Registrieren Sie sich für den Zugang zum SmartGastro System",
                 name_label: "Vor- und Nachname",
                 business_label: "Betriebsname",
                 confirm_password_label: "Passwort bestätigen",
@@ -1366,40 +1380,39 @@
                 has_account: "Bereits registriert?",
                 
                 // Footer
-                footer_desc: "Professionelles QR-Bestellsystem für Gastronomiebetriebe. Einfach. Effizient. Zuverlässig.",
+                footer_desc: "Professionelles QR-Bestellsystem & Zeiterfassung für Gastronomiebetriebe. Zwei Softwaren in einem Paket.",
                 quick_links: "Schnellzugriff",
                 link_features: "Funktionen",
                 link_videos: "Videos",
                 link_gallery: "Fotos",
+                link_stempeln: "Zeiterfassung",
                 link_pricing: "Preise",
                 link_legal: "Rechtliches",
                 contact: "Kontakt",
-                copyright: "© 2025 SmartGastro QR. Alle Rechte vorbehalten. Das System ist urheberrechtlich geschützt.",
-                footer_legal: "SmartGastro QR ist ein internes Organisationssystem. Es ersetzt keine Kassensysteme. Der Kunde ist für die steuerlich konforme Nutzung verantwortlich."
+                copyright: "© 2025 SmartGastro Complete. Alle Rechte vorbehalten. Das System ist urheberrechtlich geschützt.",
+                footer_legal: "SmartGastro ist ein internes Organisationssystem. Es ersetzt keine Kassensysteme. Der Kunde ist für die steuerlich konforme Nutzung verantwortlich."
             },
             it: {
                 login: "Accesso",
-                hero_title: "Sistema di ordinazione QR per la tua attività di ristorazione",
-                hero_subtitle: "Sistema professionale con pannello di amministrazione, gestione clienti ed elaborazione automatica degli ordini. Semplice. Veloce. Efficiente.",
-                buy_now: "Acquista ora - 99€/anno",
+                hero_title: "Sistema completo per attività di ristorazione",
+                hero_subtitle: "Sistema di ordinazione QR & rilevazione presenze in un unico pacchetto. Professionale, semplice, efficiente.",
+                buy_now: "Acquista ora - 149€/anno",
                 video_demo: "Guarda la demo video",
                 video_title: "Dimostrazioni Video",
-                video_subtitle: "Guarda il sistema in azione",
-                video1_title: "Demo ordinazione QR",
-                video2_title: "Panoramica pannello admin",
+                video_subtitle: "Guarda entrambi i sistemi in azione - Uno accanto all'altro",
                 gallery_title: "Screenshot del sistema",
                 gallery_subtitle: "Guarda come appare il sistema nella pratica",
-                gallery1_title: "Interfaccia QR Code",
-                gallery1_desc: "Vista cliente sullo smartphone",
+                gallery1_title: "Interfaccia ordini QR",
+                gallery1_desc: "Vista cliente per ordinazioni semplici",
                 gallery2_title: "Dashboard Admin",
                 gallery2_desc: "Panoramica completa per il gestore",
-                gallery3_title: "Panoramica ordini",
-                gallery3_desc: "Tutti gli ordini attivi a colpo d'occhio",
+                gallery3_title: "Interfaccia timbratura",
+                gallery3_desc: "Rilevazione presenze per dipendenti",
                 features_title: "Sistema completo incluso",
-                features_subtitle: "Tutto ciò di cui hai bisogno per un funzionamento senza problemi - in un unico pacchetto",
+                features_subtitle: "Due software professionali in un unico pacchetto",
                 feature1_title: "Sistema di ordinazione QR",
                 feature1_desc: "I clienti scansionano il codice QR, ordinano direttamente dallo smartphone",
-                feature2_title: "Pannello di amministrazione",
+                feature2_title: "Dashboard Admin",
                 feature2_desc: "Panoramica completa di ordini, vendite e clienti",
                 feature3_title: "Gestione clienti",
                 feature3_desc: "Gestisci clienti, cronologia ordini e preferenze",
@@ -1419,18 +1432,10 @@
                 step3_desc: "L'ordine va direttamente in cucina/bar - Nessuna attesa necessaria",
                 step4_title: "Panoramica amministrativa",
                 step4_desc: "Tieni traccia di tutti gli ordini e le vendite",
-                pricing_title: "Prezzo semplice",
-                pricing_subtitle: "Tutto incluso - Nessun costo nascosto",
-                plan_title: "SmartGastro QR Completo",
+                pricing_title: "Pacchetto completo - Entrambi i software",
+                pricing_subtitle: "Sistema ordinazione QR + Rilevazione presenze in un pacchetto",
+                plan_title: "SmartGastro Complete",
                 price_period: "all'anno • 1 sede",
-                feature_1: "Sistema di ordinazione QR incluso",
-                feature_2: "Pannello di amministrazione con dashboard",
-                feature_3: "Gestione clienti e vendite",
-                feature_4: "Inoltro automatico degli ordini",
-                feature_5: "Connessione stampante (opzionale)",
-                feature_6: "Notifiche email",
-                feature_7: "Interfaccia multilingue",
-                feature_8: "Supporto tecnico",
                 payment_info: "Pagamento sicuro tramite PayPal • Rinnovabile annualmente • Nessun costo di installazione",
                 login_form_title: "Accesso cliente",
                 login_form_desc: "Accedi per accedere al tuo software",
@@ -1439,33 +1444,32 @@
                 login_button: "Accedi",
                 no_account: "Non hai ancora un account?",
                 register_form_title: "Nuovo account",
-                register_form_desc: "Registrati per accedere al sistema SmartGastro QR",
+                register_form_desc: "Registrati per accedere al sistema SmartGastro",
                 name_label: "Nome e cognome",
                 business_label: "Nome attività",
                 confirm_password_label: "Conferma password",
                 register_button: "Crea account",
-                has_account: "Già registrato?"
+                has_account: "Già registrato?",
+                footer_desc: "Sistema di ordinazione QR & rilevazione presenze professionale per attività di ristorazione. Due software in un pacchetto."
             },
             en: {
                 login: "Login",
-                hero_title: "QR Ordering System for Your Hospitality Business",
-                hero_subtitle: "Professional system with admin panel, customer management and automatic order processing. Simple. Fast. Efficient.",
-                buy_now: "Buy Now - 99€/Year",
+                hero_title: "Complete System for Hospitality Businesses",
+                hero_subtitle: "QR Ordering System & Time Tracking in one package. Professional, simple, efficient.",
+                buy_now: "Buy Now - 149€/Year",
                 video_demo: "Watch Video Demo",
                 video_title: "Video Demonstrations",
-                video_subtitle: "See the system in action",
-                video1_title: "QR Ordering Demo",
-                video2_title: "Admin Panel Overview",
+                video_subtitle: "See both systems in action - Side by side",
                 gallery_title: "System Screenshots",
                 gallery_subtitle: "See how the system looks in practice",
-                gallery1_title: "QR Code Interface",
-                gallery1_desc: "Customer view on smartphone",
+                gallery1_title: "QR Order Interface",
+                gallery1_desc: "Customer view for easy ordering",
                 gallery2_title: "Admin Dashboard",
                 gallery2_desc: "Complete overview for the operator",
-                gallery3_title: "Order Overview",
-                gallery3_desc: "All active orders at a glance",
+                gallery3_title: "Time Tracking Interface",
+                gallery3_desc: "Employee time tracking",
                 features_title: "Complete System Included",
-                features_subtitle: "Everything you need for smooth operation - in one package",
+                features_subtitle: "Two professional software in one package",
                 feature1_title: "QR Ordering System",
                 feature1_desc: "Customers scan QR code, order directly from smartphone",
                 feature2_title: "Admin Dashboard",
@@ -1488,18 +1492,10 @@
                 step3_desc: "Order goes directly to kitchen/bar - No waiting required",
                 step4_title: "Admin Overview",
                 step4_desc: "Keep track of all orders and sales",
-                pricing_title: "Simple Pricing",
-                pricing_subtitle: "All inclusive - No hidden costs",
-                plan_title: "SmartGastro QR Complete",
+                pricing_title: "Complete Package - Both Software",
+                pricing_subtitle: "QR Ordering System + Time Tracking in one package",
+                plan_title: "SmartGastro Complete",
                 price_period: "per year • 1 location",
-                feature_1: "QR Ordering System included",
-                feature_2: "Admin Panel with dashboard",
-                feature_3: "Customer and sales management",
-                feature_4: "Automatic order forwarding",
-                feature_5: "Printer connection (optional)",
-                feature_6: "Email notifications",
-                feature_7: "Multilingual interface",
-                feature_8: "Technical support",
                 payment_info: "Secure payment via PayPal • Yearly renewable • No setup fee",
                 login_form_title: "Customer Login",
                 login_form_desc: "Sign in to access your software",
@@ -1508,36 +1504,35 @@
                 login_button: "Sign In",
                 no_account: "Don't have an account yet?",
                 register_form_title: "New Account",
-                register_form_desc: "Register to access the SmartGastro QR system",
+                register_form_desc: "Register to access the SmartGastro system",
                 name_label: "First and Last Name",
                 business_label: "Business Name",
                 confirm_password_label: "Confirm Password",
                 register_button: "Create Account",
-                has_account: "Already registered?"
+                has_account: "Already registered?",
+                footer_desc: "Professional QR Ordering System & Time Tracking for hospitality businesses. Two software in one package."
             },
             pt: {
                 login: "Login",
-                hero_title: "Sistema de Pedidos QR para o Seu Negócio de Restauração",
-                hero_subtitle: "Sistema profissional com painel de administração, gestão de clientes e processamento automático de pedidos. Simples. Rápido. Eficiente.",
-                buy_now: "Comprar Agora - 99€/Ano",
+                hero_title: "Sistema Completo para Empresas de Restauração",
+                hero_subtitle: "Sistema de Pedidos QR & Controlo de Tempos num único pacote. Profissional, simples, eficiente.",
+                buy_now: "Comprar Agora - 149€/Ano",
                 video_demo: "Ver Demonstração em Vídeo",
                 video_title: "Demonstrações em Vídeo",
-                video_subtitle: "Veja o sistema em ação",
-                video1_title: "Demonstração de Pedido QR",
-                video2_title: "Visão Geral do Painel Admin",
+                video_subtitle: "Veja ambos os sistemas em ação - Lado a lado",
                 gallery_title: "Screenshots do Sistema",
                 gallery_subtitle: "Veja como o sistema se apresenta na prática",
-                gallery1_title: "Interface de Código QR",
-                gallery1_desc: "Vista do cliente no smartphone",
+                gallery1_title: "Interface de Pedidos QR",
+                gallery1_desc: "Vista do cliente para pedidos fáceis",
                 gallery2_title: "Dashboard de Administração",
                 gallery2_desc: "Visão completa para o operador",
-                gallery3_title: "Visão Geral de Pedidos",
-                gallery3_desc: "Todos os pedidos ativos de relance",
+                gallery3_title: "Interface de Controlo de Tempos",
+                gallery3_desc: "Controlo de horários dos funcionários",
                 features_title: "Sistema Completo Incluído",
-                features_subtitle: "Tudo o que precisa para um funcionamento sem problemas - num único pacote",
+                features_subtitle: "Dois softwares profissionais num único pacote",
                 feature1_title: "Sistema de Pedidos QR",
                 feature1_desc: "Clientes escaneiam código QR, pedem diretamente do smartphone",
-                feature2_title: "Painel de Administração",
+                feature2_title: "Dashboard Admin",
                 feature2_desc: "Visão completa de pedidos, vendas e clientes",
                 feature3_title: "Gestão de Clientes",
                 feature3_desc: "Gerencie clientes, histórico de pedidos e preferências",
@@ -1557,18 +1552,10 @@
                 step3_desc: "Pedido vai diretamente para cozinha/bar - Sem espera necessária",
                 step4_title: "Visão Geral do Admin",
                 step4_desc: "Acompanhe todos os pedidos e vendas",
-                pricing_title: "Preço Simples",
-                pricing_subtitle: "Tudo incluído - Sem custos ocultos",
-                plan_title: "SmartGastro QR Completo",
+                pricing_title: "Pacote Completo - Ambos os Softwares",
+                pricing_subtitle: "Sistema de Pedidos QR + Controlo de Tempos num pacote",
+                plan_title: "SmartGastro Complete",
                 price_period: "por ano • 1 localização",
-                feature_1: "Sistema de Pedidos QR incluído",
-                feature_2: "Painel de Administração com dashboard",
-                feature_3: "Gestão de clientes e vendas",
-                feature_4: "Encaminhamento automático de pedidos",
-                feature_5: "Conexão impressora (opcional)",
-                feature_6: "Notificações por email",
-                feature_7: "Interface multilíngue",
-                feature_8: "Suporte técnico",
                 payment_info: "Pagamento seguro via PayPal • Renovável anualmente • Sem taxa de instalação",
                 login_form_title: "Login do Cliente",
                 login_form_desc: "Faça login para aceder ao seu software",
@@ -1577,12 +1564,13 @@
                 login_button: "Entrar",
                 no_account: "Ainda não tem uma conta?",
                 register_form_title: "Nova Conta",
-                register_form_desc: "Registe-se para aceder ao sistema SmartGastro QR",
+                register_form_desc: "Registe-se para aceder ao sistema SmartGastro",
                 name_label: "Nome Completo",
                 business_label: "Nome do Estabelecimento",
                 confirm_password_label: "Confirmar Palavra-passe",
                 register_button: "Criar Conta",
-                has_account: "Já está registado?"
+                has_account: "Já está registado?",
+                footer_desc: "Sistema Profissional de Pedidos QR & Controlo de Tempos para empresas de restauração. Dois softwares num pacote."
             }
         };
 
@@ -1620,45 +1608,37 @@
         }
 
         // Video player functionality
-        const mainVideo = document.getElementById('main-video');
-        const playBtn = document.getElementById('play-btn');
-        const pauseBtn = document.getElementById('pause-btn');
-        const volumeUp = document.getElementById('volume-up');
-        const volumeDown = document.getElementById('volume-down');
-        const videoThumbnails = document.querySelectorAll('.video-thumbnail');
-
-        // Play button
-        playBtn.addEventListener('click', () => {
-            mainVideo.play();
-        });
-
-        // Pause button
-        pauseBtn.addEventListener('click', () => {
-            mainVideo.pause();
-        });
-
-        // Volume controls
-        volumeUp.addEventListener('click', () => {
-            if (mainVideo.volume < 1) mainVideo.volume = Math.min(1, mainVideo.volume + 0.1);
-        });
-
-        volumeDown.addEventListener('click', () => {
-            if (mainVideo.volume > 0) mainVideo.volume = Math.max(0, mainVideo.volume - 0.1);
-        });
-
-        // Video thumbnail click
-        videoThumbnails.forEach(thumbnail => {
-            thumbnail.addEventListener('click', () => {
-                const videoSrc = thumbnail.getAttribute('data-video');
-                mainVideo.src = videoSrc;
-                mainVideo.load();
-                mainVideo.play();
+        document.querySelectorAll('.video-control-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const videoId = this.getAttribute('data-video');
+                const video = document.getElementById(videoId);
                 
-                // Update active thumbnail
-                videoThumbnails.forEach(t => t.style.border = 'none');
-                thumbnail.style.border = '3px solid var(--primary)';
+                if (this.querySelector('.fa-play')) {
+                    video.play();
+                } else if (this.querySelector('.fa-pause')) {
+                    video.pause();
+                } else if (this.querySelector('.fa-volume-up')) {
+                    video.volume = Math.min(1, video.volume + 0.1);
+                }
             });
         });
+
+        // Enhance video colors and quality
+        function enhanceVideoQuality() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                // Apply CSS filters for better color
+                video.style.filter = 'brightness(1.05) contrast(1.1) saturate(1.1)';
+                
+                // Set video quality
+                video.addEventListener('loadedmetadata', function() {
+                    if (this.videoWidth > 0) {
+                        this.style.width = '100%';
+                        this.style.height = 'auto';
+                    }
+                });
+            });
+        }
 
         // Language selector
         document.querySelectorAll('.language-option').forEach(option => {
@@ -1774,11 +1754,6 @@
                 onApprove: function(data, actions) {
                     alert('Vielen Dank für Ihren Kauf! Ihre Lizenz wird per Email versendet.');
                     console.log('Subscription ID:', data.subscriptionID);
-                    
-                    // In a real implementation, you would:
-                    // 1. Send subscription ID to your server
-                    // 2. Create user account
-                    // 3. Send license information
                 },
                 onError: function(err) {
                     console.error('PayPal Fehler:', err);
@@ -1792,6 +1767,9 @@
             // Set language from localStorage or default to German
             const savedLanguage = localStorage.getItem('smartgastro_language') || 'de';
             applyTranslation(savedLanguage);
+            
+            // Enhance video quality
+            enhanceVideoQuality();
             
             // Initialize PayPal
             if (typeof paypal !== 'undefined') {
